@@ -53,6 +53,7 @@ return require('packer').startup(function()
     config = function() require'plugin/treesitter' end
   }
 
+  use {'romainl/vim-cool'}
   use {'sheerun/vim-polyglot'}
   use {'tpope/vim-commentary'}
 
@@ -60,7 +61,6 @@ return require('packer').startup(function()
     'ttys3/nvim-blamer.lua',
     config = function()
       require'plugin/blamer'
-      vim.fn['nvimblamer#auto']()
     end
   }
 

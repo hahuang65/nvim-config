@@ -83,7 +83,6 @@ set textwidth=0                     " Disable linebreaks happening by line size
 set wrapmargin=0                    " Disable wrapping based on window borders
 
 " -- Search ------------------------------------------------------------------
-set nohlsearch " Highlight search results only during the search
 set incsearch  " Incremental search as you type
 set infercase  " Basically smartcase for completion
 set smartcase  " Casing for searching based on typed text

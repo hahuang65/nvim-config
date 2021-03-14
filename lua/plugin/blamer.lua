@@ -3,3 +3,5 @@ require'nvim-blamer'.setup({
     prefix = '    ',
     format = '%committer │ %committer-time-human │ %summary',
 })
+
+vim.fn['nvimblamer#auto']()
