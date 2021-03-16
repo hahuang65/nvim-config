@@ -133,6 +133,10 @@ nnoremap q: :q
 nnoremap :Q :q
 nnoremap :W :w
 
+" -- Buffer Commands ---------------------------------------------------------
+" Close the buffer without closing the split
+command Bd bp\|bd \#
+
 " -- Terminal Navigation -----------------------------------------------------
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-w>h <C-\><C-n><C-w>h
