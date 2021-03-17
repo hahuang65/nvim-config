@@ -1,4 +1,5 @@
 require('gitsigns').setup {
+  sign_priority=100,
   keymaps = {
     -- Default keymap options
     noremap = true,

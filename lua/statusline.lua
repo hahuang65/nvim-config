@@ -228,7 +228,7 @@ gls.right[7] = {
 gls.right[8] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
-    icon = '  ',
+    icon = '  ',
     highlight = {colors.yellow,colors.bg},
   }
 }
@@ -236,7 +236,7 @@ gls.right[8] = {
 gls.right[9] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
-    icon = '  ',
+    icon = '  ',
     highlight = {colors.cyan,colors.bg},
   }
 }

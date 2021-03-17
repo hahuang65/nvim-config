@@ -25,11 +25,12 @@ set timeoutlen=250 " Timeout for mappings
 set ttimeoutlen=-1 " Timeout for key codes, -1 means use `timeoutlen`
 
 " -- User Interface ----------------------------------------------------------
-set lazyredraw     " Don't redraw for macros and commands that aren't typed
-set number         " Show line numbers
-set relativenumber " SHow relative numbers outside of the current line
-set signcolumn=yes " Always show the signcolumn
-set showmatch      " Show matching brackets and parentheses
+set lazyredraw       " Don't redraw for macros and commands that aren't typed
+set number           " Show line numbers
+set relativenumber   " SHow relative numbers outside of the current line
+set signcolumn=yes:1 " Always show the signcolumn
+set showmatch        " Show matching brackets and parentheses
+set cursorline       " Show the line the cursor is on
 
 " -- Folding -----------------------------------------------------------------
 set foldmethod=expr
