@@ -19,6 +19,13 @@ return require('packer').startup(function()
   }
 
   use {
+    'kana/vim-fakeclip',
+    config = function()
+      vim.api.nvim_set_var('fakeclip_provide_clipboard_key_mappings', not vim.fn.empty(vim.env.WAYLAND_DISPLAY))
+    end
+  }
+
+  use {
     'lewis6991/gitsigns.nvim',
     requires = {
       'nvim-lua/plenary.nvim'
