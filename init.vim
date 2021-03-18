@@ -25,12 +25,12 @@ set timeoutlen=250 " Timeout for mappings
 set ttimeoutlen=-1 " Timeout for key codes, -1 means use `timeoutlen`
 
 " -- User Interface ----------------------------------------------------------
-set lazyredraw       " Don't redraw for macros and commands that aren't typed
-set number           " Show line numbers
-set relativenumber   " SHow relative numbers outside of the current line
-set signcolumn=yes:1 " Always show the signcolumn
-set showmatch        " Show matching brackets and parentheses
-set cursorline       " Show the line the cursor is on
+set lazyredraw        " Don't redraw for macros and commands that aren't typed
+set number            " Show line numbers
+set relativenumber    " SHow relative numbers outside of the current line
+set signcolumn=auto:4 " Always show the signcolumn
+set showmatch         " Show matching brackets and parentheses
+set cursorline        " Show the line the cursor is on
 
 " -- Folding -----------------------------------------------------------------
 set foldmethod=expr
@@ -158,7 +158,16 @@ nnoremap <silent> <leader>tf :TestFile<CR>
 nnoremap <silent> <leader>ta :TestSuite<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
+" -- vim-ultest --------------------------------------------------------------
+nnoremap <silent> <leader>tn :UltestNearest<CR>
+nnoremap <silent> <leader>tf :Ultest<CR>
+nnoremap <silent> <leader>to :UltestOutput<CR>
+nnoremap <silent> <leader>td :UltestAttach<CR>
+nmap ]t <Plug>(ultest-next-fail)
+nmap [t <Plug>(ultest-prev-fail)
+
 augroup nvim_config
   autocmd!
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
+  autocmd BufWritePost plugins.lua PackerCompile
 augroup END

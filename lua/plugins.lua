@@ -60,8 +60,14 @@ return require('packer').startup(function()
     config = function() require'plugin/treesitter' end
   }
 
+  use { "rcarriga/vim-ultest",
+    requires = {"vim-test/vim-test"},
+    run = ":UpdateRemotePlugins"
+  } 
+
   use {'romainl/vim-cool'}
   use {'sheerun/vim-polyglot'}
+  use {'TaDaa/vimade'}
   use {'tpope/vim-commentary'}
 
   use {
@@ -71,6 +77,5 @@ return require('packer').startup(function()
     end
   }
 
-  use {'vim-test/vim-test'}
   use {'wbthomason/packer.nvim'}
 end)
