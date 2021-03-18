@@ -205,7 +205,7 @@ gls.right[5] = {
     condition = condition.check_git_workspace,
     separator = ' ',
     separator_highlight = {'NONE',colors.bg},
-    highlight = {colors.violet,colors.bg,'bold'},
+    highlight = {colors.violet,colors.bg,'bold'}
   }
 }
  
@@ -213,7 +213,7 @@ gls.right[6] = {
   GitBranch = {
     provider = 'GitBranch',
     condition = condition.check_git_workspace,
-    highlight = {colors.violet,colors.bg,'bold'},
+    highlight = {colors.violet,colors.bg,'bold'}
   }
 }
 
@@ -221,7 +221,9 @@ gls.right[7] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
     icon = '  ',
-    highlight = {colors.red,colors.bg}
+    highlight = {colors.red,colors.bg},
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg}
   }
 }
 
@@ -229,7 +231,7 @@ gls.right[8] = {
   DiagnosticWarn = {
     provider = 'DiagnosticWarn',
     icon = '  ',
-    highlight = {colors.yellow,colors.bg},
+    highlight = {colors.yellow,colors.bg}
   }
 }
 
@@ -237,7 +239,7 @@ gls.right[9] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
     icon = '  ',
-    highlight = {colors.cyan,colors.bg},
+    highlight = {colors.cyan,colors.bg}
   }
 }
 
@@ -245,7 +247,7 @@ gls.right[10] = {
   DiagnosticInfo = {
     provider = 'DiagnosticInfo',
     icon = '  ',
-    highlight = {colors.blue,colors.bg},
+    highlight = {colors.blue,colors.bg}
   }
 }
 
