@@ -32,10 +32,6 @@ set signcolumn=auto:4 " Always show the signcolumn
 set showmatch         " Show matching brackets and parentheses
 set cursorline        " Show the line the cursor is on
 
-" -- Folding -----------------------------------------------------------------
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-
 " -- Auto Reload -------------------------------------------------------------
 "  Automatically reload buffer every second, using Vim's timer feature
 set autoread
