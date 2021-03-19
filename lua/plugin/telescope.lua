@@ -12,7 +12,7 @@ require('telescope').setup{
 find_vim_config = function() 
     require("telescope.builtin").find_files({
         prompt_title = "Vim Config",
-        cwd = "$HOME/.dotfiles/neovim/",
+        cwd = "$HOME/.dotfiles/nvim/",
     })
 end
 
