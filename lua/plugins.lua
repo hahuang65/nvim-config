@@ -70,9 +70,10 @@ return require('packer').startup(function()
   use {'sheerun/vim-polyglot'}
   use {'TaDaa/vimade'}
   use {'tpope/vim-commentary'}
+  use {'tpope/vim-endwise'}
   use {'tpope/vim-rails'}
+  use {'tpope/vim-repeat'}
   use {'tpope/vim-surround'}
-  use {'tpope/vim-unimpaired'}
   use {'tpope/vim-vinegar'}
 
   use {
