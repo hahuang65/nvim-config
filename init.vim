@@ -165,5 +165,5 @@ nmap [t <Plug>(ultest-prev-fail)
 augroup nvim_config
   autocmd!
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
-  autocmd BufWritePost plugins.lua PackerCompile
+  autocmd BufWritePost */nvim/**/*.lua PackerCompile
 augroup END
