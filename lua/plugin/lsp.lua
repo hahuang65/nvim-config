@@ -1,5 +1,4 @@
--- Built-in LSP configuration documentation:
--- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+-- https://github.com/neovim/nvim-lspconfig
 
 -- Enumerate the LSP servers desired
 -- npm install -g bash-language-server

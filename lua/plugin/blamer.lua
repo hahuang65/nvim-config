@@ -1,3 +1,5 @@
+-- https://github.com/ttys3/nvim-blamer.lua
+
 require'nvim-blamer'.setup({
     enable = true,
     prefix = '    ',

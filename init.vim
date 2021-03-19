@@ -145,7 +145,12 @@ lua require('plugins')
 
 " == Plugins (non-lua) =======================================================
 
+" -- vim-rooter --------------------------------------------------------------
+" https://github.com/airblade/vim-rooter
+let g:rooter_patterns = ['.git']
+
 " -- vim-test ----------------------------------------------------------------
+" https://github.com/vim-test/vim-test
 let test#strategy = "neovim"
 let test#neovim#term_position = "botright 25"
 nnoremap <silent> <leader>tt :TestLast<CR>
@@ -155,6 +160,7 @@ nnoremap <silent> <leader>ta :TestSuite<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " -- vim-ultest --------------------------------------------------------------
+" https://github.com/rcarriga/vim-ultest
 nnoremap <silent> <leader>tn :UltestNearest<CR>
 nnoremap <silent> <leader>tf :Ultest<CR>
 nnoremap <silent> <leader>to :UltestOutput<CR>

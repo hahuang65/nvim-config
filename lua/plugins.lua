@@ -9,6 +9,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 return require('packer').startup(function()
+  use {'airblade/vim-rooter'}
   use {'dracula/vim', as = 'dracula'}
 
   use {
@@ -69,6 +70,10 @@ return require('packer').startup(function()
   use {'sheerun/vim-polyglot'}
   use {'TaDaa/vimade'}
   use {'tpope/vim-commentary'}
+  use {'tpope/vim-rails'}
+  use {'tpope/vim-surround'}
+  use {'tpope/vim-unimpaired'}
+  use {'tpope/vim-vinegar'}
 
   use {
     'ttys3/nvim-blamer.lua',
