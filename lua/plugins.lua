@@ -69,6 +69,7 @@ return require('packer').startup(function()
   use {'romainl/vim-cool'}
   use {'sheerun/vim-polyglot'}
   use {'TaDaa/vimade'}
+  use {'takac/vim-hardtime'}
   use {'tpope/vim-commentary'}
   use {'tpope/vim-endwise'}
   use {'tpope/vim-rails'}

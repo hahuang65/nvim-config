@@ -145,6 +145,9 @@ lua require('plugins')
 
 " == Plugins (non-lua) =======================================================
 
+" -- vim-hardtime ------------------------------------------------------------
+let g:hardtime_default_on = 1
+
 " -- vim-rooter --------------------------------------------------------------
 " https://github.com/airblade/vim-rooter
 let g:rooter_patterns = ['.git']
