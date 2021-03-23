@@ -119,6 +119,7 @@ tnoremap <A-t> <C-\><C-n>:call TermToggle(25)<CR>
 augroup nvim_terminal
     autocmd!
     autocmd TermOpen * setlocal nonumber norelativenumber signcolumn=no
+    autocmd TermOpen * VimadeBufDisable
     autocmd TermOpen * nnoremap <buffer> <C-c> i<C-c>
 augroup END
 
