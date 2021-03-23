@@ -97,6 +97,15 @@ gls.left[5] = {
 }
 
 gls.left[6] = {
+  LineInfo = {
+    provider = 'LineColumn',
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.fg,colors.bg},
+  },
+}
+
+gls.left[7] = {
   DiffAdd = {
     provider = 'DiffAdd',
     condition = condition.hide_in_width,
@@ -105,7 +114,7 @@ gls.left[6] = {
   }
 }
 
-gls.left[7] = {
+gls.left[8] = {
   DiffModified = {
     provider = 'DiffModified',
     condition = condition.hide_in_width,
@@ -114,22 +123,13 @@ gls.left[7] = {
   }
 }
 
-gls.left[8] = {
+gls.left[9] = {
   DiffRemove = {
     provider = 'DiffRemove',
     condition = condition.hide_in_width,
     icon = '  ',
     highlight = {colors.red,colors.bg},
   }
-}
-
-gls.left[9] = {
-  LineInfo = {
-    provider = 'LineColumn',
-    separator = ' ',
-    separator_highlight = {'NONE',colors.bg},
-    highlight = {colors.fg,colors.bg},
-  },
 }
 
 gls.mid[1] = {
@@ -150,26 +150,72 @@ gls.mid[1] = {
 }
 
 gls.right[1] = {
-  FileEncode = {
-    provider = 'FileEncode',
-    condition = condition.hide_in_width,
+  DiagnosticError = {
+    provider = 'DiagnosticError',
+    icon = '  ',
+    highlight = {colors.red,colors.bg},
     separator = ' ',
-    separator_highlight = {'NONE',colors.bg},
-    highlight = {colors.green,colors.bg,'bold'}
+    separator_highlight = {'NONE',colors.bg}
   }
 }
 
 gls.right[2] = {
-  FileFormat = {
-    provider = 'FileFormat',
-    condition = condition.hide_in_width,
-    separator = ' ',
-    separator_highlight = {'NONE',colors.bg},
-    highlight = {colors.green,colors.bg,'bold'}
+  DiagnosticWarn = {
+    provider = 'DiagnosticWarn',
+    icon = '  ',
+    highlight = {colors.yellow,colors.bg}
   }
 }
 
 gls.right[3] = {
+  DiagnosticHint = {
+    provider = 'DiagnosticHint',
+    icon = '  ',
+    highlight = {colors.cyan,colors.bg}
+  }
+}
+
+gls.right[4] = {
+  DiagnosticInfo = {
+    provider = 'DiagnosticInfo',
+    icon = '  ',
+    highlight = {colors.blue,colors.bg}
+  }
+}
+
+gls.right[5] = {
+  ShowUltestStatus = {
+    provider = function()
+      if vim.api.nvim_call_function('ultest#is_test_file', {}) == 1 then
+        local icon = 'ﭧ'
+        local test_status = vim.api.nvim_call_function('ultest#status', {})
+        if test_status.running > 0 then
+          return icon .. ""
+        elseif test_status.failed > 0 then
+          return icon .. test_status.failed
+        elseif test_status.passed == test_status.tests then
+          return icon .. ""
+        else
+          return icon .. ""
+        end
+
+        return result
+      end
+    end,
+    highlight = {colors.orange,colors.bg,'bold'}
+  }
+}
+
+gls.right[6] = {
+  EmptySpace = {
+    provider = function()
+      return " "
+    end,
+    highlight = {colors.fg,colors.bg}
+  }
+}
+
+gls.right[7] = {
   LspIcon = {
     provider = function()
       local client_name = lspclient.get_lsp_client()
@@ -184,7 +230,7 @@ gls.right[3] = {
   }
 }
 
-gls.right[4] = {
+gls.right[8] = {
   LspServer = {
     provider = function()
       local client_name = lspclient.get_lsp_client()
@@ -199,7 +245,27 @@ gls.right[4] = {
   }
 }
 
-gls.right[5] = {
+gls.right[9] = {
+  FileEncode = {
+    provider = 'FileEncode',
+    condition = condition.hide_in_width,
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.green,colors.bg,'bold'}
+  }
+}
+
+gls.right[10] = {
+  FileFormat = {
+    provider = 'FileFormat',
+    condition = condition.hide_in_width,
+    separator = ' ',
+    separator_highlight = {'NONE',colors.bg},
+    highlight = {colors.green,colors.bg,'bold'}
+  }
+}
+
+gls.right[11] = {
   GitIcon = {
     provider = function() return '  ' end,
     condition = condition.check_git_workspace,
@@ -209,7 +275,7 @@ gls.right[5] = {
   }
 }
  
-gls.right[6] = {
+gls.right[12] = {
   GitBranch = {
     provider = 'GitBranch',
     condition = condition.check_git_workspace,
@@ -217,41 +283,7 @@ gls.right[6] = {
   }
 }
 
-gls.right[7] = {
-  DiagnosticError = {
-    provider = 'DiagnosticError',
-    icon = '  ',
-    highlight = {colors.red,colors.bg},
-    separator = ' ',
-    separator_highlight = {'NONE',colors.bg}
-  }
-}
-
-gls.right[8] = {
-  DiagnosticWarn = {
-    provider = 'DiagnosticWarn',
-    icon = '  ',
-    highlight = {colors.yellow,colors.bg}
-  }
-}
-
-gls.right[9] = {
-  DiagnosticHint = {
-    provider = 'DiagnosticHint',
-    icon = '  ',
-    highlight = {colors.cyan,colors.bg}
-  }
-}
-
-gls.right[10] = {
-  DiagnosticInfo = {
-    provider = 'DiagnosticInfo',
-    icon = '  ',
-    highlight = {colors.blue,colors.bg}
-  }
-}
-
-gls.right[11] = {
+gls.right[13] = {
   EmptySpace = {
     provider = function()
       return " "

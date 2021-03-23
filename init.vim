@@ -164,13 +164,29 @@ nnoremap <silent> <leader>tv :TestVisit<CR>
 
 " -- vim-ultest --------------------------------------------------------------
 " https://github.com/rcarriga/vim-ultest
-nnoremap <silent> <leader>tn :UltestNearest<CR>
-nnoremap <silent> <leader>tf :Ultest<CR>
+nnoremap <silent> <leader>tn :call ultest#run_nearest() <bar> UltestSummaryOpen<CR>
+nnoremap <silent> <leader>tf :call ultest#run_file() <bar> UltestSummaryOpen<CR>
 nnoremap <silent> <leader>to :UltestOutput<CR>
 nnoremap <silent> <leader>td :UltestAttach<CR>
+nnoremap <silent> <leader>ts :UltestSummary<CR>
 nmap ]t <Plug>(ultest-next-fail)
 nmap [t <Plug>(ultest-prev-fail)
 
+augroup UltestRunner
+    au!
+    autocmd FileType UltestSummary setlocal nofoldenable
+    autocmd FileType UltestSummary VimadeBufDisable
+    autocmd BufWritePost * UltestNearest
+augroup END
+
+" Dracula colors
+hi UltestPass ctermfg=Green guifg=#50fA7B
+hi UltestFail ctermfg=Red guifg=#FF5555
+hi UltestRunning ctermfg=Yellow guifg=#F1FA8C
+hi UltestBorder ctermfg=Red guifg=#FF5555
+hi UltestInfo ctermfg=cyan guifg=#8BE9FD cterm=bold gui=bold
+
+" == Auto-source config files ================================================
 augroup nvim_config
   autocmd!
   autocmd BufWritePost $MYVIMRC nested source $MYVIMRC
