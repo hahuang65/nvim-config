@@ -44,6 +44,7 @@ gls.left[2] = {
   ViMode = {
     provider = function()
       -- auto change color according the vim mode
+      local mt = {__index = function () return colors.blue end}
       local mode_color = {
         n = colors.green,
         i = colors.red,
@@ -65,6 +66,7 @@ gls.left[2] = {
         ['r?'] = colors.cyan,
         ['!']  = colors.red,
         t = colors.red}
+        setmetatable(mode_color, mt)
       vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color[vim.fn.mode()])
       return '   '
     end,
