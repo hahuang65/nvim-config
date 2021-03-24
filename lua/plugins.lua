@@ -75,7 +75,6 @@ return require('packer').startup(function()
   use {'tpope/vim-rails'}
   use {'tpope/vim-repeat'}
   use {'tpope/vim-surround'}
-  use {'tpope/vim-vinegar'}
 
   use {
     'ttys3/nvim-blamer.lua',

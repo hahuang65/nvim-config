@@ -27,10 +27,17 @@ set ttimeoutlen=-1 " Timeout for key codes, -1 means use `timeoutlen`
 " -- User Interface ----------------------------------------------------------
 set lazyredraw        " Don't redraw for macros and commands that aren't typed
 set number            " Show line numbers
-set relativenumber    " SHow relative numbers outside of the current line
 set signcolumn=auto:4 " Always show the signcolumn
 set showmatch         " Show matching brackets and parentheses
 set cursorline        " Show the line the cursor is on
+
+" -- netrw -------------------------------------------------------------------
+let g:netrw_banner = 0                " Disable banner in netrw
+let g:netrw_winsize = -30             " Fixed width for window
+let g:netrw_liststyle = 3             " Tree view
+let g:netrw_sort_sequence = '[\/]$,*' " Show directories first, then files
+
+map <silent> - :Lexplore<CR>
 
 " -- Auto Reload -------------------------------------------------------------
 "  Automatically reload buffer every second, using Vim's timer feature
