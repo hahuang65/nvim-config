@@ -25,7 +25,13 @@ find_dotfiles = function()
     })
 end
 
-vim.api.nvim_set_keymap('n', '<leader><leader>', [[<cmd>Telescope git_files<CR>]], { noremap = true })
+find_project_files = function(opts)
+  opts = opts or  {}
+  local ok = pcall(require'telescope.builtin'.git_files, opts)
+  if not ok then require'telescope.builtin'.find_files(opts) end
+end
+
+vim.api.nvim_set_keymap('n', '<leader><leader>', [[<cmd>lua find_project_files()<CR>]], { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>b', [[<cmd>Telescope buffers<CR>]], { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>/', [[<cmd>Telescope live_grep<CR>]], { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>ff', [[<cmd>Telescope find_files<CR>]], { noremap = true })
