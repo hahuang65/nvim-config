@@ -31,6 +31,21 @@ set signcolumn=auto:4 " Always show the signcolumn
 set showmatch         " Show matching brackets and parentheses
 set cursorline        " Show the line the cursor is on
 
+" -- Completion --------------------------------------------------------------
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Use tab and shift-tab to trigger completion
+imap <Tab> <Plug>(completion_smart_tab)
+imap <S-Tab> <Plug>(completion_smart_s_tab)
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
 " -- netrw -------------------------------------------------------------------
 let g:netrw_banner = 0                " Disable banner in netrw
 let g:netrw_winsize = -30             " Fixed width for window

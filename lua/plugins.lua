@@ -40,6 +40,11 @@ return require('packer').startup(function()
   }
 
   use {
+    'nvim-lua/completion-nvim',
+    config = function() require'plugin/completion' end,
+  }
+
+  use {
     'nvim-telescope/telescope.nvim',
     config = function() require'plugin/telescope' end,
     requires = {
