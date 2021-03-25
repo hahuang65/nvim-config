@@ -42,10 +42,7 @@ return require('packer').startup(function()
     config = function() require'plugin/lsp' end
   }
 
-  use {
-    'nvim-lua/completion-nvim',
-    config = function() require'plugin/completion' end,
-  }
+  use {'nvim-lua/completion-nvim'}
 
   use {
     'nvim-telescope/telescope.nvim',

@@ -1,5 +1,24 @@
 -- https://github.com/neovim/nvim-lspconfig
 
+-- Enumerate the LSP servers desired
+-- npm install -g bash-language-server
+-- npm install -g dockerfile-language-server-nodejs
+-- brew install hashicorp/tap/terraform-ls / paru -S terraform-ls
+-- pip install 'python-language-server[all]' (run `asdf reshim python` to get the executable accessible)
+-- paru -S rust-analyzer
+-- npm install -g vls
+-- npm install -g vim-language-server
+local servers = {
+  'bashls',
+  'dockerls',
+  'pyls',
+  'rust_analyzer',
+  'solargraph',
+  'terraformls',
+  'vimls',
+  'vuels'
+}
+
 -- Define diagnostic signs and highlighting colors
 vim.fn.sign_define("LspDiagnosticsSignError", {text = "",
   texthl = "LspDiagnosticsDefaultError",
@@ -62,10 +81,13 @@ local on_attach = function(client, bufnr)
       augroup END
     ]], false)
   end
+
+  -- Enable autocompletion
+  require('completion').on_attach()
 end
 
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-for _, lsp in ipairs(require'lsp_servers') do
+for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
