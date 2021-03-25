@@ -21,6 +21,9 @@ return require('packer').startup(function()
 
   use {
     'kana/vim-fakeclip',
+    cond = function()
+      return vim.fn.has("mac") ~= 1 and vim.fn.has("unix") == 1
+    end,
     config = function()
       vim.api.nvim_set_var('fakeclip_provide_clipboard_key_mappings', not vim.fn.empty(vim.env.WAYLAND_DISPLAY))
     end
