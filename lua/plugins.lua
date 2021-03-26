@@ -25,7 +25,7 @@ return require('packer').startup(function()
       return vim.fn.has("mac") ~= 1 and vim.fn.has("unix") == 1
     end,
     config = function()
-      vim.api.nvim_set_var('fakeclip_provide_clipboard_key_mappings', not vim.fn.empty(vim.env.WAYLAND_DISPLAY))
+      vim.g.fakeclip_provide_clipboard_key_mappings = not vim.fn.empty(vim.env.WAYLAND_DISPLAY)
     end
   }
 
@@ -34,7 +34,7 @@ return require('packer').startup(function()
     requires = {
       'nvim-lua/plenary.nvim'
     },
-    config = function() require('plugin/gitsigns') end
+    config = function() require'plugin/gitsigns' end
   }
 
   use {
@@ -68,13 +68,22 @@ return require('packer').startup(function()
 
   use { "rcarriga/vim-ultest",
     requires = {"vim-test/vim-test"},
-    run = ":UpdateRemotePlugins"
+    run = ":UpdateRemotePlugins",
+    config = function()
+      require'plugin/test'
+      require'plugin/ultest'
+    end
   } 
 
   use {'romainl/vim-cool'}
   use {'sheerun/vim-polyglot'}
   use {'TaDaa/vimade'}
-  use {'takac/vim-hardtime'}
+
+  use {
+    'takac/vim-hardtime',
+    config = function() require'plugin/hardtime' end
+  }
+
   use {'tpope/vim-commentary'}
   use {'tpope/vim-endwise'}
   use {'tpope/vim-rails'}
@@ -83,9 +92,7 @@ return require('packer').startup(function()
 
   use {
     'ttys3/nvim-blamer.lua',
-    config = function()
-      require'plugin/blamer'
-    end
+    config = function() require'plugin/blamer' end
   }
 
   use {'wbthomason/packer.nvim'}
