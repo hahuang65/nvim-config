@@ -6,9 +6,6 @@ vim.g.mapleader = ' '
 map('i', '<Tab>',   '<Plug>(completion_smart_tab)',   {})
 map('i', '<S-Tab>', '<Plug>(completion_smart_s_tab)', {})
 
--- netrw
-map('n', '-', ':Lexplore<CR>', { noremap = true, silent = true })
-
 -- Auto-correct
 map('n', 'Q',  'q',  { noremap = true })
 map('n', 'q:', ':q', { noremap = true })

@@ -51,7 +51,6 @@ b.softtabstop = 2    -- Use 2 spaces per tab
 b.tabstop     = 2    -- Use tabs of size 2
 
 -- Line Breaks
--- o.listchars = o.listchars .. 'precedes:<,extends:>'
 w.colorcolumn = '80'  -- Show a column guide at line 80
 w.list        = false -- Do not display visual tabs and spaces
 w.wrap        = false -- Don't wrap lines automatically
@@ -76,13 +75,11 @@ o.splitright = true -- Split to the right, instead of left
 o.completeopt = 'menuone,noinsert,noselect,preview' -- Improve completion pop-up UX
 o.shortmess = o.shortmess .. 'c'                    -- Skip completion pop-up messages
 
--- Persistent Undo
-os.execute('mkdir --parents ~/.vimundo')
-o.undodir  = '~/.vimundo' -- Keeps undo history tidy in the same folder
-b.undofile = true         -- Enable undo in all files
+-- Undo
+b.undofile = true -- Enable undo
 
 -- netrw
-vim.g.netrw_banner    = 0   -- Disable the batter
+vim.g.netrw_banner    = 0   -- Disable the banner
 vim.g.netrw_winsize   = -30 -- Fixed-width for sidepane
 vim.g.netrw_liststyle = 3   -- Tree-view
 

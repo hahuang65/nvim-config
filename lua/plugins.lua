@@ -19,8 +19,8 @@ return require('packer').startup(function()
 
   use { 'glepnir/galaxyline.nvim',
     branch = 'main',
-    config = function() require'statusline' end,
-    requires = { 'kyazdani42/nvim-web-devicons' }
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function() require'statusline' end
   }
 
   use { 'itchyny/vim-cursorword' }
@@ -42,6 +42,13 @@ return require('packer').startup(function()
     config = function() require'plugin/hlslens' end
   }
 
+  use { 'kyazdani42/nvim-tree.lua',
+    requires = { 'kyazdani42/nvim-web-devicons' },
+    config = function() require'plugin/nvim-tree' end
+  }
+
+  use { 'lambdalisue/suda.vim' }
+
   use { 'lewis6991/gitsigns.nvim',
     requires = {
       'nvim-lua/plenary.nvim'
@@ -50,9 +57,7 @@ return require('packer').startup(function()
   }
 
   use { 'lukas-reineke/indent-blankline.nvim',
-    requires = {
-      { 'Yggdroot/indentLine' }
-    },
+    requires = { 'Yggdroot/indentLine' },
     config = function() require'plugin/indentline' end
   }
 
@@ -63,18 +68,16 @@ return require('packer').startup(function()
   use { 'nvim-lua/completion-nvim' }
 
   use { 'nvim-telescope/telescope.nvim',
-    config = function() require'plugin/telescope' end,
     requires = {
-      { 'nvim-lua/popup.nvim' },
-      { 'nvim-lua/plenary.nvim' }
-    }
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim'
+    },
+    config = function() require'plugin/telescope' end
   }
 
   use { 'nvim-telescope/telescope-project.nvim',
-    config = function() require'telescope'.load_extension('project') end,
-    requires = {
-      { 'nvim-telescope/telescope.nvim' }
-    }
+    requires = { 'nvim-telescope/telescope.nvim' },
+    config = function() require'telescope'.load_extension('project') end
   }
 
   use { 'nvim-treesitter/nvim-treesitter',
