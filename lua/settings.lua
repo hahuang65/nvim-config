@@ -58,9 +58,10 @@ b.textwidth   = 0     -- Disable linebreaks by line size
 b.wrapmargin  = 0     -- Disable linebreaks by window borders
 
 -- Search
-o.incsearch = true -- Search-as-you-type
-o.smartcase = true -- Case sensitivity based on searched text
-b.infercase = true -- `smartcase` but for completion results
+o.incsearch  = true -- Search-as-you-type
+o.ignorecase = true -- Ignore casing during search, must be set for `smartcase`
+o.smartcase  = true -- Case sensitivity based on searched text
+b.infercase  = true -- `smartcase` but for completion results
 
 -- Scrolling
 o.scrolloff     = 20 -- Start scrolling the window when 20 lines away from the top/bottom margins
