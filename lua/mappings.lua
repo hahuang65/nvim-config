@@ -6,12 +6,6 @@ vim.g.mapleader = ' '
 map('i', '<Tab>',   '<Plug>(completion_smart_tab)',   {})
 map('i', '<S-Tab>', '<Plug>(completion_smart_s_tab)', {})
 
--- Auto-correct
-map('n', 'Q',  'q',  { noremap = true })
-map('n', 'q:', ':q', { noremap = true })
-map('n', ':Q', ':q', { noremap = true })
-map('n', ':W', ':w', { noremap = true })
-
 -- Terminal
 map('t', '<Esc>',  '<C-\\><C-n>',       { noremap = true })
 map('t', '<C-w>h', '<C-\\><C-n><C-w>h', { noremap = true })
