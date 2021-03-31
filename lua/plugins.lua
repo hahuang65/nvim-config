@@ -10,7 +10,7 @@ return require('packer').startup(function()
   use { 'airblade/vim-rooter' }
 
   use { 'akinsho/nvim-toggleterm.lua',
-    config = function() require'toggleterm' end
+    config = function() require'plugin/toggleterm' end
   }
 
   use { 'dracula/vim', as = 'dracula' }
@@ -30,10 +30,6 @@ return require('packer').startup(function()
     config = function()
       vim.g.fakeclip_provide_clipboard_key_mappings = not vim.fn.empty(vim.env.WAYLAND_DISPLAY)
     end
-  }
-
-  use { 'kassio/neoterm',
-    config = function() require'plugin/neoterm' end
   }
 
   use { 'kevinhwang91/nvim-hlslens',

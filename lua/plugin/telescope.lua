@@ -5,8 +5,11 @@ local actions = require('telescope.actions')
 require('telescope').setup{
   defaults = {
     mappings = {
+      n = {
+        ["<C-g>"] = actions.close
+      },
       i = {
-        ["<esc>"] = actions.close
+        ["<C-g>"] = actions.close
       },
     },
   }
