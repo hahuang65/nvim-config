@@ -8,5 +8,5 @@ require"toggleterm".setup{
   shading_factor = 1,
   start_in_insert = true,
   persist_size = true,
-  direction = 'vertical'
+  direction = 'horizontal'
 }
