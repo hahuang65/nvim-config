@@ -93,7 +93,6 @@ return require('packer').startup(function()
   } 
 
   use { 'romainl/vim-cool' }
-  use { 'sheerun/vim-polyglot' }
   use { 'TaDaa/vimade',
     config = function() require'plugin/vimade' end
   }
