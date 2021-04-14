@@ -21,6 +21,10 @@ return require('packer').startup(function()
     config = function() require'statusline' end
   }
 
+  use { 'hashivim/vim-terraform',
+    config = function() require'plugin/terraform' end
+  }
+
   use { 'itchyny/vim-cursorword' }
 
   use { 'kana/vim-fakeclip',
