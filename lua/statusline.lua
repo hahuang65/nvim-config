@@ -100,8 +100,11 @@ gls.left[5] = {
 
 gls.left[6] = {
   LineInfo = {
-    provider = 'LineColumn',
-    separator = ' ',
+    provider = function()
+      local line = vim.fn.line('.')
+      local column = vim.fn.col('.')
+      return string.format("%d:%d ", line, column)
+    end,
     separator_highlight = {'NONE',colors.bg},
     highlight = {colors.fg,colors.bg},
   },
