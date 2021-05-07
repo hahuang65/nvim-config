@@ -35,6 +35,12 @@ find_project_files = function(opts)
   if not ok then require'telescope.builtin'.find_files(opts) end
 end
 
+-- The 2 `g` bindings for buffer tags and tags should be overridden when LSP loads
+-- This just means that tags will be used for files without LSP, and LSP symbols will be used for files with LSP.
+map('n', 'g]', [[<cmd>Telescope current_buffer_tags<CR>]], { noremap = true })
+map('n', 'g}', [[<cmd>Telescope tags<CR>]], { noremap = true })
+map('n', 't]', [[<cmd>Telescope current_buffer_tags<CR>]], { noremap = true })
+map('n', 't}', [[<cmd>Telescope tags<CR>]], { noremap = true })
 map('n', '<leader><leader>', [[<cmd>lua find_project_files()<CR>]], { noremap = true })
 map('n', '<leader>/', [[<cmd>Telescope live_grep<CR>]], { noremap = true })
 map('n', '<leader>b', [[<cmd>Telescope buffers<CR>]], { noremap = true })

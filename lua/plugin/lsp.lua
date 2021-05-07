@@ -5,7 +5,7 @@
 -- npm install -g dockerfile-language-server-nodejs
 -- brew install hashicorp/tap/terraform-ls / paru -S terraform-ls
 -- pip install 'python-language-server[all]' (run `asdf reshim python` to get the executable accessible)
--- paru -S rust-analyzer
+-- paru -S rust-analyzer / brew install rust-analyzer
 -- npm install -g typescript-language-server
 -- npm install -g vls
 -- npm install -g vim-language-server

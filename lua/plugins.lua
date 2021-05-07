@@ -53,6 +53,10 @@ return require('packer').startup(function()
     config = function() require'plugin/gitsigns' end
   }
 
+  use { 'ludovicchabant/vim-gutentags',
+    config = function() require'plugin/gutentags' end
+  }
+
   use { 'lukas-reineke/indent-blankline.nvim',
     requires = { 'Yggdroot/indentLine' },
     config = function() require'plugin/indentline' end
