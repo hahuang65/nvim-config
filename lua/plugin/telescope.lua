@@ -3,6 +3,13 @@
 local map = vim.api.nvim_set_keymap
 local actions = require('telescope.actions')
 require('telescope').setup{
+  extensions = {
+    fzf = {
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      case_mode = "smart_case"
+    }
+  },
   defaults = {
     mappings = {
       n = {
@@ -10,10 +17,12 @@ require('telescope').setup{
       },
       i = {
         ["<C-g>"] = actions.close
-      },
-    },
+      }
+    }
   }
 }
+
+require('telescope').load_extension('fzf')
 
 find_vim_config = function() 
     require("telescope.builtin").find_files({

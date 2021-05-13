@@ -76,6 +76,10 @@ return require('packer').startup(function()
     config = function() require'plugin/telescope' end
   }
 
+  use { 'nvim-telescope/telescope-fzf-native.nvim',
+    run = 'make'
+  }
+
   use { 'nvim-telescope/telescope-project.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
     config = function() require'telescope'.load_extension('project') end
