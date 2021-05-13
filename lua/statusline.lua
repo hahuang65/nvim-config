@@ -143,7 +143,7 @@ gls.mid[1] = {
       return vim.api.nvim_call_function('nvim_treesitter#statusline', {
         {
           indicator_size = 200,
-          type_patterns = {'function', 'method'},
+          type_patterns = {'class', 'function', 'method'},
           separator = ' -> '
         }
       })

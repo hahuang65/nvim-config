@@ -86,7 +86,8 @@ return require('packer').startup(function()
   }
 
   use { 'nvim-treesitter/nvim-treesitter',
-    config = function() require'plugin/treesitter' end
+    config = function() require'plugin/treesitter' end,
+    run = ':TSUpdate'
   }
 
   use { 'rafcamlet/nvim-luapad',
