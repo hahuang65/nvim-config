@@ -35,6 +35,11 @@ return require('packer').startup(function()
     end
   }
 
+  use {
+    'kchmck/vim-coffee-script',
+    ft = { 'coffee' }
+  }
+
   use { 'kevinhwang91/nvim-hlslens',
     config = function() require'plugin/hlslens' end
   }
