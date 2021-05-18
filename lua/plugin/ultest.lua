@@ -13,6 +13,7 @@ map('n', '[t',         '<Plug>(ultest-prev-fail)',                              
 
 utils.augroup('ultest', {
     'FileType UltestSummary setlocal nofoldenable',
+    'FileType UltestSummary VimadeBufDisable',
     'BufWritePost * UltestNearest'
 })
 
