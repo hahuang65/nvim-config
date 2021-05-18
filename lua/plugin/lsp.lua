@@ -22,19 +22,27 @@ local servers = {
 }
 
 -- Define diagnostic signs and highlighting colors
-vim.fn.sign_define("LspDiagnosticsSignError", {text = "",
+vim.fn.sign_define("LspDiagnosticsSignError", {
+  -- text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultError",
   numhl = "LspDiagnosticsDefaultError"
 })
-vim.fn.sign_define("LspDiagnosticsSignWarning", {text = "",
+vim.fn.sign_define("LspDiagnosticsSignWarning", {
+  -- text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultWarning",
   numhl = "LspDiagnosticsDefaultWarning"
 })
-vim.fn.sign_define("LspDiagnosticsSignInformation", {text = "",
+vim.fn.sign_define("LspDiagnosticsSignInformation", {
+  -- text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultInformation",
   numhl = "LspDiagnosticsDefaultInformation"
 })
-vim.fn.sign_define("LspDiagnosticsSignHint", {text = "",
+vim.fn.sign_define("LspDiagnosticsSignHint", {
+  -- text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultHint",
   numhl = "LspDiagnosticsDefaultHint"
 })

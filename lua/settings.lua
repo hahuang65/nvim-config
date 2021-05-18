@@ -28,7 +28,7 @@ opt('w', 'number', true)         -- Show line numbers
 opt('w', 'relativenumber', true) -- Shows relative line numbers based on current line
 opt('w', 'cursorline', true)     -- Highlights the current line
 opt('w', 'cursorcolumn', true)   -- Highlights the current column
-opt('w', 'signcolumn', 'auto:4') -- Autosize the signcolumn (the number sets the max items)
+opt('w', 'signcolumn', 'auto:2') -- Autosize the signcolumn (the number sets the max items)
 
 -- Per-Project Config
 opt('o', 'exrc', true)  -- Enables per-directory vim configuration files
