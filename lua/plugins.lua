@@ -1,4 +1,3 @@
-
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -111,7 +110,10 @@ return require('packer').startup(function()
   } 
 
   use { 'romainl/vim-cool' }
+
   use { 'TaDaa/vimade',
+    opt = true,
+    event = 'BufReadPre',
     config = function() require'plugin/vimade' end
   }
 

@@ -72,7 +72,7 @@ opt('o', 'splitright', true) -- Split to the right, instead of left
 
 -- Completion
 opt('o', 'completeopt', 'menuone,noinsert,noselect,preview') -- Improve completion pop-up UX
-opt('o', 'shortmess', vim.o.shortmess .. 'c')                    -- Skip completion pop-up messages
+opt('o', 'shortmess', vim.o.shortmess .. 'cI')               -- Skip completion pop-up messages and startup screen
 
 -- Undo
 opt('b', 'undofile', true) -- Enable undo
