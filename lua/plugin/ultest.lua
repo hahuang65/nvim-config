@@ -12,9 +12,8 @@ map('n', ']t',         '<Plug>(ultest-next-fail)',                              
 map('n', '[t',         '<Plug>(ultest-prev-fail)',                               {})
 
 utils.augroup('ultest', {
-    'FileType UltestSummary setlocal nofoldenable',
-    'FileType UltestSummary VimadeBufDisable',
-    'BufWritePost * UltestNearest'
+  'FileType UltestSummary setlocal nofoldenable',
+  'BufWritePost * UltestNearest'
 })
 
 -- Dracula colors

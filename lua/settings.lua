@@ -27,7 +27,6 @@ opt('o', 'showmatch', true)      -- Briefly show the matching bracket/paren when
 opt('w', 'number', true)         -- Show line numbers
 opt('w', 'relativenumber', true) -- Shows relative line numbers based on current line
 opt('w', 'cursorline', true)     -- Highlights the current line
-opt('w', 'cursorcolumn', true)   -- Highlights the current column
 opt('w', 'signcolumn', 'auto:2') -- Autosize the signcolumn (the number sets the max items)
 
 -- Per-Project Config
@@ -91,14 +90,13 @@ augroup('autoreload', {
 -- Terminal
 augroup('terminal', {
   'TermOpen * setlocal nonumber norelativenumber signcolumn=no',
-  'TermOpen * VimadeBufDisable',
   'TermOpen * nnoremap <buffer> <C-c> i<C-c>'
 })
 
 -- Active Window
 augroup('active_window', {
-  'WinEnter,BufEnter * setlocal cursorline cursorcolumn',
-  'WinLeave,BufLeave * setlocal nocursorline nocursorcolumn'
+  'WinEnter,BufEnter * setlocal cursorline',
+  'WinLeave,BufLeave * setlocal nocursorline'
 })
 
 -- Auto Source Config Files
