@@ -8,5 +8,6 @@ vim.g.list_of_disabled_keys = { "<UP>", "<DOWN>", "<LEFT>", "<RIGHT>" }
 
 require('utils').augroup('hardtime', {
   'FileType fugitive HardTimeOff',
-  'FileType NvimTree HardTimeOff'
+  'FileType NvimTree HardTimeOff',
+  'FileType help HardTimeOff'
 })
