@@ -111,10 +111,8 @@ return require('packer').startup(function()
 
   use { 'romainl/vim-cool' }
 
-  use { 'TaDaa/vimade',
-    opt = true,
-    event = 'BufReadPre',
-    config = function() require'plugin/vimade' end
+  use { 'sunjon/Shade.nvim',
+    config = function() require'plugin/shade' end
   }
 
   use { 'takac/vim-hardtime',
