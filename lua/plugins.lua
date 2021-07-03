@@ -63,7 +63,6 @@ return require('packer').startup(function()
   }
 
   use { 'lukas-reineke/indent-blankline.nvim',
-    requires = { 'Yggdroot/indentLine' },
     config = function() require'plugin/indentline' end
   }
 
@@ -93,6 +92,10 @@ return require('packer').startup(function()
   use { 'nvim-treesitter/nvim-treesitter',
     config = function() require'plugin/treesitter' end,
     run = ':TSUpdate'
+  }
+
+  use { 'pwntester/octo.nvim',
+    config = function() require'plugin/octo' end
   }
 
   use { 'rafcamlet/nvim-luapad',
