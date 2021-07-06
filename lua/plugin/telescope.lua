@@ -10,7 +10,10 @@ require('telescope').setup{
       case_mode = "smart_case"
     },
     project = {
-      base_dir = '~/Documents/Projects'
+      base_dirs = {
+        '~/Documents/Projects',
+        '~/.dotfiles'
+      }
     }
   },
   defaults = {
