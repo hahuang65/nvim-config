@@ -12,6 +12,8 @@ return require('packer').startup(function()
     config = function() require'plugin/toggleterm' end
   }
 
+  use { 'cohama/lexima.vim' }
+
   use { 'dracula/vim', as = 'dracula' }
 
   use { 'glepnir/galaxyline.nvim',
@@ -22,6 +24,10 @@ return require('packer').startup(function()
 
   use { 'hashivim/vim-terraform',
     config = function() require'plugin/terraform' end
+  }
+
+  use { 'hrsh7th/nvim-compe',
+    config = function() require'plugin/completion' end
   }
 
   use { 'itchyny/vim-cursorword' }
@@ -69,8 +75,6 @@ return require('packer').startup(function()
   use { 'neovim/nvim-lsp',
     config = function() require'plugin/lsp' end
   }
-
-  use { 'nvim-lua/completion-nvim' }
 
   use { 'nvim-telescope/telescope.nvim',
     requires = {
@@ -123,7 +127,6 @@ return require('packer').startup(function()
   }
 
   use { 'tpope/vim-commentary' }
-  use { 'tpope/vim-endwise' }
 
   use { 'tpope/vim-fugitive',
     config = function() require'plugin/fugitive' end

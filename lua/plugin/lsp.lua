@@ -48,6 +48,17 @@ vim.fn.sign_define("LspDiagnosticsSignHint", {
 })
 
 local nvim_lsp = require('lspconfig')
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -91,13 +102,10 @@ local on_attach = function(client, bufnr)
       augroup END
     ]], false)
   end
-
-  -- Enable autocompletion
-  require('completion').on_attach()
 end
 
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup { on_attach = on_attach }
+  nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
 end
