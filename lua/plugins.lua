@@ -140,6 +140,7 @@ return require('packer').startup(function()
   use { 'tpope/vim-rails' }
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
+  use { 'tpope/vim-unimpaired' }
 
   use { 'ttys3/nvim-blamer.lua',
     config = function() require'plugin/blamer' end

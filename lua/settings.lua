@@ -55,10 +55,11 @@ opt('b', 'textwidth', 0)      -- Disable linebreaks by line size
 opt('b', 'wrapmargin', 0)      -- Disable linebreaks by window borders
 
 -- Search
-opt('o', 'incsearch', true)  -- Search-as-you-type
-opt('o', 'ignorecase', true) -- Ignore casing during search, must be set for `smartcase`
-opt('o', 'smartcase', true)  -- Case sensitivity based on searched text
-opt('b', 'infercase', true)  -- `smartcase` but for completion results
+opt('o', 'incsearch', true)       -- Search-as-you-type
+opt('o', 'inccommand', 'nosplit') -- Show changes of a command as you type
+opt('o', 'ignorecase', true)      -- Ignore casing during search, must be set for `smartcase`
+opt('o', 'smartcase', true)       -- Case sensitivity based on searched text
+opt('b', 'infercase', true)       -- `smartcase` but for completion results
 
 -- Scrolling
 opt('o', 'scrolloff', 20)     -- Start scrolling the window when 20 lines away from the top/bottom margins
@@ -97,6 +98,11 @@ augroup('terminal', {
 augroup('active_window', {
   'WinEnter,BufEnter * setlocal cursorline',
   'WinLeave,BufLeave * setlocal nocursorline'
+})
+
+-- Highlight text on yank
+augroup('yank_highlight', {
+  'TextYankPost * silent! lua vim.highlight.on_yank()'
 })
 
 -- Auto Source Config Files
