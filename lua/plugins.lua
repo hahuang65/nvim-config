@@ -16,6 +16,11 @@ return require('packer').startup(function()
 
   use { 'dracula/vim', as = 'dracula' }
 
+  use { 'dstein64/vim-startuptime',
+    opt = true,
+    cmd = 'StartupTime'
+  }
+
   use { 'glepnir/galaxyline.nvim',
     branch = 'main',
     requires = { 'kyazdani42/nvim-web-devicons' },
