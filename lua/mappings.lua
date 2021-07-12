@@ -18,3 +18,8 @@ map('t', '<C-w>h', '<C-\\><C-n><C-w>h', { noremap = true })
 map('t', '<C-w>j', '<C-\\><C-n><C-w>j', { noremap = true })
 map('t', '<C-w>k', '<C-\\><C-n><C-w>k', { noremap = true })
 map('t', '<C-w>l', '<C-\\><C-n><C-w>l', { noremap = true })
+
+-- Testing
+map('n', '<leader>tf', ':make! %<CR>', { noremap = true })
+map('n', '<leader>ta', ':make!<CR>', { noremap = true })
+map('n', '<leader>tt', ':make! %:<C-r>=line(".")<CR><CR>', { noremap = true })

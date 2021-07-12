@@ -189,29 +189,6 @@ gls.right[4] = {
 }
 
 gls.right[5] = {
-  ShowUltestStatus = {
-    provider = function()
-      if vim.api.nvim_call_function('ultest#is_test_file', {}) == 1 then
-        local icon = 'ﭧ'
-        local test_status = vim.api.nvim_call_function('ultest#status', {})
-        if test_status.running > 0 then
-          return icon .. ""
-        elseif test_status.failed > 0 then
-          return icon .. test_status.failed
-        elseif test_status.passed == test_status.tests then
-          return icon .. ""
-        else
-          return icon .. ""
-        end
-
-        return result
-      end
-    end,
-    highlight = {colors.orange,colors.bg,'bold'}
-  }
-}
-
-gls.right[6] = {
   EmptySpace = {
     provider = function()
       return " "
@@ -220,7 +197,7 @@ gls.right[6] = {
   }
 }
 
-gls.right[7] = {
+gls.right[6] = {
   LspIcon = {
     provider = function()
       local client_name = lspclient.get_lsp_client()
@@ -235,7 +212,7 @@ gls.right[7] = {
   }
 }
 
-gls.right[8] = {
+gls.right[7] = {
   LspServer = {
     provider = function()
       local client_name = lspclient.get_lsp_client()
@@ -250,7 +227,7 @@ gls.right[8] = {
   }
 }
 
-gls.right[9] = {
+gls.right[8] = {
   FileEncode = {
     provider = 'FileEncode',
     condition = condition.hide_in_width,
@@ -260,7 +237,7 @@ gls.right[9] = {
   }
 }
 
-gls.right[10] = {
+gls.right[9] = {
   FileFormat = {
     provider = 'FileFormat',
     condition = condition.hide_in_width,
@@ -270,7 +247,7 @@ gls.right[10] = {
   }
 }
 
-gls.right[11] = {
+gls.right[10] = {
   GitIcon = {
     provider = function() return '  ' end,
     condition = condition.check_git_workspace,
@@ -280,7 +257,7 @@ gls.right[11] = {
   }
 }
  
-gls.right[12] = {
+gls.right[11] = {
   GitBranch = {
     provider = 'GitBranch',
     condition = condition.check_git_workspace,
@@ -288,7 +265,7 @@ gls.right[12] = {
   }
 }
 
-gls.right[13] = {
+gls.right[12] = {
   EmptySpace = {
     provider = function()
       return " "

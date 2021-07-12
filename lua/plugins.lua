@@ -112,15 +112,6 @@ return require('packer').startup(function()
     cmd = { 'Luapad', 'LuaRun', 'Lua' }
   }
 
-  use { "rcarriga/vim-ultest",
-    requires = { "vim-test/vim-test" },
-    run = ":UpdateRemotePlugins",
-    config = function()
-      require'plugin/test'
-      require'plugin/ultest'
-    end
-  } 
-
   use { 'romainl/vim-cool' }
 
   use { 'sunjon/Shade.nvim',
