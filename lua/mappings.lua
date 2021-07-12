@@ -21,10 +21,9 @@ map('t', '<C-w>l', '<C-\\><C-n><C-w>l', { noremap = true })
 
 -- Make
 map('n', '<leader>l',  ':lopen<CR>', { noremap = true })
-map('n', '<leader>L',  ':lopen<CR>', { noremap = true })
 map('n', '<leader>q',  ':copen<CR>', { noremap = true })
-map('n', '<leader>Q',  ':copen<CR>', { noremap = true })
 
+map('n', '<leader>m:', ':make! ',                           { noremap = true })
 map('n', '<leader>ma', ':make!<CR>',                        { noremap = true })
 map('n', '<leader>mf', ':lmake! %<CR>',                     { noremap = true })
 map('n', '<leader>mm', ':lmake! %:<C-r>=line(".")<CR><CR>', { noremap = true })
