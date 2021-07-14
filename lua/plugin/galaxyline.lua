@@ -137,23 +137,6 @@ gls.left[9] = {
   }
 }
 
-gls.mid[1] = {
-  ShowTreeSitter = {
-    provider = function()
-      return vim.api.nvim_call_function('nvim_treesitter#statusline', {
-        {
-          indicator_size = 200,
-          type_patterns = {'class', 'function', 'method'},
-          separator = ' -> '
-        }
-      })
-    end,
-    condition = condition.hide_in_width,
-    icon = '  ',
-    highlight = {colors.orange,colors.bg,'bold'}
-  }
-}
-
 gls.right[1] = {
   DiagnosticError = {
     provider = 'DiagnosticError',
