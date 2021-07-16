@@ -21,7 +21,7 @@ augroup.create('autoreload', {
 
 -- Active Window
 augroup.create('active_window', {
-  'WinEnter,BufEnter * setlocal cursorline cursorcolumn',
+  'WinEnter,BufEnter * if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif',
   'WinLeave,BufLeave * setlocal nocursorline nocursorcolumn'
 })
 
