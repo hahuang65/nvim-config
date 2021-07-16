@@ -12,7 +12,7 @@
 local servers = {
   'bashls',
   'dockerls',
-  'pyls',
+  'pylsp',
   'rust_analyzer',
   'solargraph',
   'terraformls',
