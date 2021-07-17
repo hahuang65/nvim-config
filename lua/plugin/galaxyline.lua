@@ -92,7 +92,13 @@ gls.left[4] ={
 
 gls.left[5] = {
   FileName = {
-    provider = 'FileName',
+    provider = function()
+      if vim.b.term_title then
+        return vim.b.term_title .. ' '
+      else
+        return require('galaxyline.provider_fileinfo').get_current_file_name()
+      end
+    end,
     condition = condition.buffer_not_empty,
     highlight = {colors.magenta,colors.bg,'bold'}
   }
