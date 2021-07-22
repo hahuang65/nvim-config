@@ -111,6 +111,8 @@ for _, lsp in ipairs(servers) do
 end
 
 -- Setup sumneko_lua separately since it has special settings
+-- https://github.com/sumneko/lua-language-server
+-- Install with `./install_sumneko_lua.sh`
 local system_name
 if vim.fn.has("mac") == 1 then
   system_name = "macOS"
