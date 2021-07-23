@@ -95,6 +95,7 @@ return require('packer').startup(function()
     cmd = { 'Luapad', 'LuaRun', 'Lua' }
   }
 
+  use { 'ray-x/lsp_signature.nvim' }
   use { 'romainl/vim-cool' }
 
   use { 'sunjon/Shade.nvim',

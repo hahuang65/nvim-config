@@ -77,6 +77,15 @@ local on_attach = function(client, bufnr)
       augroup END
     ]], false)
   end
+
+  -- lsp_signature
+  -- https://github.com/ray-x/lsp_signature.nvim
+  require "lsp_signature".on_attach({
+    bind = true, -- This is mandatory, otherwise border config won't get registered.
+    handler_opts = {
+    border = "single"
+    }
+  })
 end
 
 local nvim_lsp = require('lspconfig')
