@@ -31,13 +31,10 @@ require'compe'.setup {
   };
 }
 
-vim.g.lexima_no_default_rules = true
-vim.fn['lexima#set_default_rules']()
-
 local map = vim.api.nvim_set_keymap
 
-map('i', '<C-Space>', [[compe#complete()]],                             { silent = true, expr = true, noremap = true })
-map('i', '<CR>',      [[compe#confirm(lexima#expand('<LT>CR>', 'i'))]], { silent = true, expr = true, noremap = true })
-map('i', '<C-e>',     [[compe#close('<C-e>')]],                         { silent = true, expr = true, noremap = true })
-map('i', '<C-f>',     [[compe#scroll({ 'delta': +4 })]],                { silent = true, expr = true, noremap = true })
-map('i', '<C-d>',     [[compe#scroll({ 'delta': -4 })]],                { silent = true, expr = true, noremap = true })
+map('i', '<C-Space>', [[compe#complete()]],                                    { silent = true, expr = true, noremap = true })
+map('i', '<CR>',      [[compe#confirm({ 'keys': '<CR>', 'select': v:true })]], { silent = true, expr = true, noremap = true })
+map('i', '<C-e>',     [[compe#close('<C-e>')]],                                { silent = true, expr = true, noremap = true })
+map('i', '<C-f>',     [[compe#scroll({ 'delta': +4 })]],                       { silent = true, expr = true, noremap = true })
+map('i', '<C-d>',     [[compe#scroll({ 'delta': -4 })]],                       { silent = true, expr = true, noremap = true })

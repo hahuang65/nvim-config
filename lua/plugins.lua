@@ -10,8 +10,6 @@ end
 return require('packer').startup(function()
   use { 'airblade/vim-rooter' }
 
-  use { 'cohama/lexima.vim' }
-
   use { 'dracula/vim', as = 'dracula' }
 
   use { 'dstein64/vim-startuptime',
@@ -28,8 +26,6 @@ return require('packer').startup(function()
   use { 'hrsh7th/nvim-compe',
     config = function() require'plugin/completion' end
   }
-
-  use { 'itchyny/vim-cursorword' }
 
   use { 'kana/vim-fakeclip',
     cond = function()
@@ -103,10 +99,6 @@ return require('packer').startup(function()
 
   use { 'sunjon/Shade.nvim',
     config = function() require'plugin/shade' end
-  }
-
-  use { 'takac/vim-hardtime',
-    config = function() require'plugin/hardtime' end
   }
 
   use { 'tpope/vim-commentary' }
