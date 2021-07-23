@@ -30,11 +30,3 @@ require'compe'.setup {
     nvim_lua = true;
   };
 }
-
-local map = vim.api.nvim_set_keymap
-
-map('i', '<C-Space>', [[compe#complete()]],                                    { silent = true, expr = true, noremap = true })
-map('i', '<CR>',      [[compe#confirm({ 'keys': '<CR>', 'select': v:true })]], { silent = true, expr = true, noremap = true })
-map('i', '<C-e>',     [[compe#close('<C-e>')]],                                { silent = true, expr = true, noremap = true })
-map('i', '<C-f>',     [[compe#scroll({ 'delta': +4 })]],                       { silent = true, expr = true, noremap = true })
-map('i', '<C-d>',     [[compe#scroll({ 'delta': -4 })]],                       { silent = true, expr = true, noremap = true })

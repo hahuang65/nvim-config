@@ -102,11 +102,7 @@ return require('packer').startup(function()
   }
 
   use { 'tpope/vim-commentary' }
-
-  use { 'tpope/vim-fugitive',
-    config = function() require'plugin/fugitive' end
-  }
-
+  use { 'tpope/vim-fugitive' }
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
   use { 'tpope/vim-unimpaired' }
