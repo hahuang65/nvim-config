@@ -23,30 +23,34 @@ local servers = {
 
 -- Define diagnostic signs and highlighting colors
 vim.fn.sign_define("LspDiagnosticsSignError", {
-  -- text = "",
-  text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultError",
   numhl = "LspDiagnosticsDefaultError"
 })
 vim.fn.sign_define("LspDiagnosticsSignWarning", {
-  -- text = "",
-  text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultWarning",
   numhl = "LspDiagnosticsDefaultWarning"
 })
 vim.fn.sign_define("LspDiagnosticsSignInformation", {
-  -- text = "",
-  text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultInformation",
   numhl = "LspDiagnosticsDefaultInformation"
 })
 vim.fn.sign_define("LspDiagnosticsSignHint", {
-  -- text = "",
-  text = "",
+  text = "",
   texthl = "LspDiagnosticsDefaultHint",
   numhl = "LspDiagnosticsDefaultHint"
 })
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    update_in_insert = true, 
+    signs = false,
+    virtual_text = true
+  }
+)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
