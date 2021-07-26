@@ -2,7 +2,6 @@ vim.g.mapleader = ' '
 
 vim.cmd [[ syntax enable ]]
 vim.cmd [[ filetype plugin on ]]
-vim.cmd [[ colorscheme dracula ]]
 
 -- Built-ins
 require('netrw')

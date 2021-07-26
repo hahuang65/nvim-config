@@ -10,11 +10,13 @@ end
 return require('packer').startup(function()
   use { 'airblade/vim-rooter' }
 
-  use { 'dracula/vim', as = 'dracula' }
-
   use { 'dstein64/vim-startuptime',
     opt = true,
     cmd = 'StartupTime'
+  }
+
+  use { 'folke/tokyonight.nvim',
+    config = function() require'plugin/tokyonight' end
   }
 
   use { 'glepnir/galaxyline.nvim',
