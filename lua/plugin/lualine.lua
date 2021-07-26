@@ -6,7 +6,7 @@ local lualine = require 'lualine'
 
 -- Color table for highlights
 local colors = {
-  bg       = '#1a1b26',
+  bg       = '#414868',
   fg       = '#a9b1d6',
   yellow   = '#e0af68',
   cyan     = '#7dcfff',
@@ -75,12 +75,6 @@ local function ins_right(component)
 end
 
 ins_left {
-  function() return '▊' end,
-  color = {fg = colors.blue}, -- Sets highlighting of component
-  left_padding = 0 -- We don't need space before this
-}
-
-ins_left {
   -- mode component
   function()
     -- auto change color according to neovims mode
@@ -111,8 +105,7 @@ ins_left {
             colors.bg)
     return ''
   end,
-  color = "LualineMode",
-  left_padding = 0
+  color = "LualineMode"
 }
 
 ins_left {
@@ -121,7 +114,7 @@ ins_left {
     local function format_file_size(file)
       local size = vim.fn.getfsize(file)
       if size <= 0 then return '' end
-      local sufixes = {'b', 'k', 'm', 'g'}
+      local sufixes = {'b', 'k', 'M', 'G'}
       local i = 1
       while size > 1024 do
         size = size / 1024
@@ -222,12 +215,6 @@ ins_right {
   color_modified = colors.orange,
   color_removed = colors.red,
   condition = conditions.hide_in_width
-}
-
-ins_right {
-  function() return '▊' end,
-  color = {fg = colors.blue},
-  right_padding = 0
 }
 
 -- Now don't forget to initialize lualine

@@ -14,6 +14,11 @@ local function buf_map(bufnr, mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, options)
 end
 
+-- Editing
+map('n', 'gp', '`[v`]')
+map('v', '>',  '>gv')
+map('v', '<',  '<gv')
+
 -- Make
 map('n', '<leader>m:', ':make! ')
 map('n', '<leader>ma', ':make!<CR>')
