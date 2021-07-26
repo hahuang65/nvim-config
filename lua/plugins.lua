@@ -19,10 +19,10 @@ return require('packer').startup(function()
     config = function() require'plugin/tokyonight' end
   }
 
-  use { 'glepnir/galaxyline.nvim',
-    branch = 'main',
-    requires = { 'kyazdani42/nvim-web-devicons' },
-    config = function() require'plugin/galaxyline' end
+  use {
+    'hoob3rt/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function() require'plugin/lualine' end
   }
 
   use { 'hrsh7th/nvim-compe',
