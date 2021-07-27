@@ -1,10 +1,9 @@
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
+-- https://github.com/hoob3rt/lualine.nvim
 -- https://gist.githubusercontent.com/hoob3rt/b200435a765ca18f09f83580a606b878/raw/d99388470ed5ddb1da32a0bd3bccd4a69eb15429/evil_lualine.lua
+
 local lualine = require 'lualine'
 
--- Color table for highlights
+-- Tokyo Night Storm
 local colors = {
   bg       = '#414868',
   fg       = '#a9b1d6',
@@ -145,7 +144,36 @@ ins_left {
 }
 
 ins_left {
-  'filename',
+  function()
+    if vim.b.term_title then
+      return vim.b.term_title
+    else
+      local filename = vim.fn.expand('%:t')
+      if vim.fn.empty(filename) == 1 then return '' end
+
+      local readonly = ''
+
+      if vim.bo.filetype == 'help' then
+        readonly = ''
+      elseif vim.bo.readonly == true then
+        readonly = ' ' .. icon
+      else
+        readonly = ''
+      end
+
+      if string.len(readonly) ~= 0 then
+        return filename .. readonly
+      end
+
+      if vim.bo.modifiable then
+        if vim.bo.modified then
+          return filename .. ' ' .. ''
+        end
+      end
+      return filename
+
+    end
+  end,
   condition = conditions.buffer_not_empty,
   color = {fg = colors.magenta, gui = 'bold'},
 }

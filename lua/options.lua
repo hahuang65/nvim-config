@@ -44,7 +44,6 @@ opt.softtabstop = 2    -- Use 2 spaces per tab
 opt.tabstop     = 2    -- Tab size of 2
 
 -- Line Breaks
-opt.colorcolumn = '80'  -- Show a column guide
 opt.list        = false -- Do not display visual tabs and spaces
 opt.textwidth   = 0     -- Disable linebreaking by line size
 opt.wrap        = false -- Do not wrap lines automatically
