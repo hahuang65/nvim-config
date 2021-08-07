@@ -25,7 +25,6 @@ opt.lazyredraw     = true     -- Don't redraw for macros and commands that aren'
 opt.number         = true     -- Show line numbers
 opt.showmatch      = true     -- Briefly flash a matching bracket/parenthesis when cursor moves onto one
 opt.signcolumn     = 'auto:2' -- Automatically size the `signcolumn`, max being the number
-opt.relativenumber = true     -- Show relative line numbers
 
 -- Per-Project
 opt.exrc   = true -- Allow local configuration files per project

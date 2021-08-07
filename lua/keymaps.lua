@@ -46,11 +46,11 @@ map('n', '<leader>TT', ':call v:lua.toggle_terminal("Terminal", "v")<CR>')
 
 -- nvim-compe
 -- https://github.com/hrsh7th/nvim-compe
-map('i', '<C-Space>', [[compe#complete()]],                                    { expr = true })
-map('i', '<CR>',      [[compe#confirm({ 'keys': '<CR>', 'select': v:true })]], { expr = true })
-map('i', '<C-e>',     [[compe#close('<C-e>')]],                                { expr = true })
-map('i', '<C-f>',     [[compe#scroll({ 'delta': +4 })]],                       { expr = true })
-map('i', '<C-d>',     [[compe#scroll({ 'delta': -4 })]],                       { expr = true })
+map('i', '<C-Space>', [[compe#complete()]],              { expr = true })
+map('i', '<CR>',      [[compe#confirm('<CR>')]],         { expr = true })
+map('i', '<C-e>',     [[compe#close('<C-e>')]],          { expr = true })
+map('i', '<C-f>',     [[compe#scroll({ 'delta': +4 })]], { expr = true })
+map('i', '<C-d>',     [[compe#scroll({ 'delta': -4 })]], { expr = true })
 
 -- vim-fugitive
 -- https://github.com/tpope/vim-fugitive
