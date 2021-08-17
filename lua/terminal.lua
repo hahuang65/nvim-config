@@ -7,7 +7,6 @@ local function create_terminal(name, split)
   cmd(split..'new +terminal')
   bufnr = api.nvim_get_current_buf()
   terminals[name] = bufnr
-  vim.b.term_title = name
 
   return bufnr
 end
@@ -18,7 +17,7 @@ local function attach_terminal(bufnr, split)
   api.nvim_win_set_buf(winnr, bufnr)
 end
 
-function _G.toggle_terminal(name, split)
+toggle_terminal = function(name, split)
   local split = split or ''
 
   bufnr = terminals[name]
@@ -36,4 +35,8 @@ function _G.toggle_terminal(name, split)
   else -- No such terminal yet, no buffer number
     create_terminal(name, split)
   end
+  vim.b.term_title = name
 end
+
+cmd("command -nargs=1 Terminal lua toggle_terminal(<f-args>)")
+cmd("command -nargs=1 Vterminal lua toggle_terminal(<f-args>, 'v')")

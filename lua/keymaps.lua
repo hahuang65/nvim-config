@@ -37,12 +37,20 @@ map('t', '<C-w>k', '<C-\\><C-n><C-w>k')
 map('t', '<C-w>l', '<C-\\><C-n><C-w>l')
 
 -- Terminal: toggles
-map('n', '<leader>tc', ':call v:lua.toggle_terminal("Console")<CR>')
-map('n', '<leader>TC', ':call v:lua.toggle_terminal("Console", "v")<CR>')
-map('n', '<leader>ts', ':call v:lua.toggle_terminal("Server")<CR>')
-map('n', '<leader>TS', ':call v:lua.toggle_terminal("Server", "v")<CR>')
-map('n', '<leader>tt', ':call v:lua.toggle_terminal("Terminal")<CR>')
-map('n', '<leader>TT', ':call v:lua.toggle_terminal("Terminal", "v")<CR>')
+map('n', '<M-[>', ':Terminal Console<CR>')
+map('t', '<M-[>', '<C-\\><C-n>:Terminal Console<CR>')
+map('n', '<M-{>', ':Vterminal Console<CR>')
+map('t', '<M-{>', '<C-\\><C-n>:Vterminal Console<CR>')
+
+map('n', '<M-]>', ':Terminal Server<CR>')
+map('t', '<M-]>', '<C-\\><C-n>:Terminal Server<CR>')
+map('n', '<M-}>', ':Vterminal Server<CR>')
+map('t', '<M-}>', '<C-\\><C-n>:Vterminal Server<CR>')
+
+map('n', '<M-`>', ':Terminal Terminal<CR>')
+map('t', '<M-`>', '<C-\\><C-n>:Terminal Terminal<CR>')
+map('n', '<M-~>', ':Vterminal Terminal<CR>')
+map('t', '<M-~>', '<C-\\><C-n>:Vterminal Terminal<CR>')
 
 -- nvim-compe
 -- https://github.com/hrsh7th/nvim-compe
