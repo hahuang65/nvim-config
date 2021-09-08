@@ -67,7 +67,7 @@ map('n', '<leader>gg',  ':Git<CR>')
 map('n', '<leader>gP',  ':Git publish<CR>')
 map('n', '<leader>gR',  ':Git retrunk<CR>')
 map('n', '<leader>gS',  ':Git sync<CR>')
-map('n', '<leader>pr',  ':Git pr create --web --fill<CR>')
+map('n', '<leader>pr',  ':Octo pr create<CR>')
 
 -- vim-fugitive: conflicts
 map('n', '<leader>[', ':diffget //2 | :diffupdate<CR>')
