@@ -25,7 +25,11 @@ return require('packer').startup(function()
     config = function() require'plugin/lualine' end
   }
 
-  use { 'hrsh7th/nvim-compe',
+  use { 'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+    },
     config = function() require'plugin/completion' end
   }
 

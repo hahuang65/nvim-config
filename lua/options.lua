@@ -65,8 +65,8 @@ opt.sidescroll    = 1  -- Scroll in steps of 1 character when at the edge of the
  opt.splitright = true -- Split to the right instead of left
  
 -- Completion
-opt.completeopt = { 'menuone', 'noselect' } -- Show completion even when only 1 result, but do not auto-select first result
-opt.shortmess   = opt.shortmess + 'cI'      -- Skip completion pop-up messages
+opt.completeopt = { 'menu', 'menuone', 'noselect' } -- Show completion even when only 1 result, but do not auto-select first result
+opt.shortmess   = opt.shortmess + 'cI'              -- Skip completion pop-up messages
 
 -- Undo
 opt.undofile = true -- Enable undo

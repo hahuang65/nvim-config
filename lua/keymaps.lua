@@ -52,14 +52,6 @@ map('t', '<M-`>', '<C-\\><C-n>:Terminal Terminal<CR>')
 map('n', '<M-~>', ':Vterminal Terminal<CR>')
 map('t', '<M-~>', '<C-\\><C-n>:Vterminal Terminal<CR>')
 
--- nvim-compe
--- https://github.com/hrsh7th/nvim-compe
-map('i', '<C-Space>', [[compe#complete()]],              { expr = true })
-map('i', '<CR>',      [[compe#confirm('<CR>')]],         { expr = true })
-map('i', '<C-e>',     [[compe#close('<C-e>')]],          { expr = true })
-map('i', '<C-f>',     [[compe#scroll({ 'delta': +4 })]], { expr = true })
-map('i', '<C-d>',     [[compe#scroll({ 'delta': -4 })]], { expr = true })
-
 -- vim-fugitive
 -- https://github.com/tpope/vim-fugitive
 map('n', '<leader>gA',  ':Git amend<CR>')
