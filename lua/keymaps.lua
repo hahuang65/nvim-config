@@ -14,20 +14,27 @@ local function buf_map(bufnr, mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, options)
 end
 
+local wk = require("which-key")
+
 -- Editing
 map('n', 'gp', '`[v`]')
 map('v', '>',  '>gv')
 map('v', '<',  '<gv')
 
 -- Make
-map('n', '<leader>m:', ':make! ')
-map('n', '<leader>ma', ':make!<CR>')
-map('n', '<leader>mf', ':lmake! %<CR>')
-map('n', '<leader>mm', ':lmake! %:<C-r>=line(".")<CR><CR>')
+wk.register({
+  ['<leader>m']  = { name = "Make" },
+  ['<leader>m:'] = { ':make! ', "Make (Prompt)" },
+  ['<leader>ma'] = { ':make!<CR>', "Make" },
+  ['<leader>mf'] = { ':lmake! %<CR>', "Make (File)" },
+  ['<leader>mm'] = { ':lmake! %:<C-r>=line(".")<CR><CR>', "Make (Line)" }
+})
 
 -- Quickfix and Location List
-map('n', '<leader>l',  ':lopen<CR>')
-map('n', '<leader>q',  ':copen<CR>')
+wk.register({
+  ['<leader>l'] = { ':lopen<CR>', "Location List" },
+  ['<leader>q'] = { ':copen<CR>', "Quickfix List" }
+})
 
 -- Terminal: navigation
 map('t', '<Esc>',  '<C-\\><C-n>')
@@ -54,16 +61,22 @@ map('t', '<M-~>', '<C-\\><C-n>:Vterminal Terminal<CR>')
 
 -- vim-fugitive
 -- https://github.com/tpope/vim-fugitive
-map('n', '<leader>gA',  ':Git amend<CR>')
-map('n', '<leader>gg',  ':Git<CR>')
-map('n', '<leader>gP',  ':Git publish<CR>')
-map('n', '<leader>gR',  ':Git retrunk<CR>')
-map('n', '<leader>gS',  ':Git sync<CR>')
-map('n', '<leader>pr',  ':Octo pr create<CR>')
+wk.register({
+  ['<leader>g']  = { name = "Git" },
+  ['<leader>gg'] = { ':Git<CR>', "Fugitive" },
+  ['<leader>gp'] = { ':Git publish<CR>', "Publish" },
+  ['<leader>gA'] = { ':Git amend<CR>', "Amend" },
+  ['<leader>gR'] = { ':Git retrunk<CR>', "Re-Trunk" },
+  ['<leader>gS'] = { ':Git sync<CR>', "Sync" },
+  ['<leader>gP'] = { ':Octo pr create<CR>', "Create PR" }
+})
 
 -- vim-fugitive: conflicts
-map('n', '<leader>[', ':diffget //2 | :diffupdate<CR>')
-map('n', '<leader>]', ':diffget //3 | :diffupdate<CR>')
+wk.register({
+  ['<leader>g']  = { name = "Git" },
+  ['<leader>g['] = { ':diffget //2 | :diffupdate<CR>', "Conflict Select (Left)" },
+  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>', "Conflict Select (Right)" }
+})
 
 -- nvim-tree
 -- https://github.com/kyazdani42/nvim-tree.lua
@@ -77,29 +90,37 @@ map('n', 'g]',  [[<cmd>Telescope current_buffer_tags<CR>]])
 map('n', 'g}',  [[<cmd>Telescope tags<CR>]])
 map('n', 'g\\', [[<cmd>Telescope treesitter<CR>]])
 
-map('n', '<leader><leader>', [[<cmd>lua find_project_files()<CR>]])
-map('n', '<leader>ff',       [[<cmd>Telescope find_files<CR>]])
+wk.register({
+  ['<leader><leader>'] = { [[<cmd>lua find_project_files()<CR>]], "Files" },
+  ['<leader>?']        = { [[<cmd>Telescope live_grep<CR>]], "Grep (Project)" },
+  ['<leader>/']        = { [[<cmd>Telescope current_buffer_fuzzy_find<CR>]], "Grep (Buffer)" },
+  ['<leader>*']        = { [[<cmd>Telescope grep_string<CR>]], "Grep (String)" },
+  ['<leader>b']        = { [[<cmd>Telescope buffers<CR>]], "Buffers" }
+})
 
-map('n', '<leader>?',  [[<cmd>Telescope live_grep<CR>]])
-map('n', '<leader>/',  [[<cmd>Telescope current_buffer_fuzzy_find<CR>]])
-map('n', '<leader>*',  [[<cmd>Telescope grep_string<CR>]])
-map('n', '<leader>b',  [[<cmd>Telescope buffers<CR>]])
+wk.register({
+  ['<leader>g']  = { name = "Git" },
+  ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
+  ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commit (Buffer)" },
+  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]], "Commit (Project)" }
+})
 
-map('n', '<leader>gb', [[<cmd>Telescope git_branches<CR>]])
-map('n', '<leader>gc', [[<cmd>Telescope git_bcommits<CR>]])
-map('n', '<leader>gC', [[<cmd>Telescope git_commits<CR>]])
-
-map('n', '<leader>hc', [[<cmd>Telescope commands<CR>]])
-map('n', '<leader>hh', [[<cmd>Telescope help_tags<CR>]])
-map('n', '<leader>hk', [[<cmd>Telescope keymaps<CR>]])
-map('n', '<leader>hm', [[<cmd>Telescope man_pages<CR>]])
+wk.register({
+  ['<leader>h']  = { name = "Help" },
+  ['<leader>hc'] = { [[<cmd>Telescope commands<CR>]], "Commands" },
+  ['<leader>hh'] = { [[<cmd>Telescope help_tags<CR>]], "Help Pages" },
+  ['<leader>hk'] = { [[<cmd>Telescope keymaps<CR>]], "Keymaps" },
+  ['<leader>hm'] = { [[<cmd>Telescope man_pages<CR>]], "Manpages" },
+})
 
 map('n', 't]', [[<cmd>Telescope current_buffer_tags<CR>]])
 map('n', 't}', [[<cmd>Telescope tags<CR>]])
 
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
-map('n', '<leader>pp', ":lua require'telescope'.extensions.project.project{}<CR>")
+wk.register({
+  ['<leader>p'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
+})
 
 -- LSP
 -- https://github.com/neovim/nvim-lspconfig
@@ -125,9 +146,12 @@ end
 -- https://github.com/lewis6991/gitsigns.nvim
 map('n', ']h',         [[&diff ? ']h' : '<cmd>lua require"gitsigns".next_hunk()<CR>']], { expr = true })
 map('n', '[h',         [[&diff ? '[h' : '<cmd>lua require"gitsigns".prev_hunk()<CR>']], { expr = true })
-map('n', '<leader>gr', [[<cmd>lua require"gitsigns".reset_hunk()<CR>]])
 map('o', 'ih',         [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]])
 map('x', 'ih',         [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]])
+wk.register({
+  ['<leader>g']  = { name = "Git" },
+  ['<leader>gr'] = { [[<cmd>lua require"gitsigns".reset_hunk()<CR>]], "Reset Hunk" }
+})
 
 return {
   lsp_keymaps = lsp_keymaps

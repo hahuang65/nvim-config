@@ -19,6 +19,10 @@ return require('packer').startup(function()
     config = function() require'plugin/tokyonight' end
   }
 
+  use { 'folke/which-key.nvim',
+    config = function() require'plugin/which-key' end
+  }
+
   use {
     'hoob3rt/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
