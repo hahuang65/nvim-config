@@ -96,10 +96,6 @@ return require('packer').startup(function()
     run = ':TSUpdate'
   }
 
-  use { 'pwntester/octo.nvim',
-    config = function() require'plugin/octo' end
-  }
-
   use { 'rafcamlet/nvim-luapad',
     opt = true,
     cmd = { 'Luapad', 'LuaRun', 'Lua' }

@@ -69,7 +69,7 @@ wk.register({
   ['<leader>gR'] = { ':Git retrunk<CR>', "Re-Trunk" },
   ['<leader>gS'] = { ':Git sync<CR>', "Sync" },
   ['<leader>gP'] = { ':Git publish<CR>', "Publish" },
-  ['<leader>gR'] = { ':Octo pr create<CR>', "Create PR" }
+  ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" }
 })
 
 -- vim-fugitive: conflicts
