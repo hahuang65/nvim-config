@@ -4,7 +4,7 @@
 local lualine = require 'lualine'
 
 -- Tokyo Night Storm
-local colors = {
+Colors = {
   bg       = '#414868',
   fg       = '#a9b1d6',
   yellow   = '#e0af68',
@@ -14,7 +14,8 @@ local colors = {
   orange   = '#ff9e64',
   magenta  = '#bb9af7',
   blue     = '#7aa2f7',
-  red      = '#f7768e'
+  red      = '#f7768e',
+  inactive = '#24283b'
 }
 
 local conditions = {
@@ -37,8 +38,8 @@ local config = {
       -- We are going to use lualine_c an lualine_x as left and
       -- right section. Both are highlighted by c theme .  So we
       -- are just setting default looks o statusline
-      normal = {c = {fg = colors.fg, bg = colors.bg}},
-      inactive = {c = {fg = colors.fg, bg = colors.bg}}
+      normal = {c = {fg = Colors.fg, bg = Colors.bg}},
+      inactive = {c = {fg = Colors.fg, bg = Colors.bg}}
     }
   },
   sections = {
@@ -63,14 +64,67 @@ local config = {
   extensions = { 'fugitive', 'nvim-tree', 'quickfix' }
 }
 
--- Inserts a component in lualine_c at left section
-local function ins_left(component)
-  table.insert(config.sections.lualine_c, component)
+local function deep_copy(original)
+	local copy = {}
+	for k, v in pairs(original) do
+		if type(v) == "table" then
+			v = deep_copy(v)
+		end
+		copy[k] = v
+	end
+	return copy
 end
 
--- Inserts a component in lualine_x ot right section
+local function with_inactive_colors(component)
+  component = deep_copy(component)
+
+  if component["color"] and component["color"]["fg"] then
+    component["color"]["fg"] = Colors.inactive
+  end
+
+  local icons = {
+    "color_error",
+    "color_warn",
+    "color_info",
+    "color_added",
+    "color_modified",
+    "color_removed"
+  }
+
+  -- This doesn't quite work. You can see the colors set correctly, but I'm guessing that the load order of the code overwrites it at runtime?
+  for _, icon in ipairs(icons) do
+    if component[icon] then
+      component[icon] = Colors.inactive
+    end
+  end
+
+  return component
+end
+
+local function insert_component(component, position)
+  table.insert(position, component)
+end
+
+-- Inserts a component in lualine_c at left section
+local function ins_left(component)
+  insert_component(component, config.sections.lualine_c)
+end
+
+-- Inserts a component in lualine_x at right section
 local function ins_right(component)
-  table.insert(config.sections.lualine_x, component)
+  insert_component(component, config.sections.lualine_x)
+end
+
+-- Inserts a component in lualine_c at left section, including for inactive buffers
+local function ins_left_with_inactive(component)
+  ins_left(component)
+  insert_component(with_inactive_colors(component), config.inactive_sections.lualine_c)
+end
+
+-- Inserts a component in lualine_x at right section, including for inactive buffers
+local function ins_right_with_inactive(component)
+  ins_right(component)
+  insert_component(with_inactive_colors(component), config.inactive_sections.lualine_x)
 end
 
 ins_left {
@@ -78,30 +132,30 @@ ins_left {
   function()
     -- auto change color according to neovims mode
     local mode_color = {
-      n = colors.red,
-      i = colors.green,
-      v = colors.blue,
-      [''] = colors.blue,
-      V = colors.blue,
-      c = colors.magenta,
-      no = colors.red,
-      s = colors.orange,
-      S = colors.orange,
-      [''] = colors.orange,
-      ic = colors.yellow,
-      R = colors.magenta,
-      Rv = colors.magenta,
-      cv = colors.red,
-      ce = colors.red,
-      r = colors.cyan,
-      rm = colors.cyan,
-      ['r?'] = colors.cyan,
-      ['!'] = colors.red,
-      t = colors.red
+      n = Colors.red,
+      i = Colors.green,
+      v = Colors.blue,
+      [''] = Colors.blue,
+      V = Colors.blue,
+      c = Colors.magenta,
+      no = Colors.red,
+      s = Colors.orange,
+      S = Colors.orange,
+      [''] = Colors.orange,
+      ic = Colors.yellow,
+      R = Colors.magenta,
+      Rv = Colors.magenta,
+      cv = Colors.red,
+      ce = Colors.red,
+      r = Colors.cyan,
+      rm = Colors.cyan,
+      ['r?'] = Colors.cyan,
+      ['!'] = Colors.red,
+      t = Colors.red
     }
     vim.api.nvim_command(
         'hi! LualineMode guifg=' .. mode_color[vim.fn.mode()] .. " guibg=" ..
-            colors.bg)
+            Colors.bg)
     return ''
   end,
   color = "LualineMode"
@@ -128,22 +182,22 @@ ins_left {
   condition = conditions.buffer_not_empty
 }
 
-ins_left {
+ins_left_with_inactive {
   function()
     local function file_icon(filename, extension)
       local ok,devicons = pcall(require,'nvim-web-devicons')
       if not ok then print('No icon plugin found. Please install \'kyazdani42/nvim-web-devicons\'') return '' end
-      icon = devicons.get_icon(filename, extension)
-      return icon
+      Icon = devicons.get_icon(filename, extension) or ''
+      return Icon
     end
     return file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
   end,
   condition = conditions.buffer_not_empty,
-  color = {fg = colors.magenta, gui = 'bold'},
+  color = {fg = Colors.magenta, gui = 'bold'},
   right_padding = 0
 }
 
-ins_left {
+ins_left_with_inactive {
   function()
     if vim.b.term_title then
       return vim.b.term_title
@@ -156,7 +210,7 @@ ins_left {
       if vim.bo.filetype == 'help' then
         readonly = ''
       elseif vim.bo.readonly == true then
-        readonly = ' ' .. icon
+        readonly = ' ' .. Icon
       else
         readonly = ''
       end
@@ -175,20 +229,20 @@ ins_left {
     end
   end,
   condition = conditions.buffer_not_empty,
-  color = {fg = colors.magenta, gui = 'bold'},
+  color = {fg = Colors.magenta, gui = 'bold'},
 }
 
 ins_left {'location'}
 
-ins_left {'progress', color = {fg = colors.fg, gui = 'bold'}}
+ins_left {'progress', color = {fg = Colors.fg, gui = 'bold'}}
 
-ins_left {
+ins_left_with_inactive {
   'diagnostics',
   sources = {'nvim_lsp'},
   symbols = {error = ' ', warn = ' ', info = ' '},
-  color_error = colors.red,
-  color_warn = colors.yellow,
-  color_info = colors.cyan
+  color_error = Colors.red,
+  color_warn = Colors.yellow,
+  color_info = Colors.cyan
 }
 
 -- Insert mid section. You can make any number of sections in neovim :)
@@ -210,38 +264,37 @@ ins_left {
     return ""
   end,
   icon = ' ',
-  color = {fg = colors.yellow, gui = 'bold'}
+  color = {fg = Colors.yellow, gui = 'bold'}
 }
 
 -- Add components to right sections
 ins_right {
   'o:encoding', -- option component same as &encoding in viml
-  upper = true, -- I'm not sure why it's upper case either ;)
+  upper = true,
   condition = conditions.hide_in_width,
-  color = {fg = colors.green, gui = 'bold'}
+  color = {fg = Colors.green, gui = 'bold'}
 }
 
 ins_right {
   'fileformat',
   upper = true,
   icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = {fg = colors.green, gui = 'bold'}
+  color = {fg = Colors.green, gui = 'bold'}
 }
 
 ins_right {
   'branch',
   icon = '',
   condition = conditions.check_git_workspace,
-  color = {fg = colors.magenta, gui = 'bold'}
+  color = {fg = Colors.magenta, gui = 'bold'}
 }
 
-ins_right {
+ins_right_with_inactive {
   'diff',
-  -- Is it me or the symbol for modified us really weird
   symbols = {added = ' ', modified = '柳 ', removed = ' '},
-  color_added = colors.green,
-  color_modified = colors.orange,
-  color_removed = colors.red,
+  color_added = Colors.green,
+  color_modified = Colors.orange,
+  color_removed = Colors.red,
   condition = conditions.hide_in_width
 }
 
