@@ -21,6 +21,14 @@ map('n', 'gp', '`[v`]')
 map('v', '>',  '>gv')
 map('v', '<',  '<gv')
 
+wk.register({
+  ['<leader>y']  = { '"+y', "Copy (to system clipboard)" },
+}, { mode = 'v' })
+
+wk.register({
+  ['<leader>p']  = { '"+p', "Paste (from system clipboard)" },
+})
+
 -- Make
 wk.register({
   ['<leader>m']  = { name = "Make" },
@@ -122,7 +130,7 @@ map('n', 't}', [[<cmd>Telescope tags<CR>]])
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
 wk.register({
-  ['<leader>p'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
+  ['<leader>o'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
 })
 
 -- LSP
