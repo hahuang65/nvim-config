@@ -64,12 +64,14 @@ map('t', '<M-~>', '<C-\\><C-n>:Vterminal Terminal<CR>')
 wk.register({
   ['<leader>g']  = { name = "Git" },
   ['<leader>gg'] = { ':Git<CR>', "Fugitive" },
+  ['<leader>go'] = { ':Git repo view --web<CR>', "Open repository in browser" },
   ['<leader>gp'] = { ':Git publish<CR>', "Publish" },
+  ['<leader>gr'] = { ':Git pr list --web<CR>', "List open PRs in browser" },
+  ['<leader>gt'] = { ':Git retrunk<CR>', "Re-Trunk" },
+  ['<leader>gs'] = { ':Git sync<CR>', "Sync" },
   ['<leader>gA'] = { ':Git amend<CR>', "Amend" },
-  ['<leader>gR'] = { ':Git retrunk<CR>', "Re-Trunk" },
-  ['<leader>gS'] = { ':Git sync<CR>', "Sync" },
-  ['<leader>gP'] = { ':Git publish<CR>', "Publish" },
-  ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" }
+  ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
+  ['<leader>gO'] = { ':Git pr view --web<CR>', "Open PR in browser" }
 })
 
 -- vim-fugitive: conflicts
