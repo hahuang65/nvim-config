@@ -3,8 +3,8 @@ packages:
 - git
 - jq
 secrets:
-- 332fae1e-c987-4059-9a4f-b1065d250e5d
-- 1f2d52de-0f93-4a9e-a750-88298d486f36
+- ac689c78-6425-43a3-b152-41116ad5aca4
+- 5f32a031-c12a-47dd-aa57-5545b970b0ba
 tasks:
 - mirror: |
     set +x
