@@ -6,10 +6,12 @@ require'nvim-tree'.setup {
   update_cwd = true,
   update_focused_file = {
     enable = true
+  },
+  filters = {
+    custom = { '.git', 'node_modules' } -- Ignore certain subdirectories/files
   }
 }
 
-vim.g.nvim_tree_ignore = { '.git', 'node_modules' } -- Ignore certain subdirectories/files
 vim.g.nvim_tree_indent_markers = 1                  -- Show indentation markers for subdirectories
 vim.g.nvim_tree_add_trailing = 1                    -- Adds a trailing `/` to denote directories
 vim.g.nvim_tree_group_empty = 1                     -- If a directory has a single child, combine into 1 entry

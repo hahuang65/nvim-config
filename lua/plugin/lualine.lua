@@ -238,7 +238,7 @@ ins_left {'progress', color = {fg = Colors.fg, gui = 'bold'}}
 
 ins_left_with_inactive {
   'diagnostics',
-  sources = {'nvim_lsp'},
+  sources = {'nvim_diagnostic'},
   symbols = {error = ' ', warn = ' ', info = ' '},
   color_error = Colors.red,
   color_warn = Colors.yellow,
