@@ -29,6 +29,14 @@ wk.register({
   ['<leader>p']  = { '"+p', "Paste (from system clipboard)" },
 })
 
+-- Pairs
+map('i', '{', '{}<C-g>u<Left>')
+map('i', '[', '[]<C-g>u<Left>')
+map('i', '(', '()<C-g>u<Left>')
+map('i', '{<CR>', '{<CR>}<C-g>u<C-o>O')
+map('i', '[<CR>', '[<CR>]<C-g>u<C-o>O')
+map('i', '(<CR>', '(<CR>)<C-g>u<C-o>O')
+
 -- Make
 wk.register({
   ['<leader>m']  = { name = "Make" },
