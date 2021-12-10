@@ -74,6 +74,10 @@ return require('packer').startup(function()
     config = function() require'plugin/lsp' end
   }
 
+  use { 'numToStr/Comment.nvim',
+    config = function() require'plugin/comment' end
+  }
+
   use { 'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/popup.nvim',
@@ -108,7 +112,6 @@ return require('packer').startup(function()
     config = function() require'plugin/shade' end
   }
 
-  use { 'tpope/vim-commentary' }
   use { 'tpope/vim-fugitive' }
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
