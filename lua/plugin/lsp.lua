@@ -3,6 +3,7 @@
 -- Enumerate the LSP servers desired
 -- npm install -g bash-language-server
 -- npm install -g dockerfile-language-server-nodejs
+-- brew install gopls / paru -S gopls
 -- brew install hashicorp/tap/terraform-ls / paru -S terraform-ls
 -- pip install 'python-lsp-server' (run `asdf reshim python` to get the executable accessible)
 -- paru -S rust-analyzer / brew install rust-analyzer
@@ -12,6 +13,7 @@
 local servers = {
   'bashls',
   'dockerls',
+  'gopls',
   'pylsp',
   'rust_analyzer',
   'solargraph',
