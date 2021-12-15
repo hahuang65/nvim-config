@@ -124,8 +124,8 @@ wk.register({
 wk.register({
   ['<leader>g']  = { name = "Git" },
   ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
-  ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commit (Buffer)" },
-  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]], "Commit (Project)" }
+  ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commits (Buffer)" },
+  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]], "Commits (Project)" }
 })
 
 wk.register({
@@ -142,7 +142,7 @@ map('n', 't}', [[<cmd>Telescope tags<CR>]])
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
 wk.register({
-  ['<leader>o'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
+  ['<leader>o'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Open Projects" }
 })
 
 -- LSP
