@@ -38,10 +38,22 @@ wk.register({
   ['<leader>mm'] = { ':lmake! %:<C-r>=line(".")<CR><CR>', "Make (Line)" }
 })
 
+-- Test
+wk.register({
+  ['<leader>t']  = { name = "Test" },
+  ['<leader>ta'] = { ':TestSuite<CR>', "Test All" },
+  ['<leader>tf'] = { ':TestFile<CR>', "Test File" },
+  ['<leader>tt'] = { ':TestNearest<CR>', "Test Nearest" }
+})
+
 -- Quickfix and Location List
 wk.register({
   ['<leader>l'] = { ':lopen<CR>', "Location List" },
-  ['<leader>q'] = { ':copen<CR>', "Quickfix List" }
+  ['<leader>q'] = { ':copen<CR>', "Quickfix List" },
+  [']q']        = { ':cnext<CR>', "Next Quickfix Entry" },
+  ['[q']        = { ':cprev<CR>', "Previous Quickfix Entry" },
+  [']l']        = { ':lnext<CR>', "Next Location List Entry" },
+  ['[l']        = { ':lprev<CR>', "Previous Location List Entry" }
 })
 
 -- Terminal: navigation

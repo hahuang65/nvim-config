@@ -126,6 +126,10 @@ return require('packer').startup(function()
     config = function() require'plugin/blamer' end
   }
 
+  use { 'vim-test/vim-test',
+    config = function() require'plugin/test' end
+  }
+
   use { 'wbthomason/packer.nvim' }
 
   -- Languages
