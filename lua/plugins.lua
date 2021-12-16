@@ -143,5 +143,9 @@ return require('packer').startup(function()
     ft = { 'coffee' }
   }
 
+  use { 'ray-x/go.nvim',
+    config = function() require'plugin/go' end
+  }
+
   use { 'tpope/vim-rails' }
 end)

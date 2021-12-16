@@ -42,3 +42,8 @@ augroup('rspec', {
   'BufNewFile,BufRead *_spec.rb,*_shared_examples.rb,*_shared_context.rb compiler rspec | set makeprg=bin/rspec',
   'User Rails compiler rspec' -- https://github.com/tpope/vim-rails/issues/535 this needs to be set for quickfix to be correct when running tests on non-test files from vim-test
 })
+
+-- Go, requires ray-x/go.nvim
+augroup('golang', {
+  "BufWritePre *.go :silent! lua require('go.format').gofmt()"
+})
