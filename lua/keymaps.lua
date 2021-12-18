@@ -176,6 +176,22 @@ wk.register({
   ['<leader>gr'] = { [[<cmd>lua require"gitsigns".reset_hunk()<CR>]], "Reset Hunk" }
 })
 
+-- delve
+-- https://github.com/sebdah/vim-delve
+-- These are in a function so that they can be loaded ONLY for Go buffers.
+function delve_keymaps(bufnr)
+  wk.register({
+    ['<leader>d']  = { name = "Debug" },
+    ['<leader>dd'] = { [[:DlvToggleBreakpoint<CR>]], "Toggle Breakpoint" },
+    ['<leader>dD'] = { [[:DlvToggleTracepoint<CR>]], "Toggle Tracepoint" },
+    ['<leader>dr'] = { [[:DlvDebug<CR>]],            "Delve Debug (main packages)" },
+    ['<leader>dR'] = { [[:DlvDebug]],                "Delve Debug w/ flags" },
+    ['<leader>dt'] = { [[:DlvTest<CR>]],             "Delve Test (non-main packages)" },
+    ['<leader>dT'] = { [[:DlvTest]],                 "Delve Test w/flags" }
+  }, { buffer = bufnr })
+end
+
 return {
-  lsp_keymaps = lsp_keymaps
+  lsp_keymaps = lsp_keymaps,
+  delve_keymaps = delve_keymaps
 }

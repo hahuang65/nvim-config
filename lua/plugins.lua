@@ -138,14 +138,15 @@ return require('packer').startup(function()
     config = function() require'plugin/terraform' end
   }
 
-  use {
-    'kchmck/vim-coffee-script',
+  use { 'kchmck/vim-coffee-script',
     ft = { 'coffee' }
   }
 
   use { 'ray-x/go.nvim',
     config = function() require'plugin/go' end
   }
+
+  use { 'sebdah/vim-delve' }
 
   use { 'tpope/vim-rails' }
 end)
