@@ -18,14 +18,19 @@ cmp.setup({
   mapping = {
     ['<C-d>']     = cmp.mapping.scroll_docs(-4),
     ['<C-f>']     = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>']     = cmp.mapping.close(),
-    ['<Tab>']     = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
-    ['<S-Tab>']   = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' })
+    ['<C-e>']     = cmp.mapping({
+      i           = cmp.mapping.abort(),
+      c           = cmp.mapping.close()
+    }),
+    ["<c-y>"]     = cmp.mapping.confirm({
+        behavior  = cmp.ConfirmBehavior.Replace,
+        select    = true,
+    })
   },
-  preselect = cmp.PreselectMode.None,
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'nvim_lua' },
+    { name = 'path' },
     { name = 'org_mode' },
 
     -- For vsnip user.
@@ -37,6 +42,21 @@ cmp.setup({
     -- For ultisnips user.
     -- { name = 'ultisnips' },
 
-    { name = 'buffer' },
-  }
+    { name = 'buffer', keyword_length = 5 },
+  },
+  experimental = {
+    native_menu = false,
+    ghost_text = true,
+  },
+  formatting = {
+    format = require'lspkind'.cmp_format({
+      with_text = true,
+      menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        nvim_lua = "[Lua]",
+        path = "[Path]"
+      })
+    }),
+  },
 })
