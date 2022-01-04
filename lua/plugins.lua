@@ -130,6 +130,7 @@ return require('packer').startup(function()
   }
 
   use { 'vim-test/vim-test',
+    requires = { 'tpope/vim-dispatch' }, -- Auto-determine compiler for tests
     config = function() require'plugin/test' end
   }
 
@@ -137,19 +138,14 @@ return require('packer').startup(function()
 
   -- Languages
 
+  use { 'fatih/vim-go',
+    config = function() require'plugin/go' end
+  }
+
   use { 'hashivim/vim-terraform',
     config = function() require'plugin/terraform' end
   }
 
-  use { 'kchmck/vim-coffee-script',
-    ft = { 'coffee' }
-  }
-
-  use { 'ray-x/go.nvim',
-    config = function() require'plugin/go' end
-  }
-
   use { 'sebdah/vim-delve' }
-
   use { 'tpope/vim-rails' }
 end)

@@ -45,6 +45,6 @@ augroup('rspec', {
 
 -- Go, requires ray-x/go.nvim
 augroup('golang', {
-  "BufWritePre *.go :silent! lua require('go.format').gofmt()",
+  "FileType go :lua require'keymaps'.go_keymaps('.')",
   "FileType go :lua require'keymaps'.delve_keymaps('.')"
 })

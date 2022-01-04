@@ -1,3 +1,4 @@
--- https://github.com/ray-x/go.nvim
+-- https://github.com/fatih/vim-go
 
-require('go').setup()
+vim.g['go_jump_to_error'] = 0
+vim.g['go_fmt_fail_silently'] = 1

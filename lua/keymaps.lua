@@ -191,7 +191,19 @@ function delve_keymaps(bufnr)
   }, { buffer = bufnr })
 end
 
+-- Go
+-- https://github.com/fatih/vim-go
+-- These are in a function so that they can be loaded ONLY for Go buffers.
+-- Remove these if https://github.com/vim-test/vim-test/issues/617 gets fixed
+function go_keymaps(bufnr)
+  wk.register({
+    ['<leader>ta'] = { ':GoTest!<CR>', "Test Package" },
+    ['<leader>tf'] = { ':GoTest!<CR>', "Test Package" },
+    ['<leader>tt'] = { ':GoTestFunc!<CR>)', "Test Nearest" }
+  }, { buffer = bufnr })
+end
 return {
   lsp_keymaps = lsp_keymaps,
-  delve_keymaps = delve_keymaps
+  delve_keymaps = delve_keymaps,
+  go_keymaps = go_keymaps
 }
