@@ -53,11 +53,6 @@ return require('packer').startup(function()
     config = function() require'plugin/hlslens' end
   }
 
-  use { 'kristijanhusak/orgmode.nvim',
-    ft = { 'org' },
-    config = function() require'plugin/orgmode' end
-  }
-
   use { 'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function() require'plugin/nvim-tree' end
