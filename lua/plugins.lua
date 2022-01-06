@@ -10,6 +10,11 @@ end
 return require('packer').startup(function()
   use { 'airblade/vim-rooter' }
 
+  use { "catppuccin/nvim",
+    as = "catppuccin",
+    config = function() require'plugin/catppuccin' end
+  }
+
   use { 'dstein64/vim-startuptime',
     opt = true,
     cmd = 'StartupTime'

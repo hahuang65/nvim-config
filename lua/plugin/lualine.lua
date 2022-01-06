@@ -4,18 +4,33 @@
 local lualine = require 'lualine'
 
 -- Tokyo Night Storm
+-- Colors = {
+--   bg       = '#414868',
+--   fg       = '#a9b1d6',
+--   yellow   = '#e0af68',
+--   cyan     = '#7dcfff',
+--   darkblue = '#2ac3de',
+--   green    = '#73daca',
+--   orange   = '#ff9e64',
+--   magenta  = '#bb9af7',
+--   blue     = '#7aa2f7',
+--   red      = '#f7768e',
+--   inactive = '#24283b'
+-- }
+
+-- Catppuccin
 Colors = {
-  bg       = '#414868',
-  fg       = '#a9b1d6',
-  yellow   = '#e0af68',
-  cyan     = '#7dcfff',
-  darkblue = '#2ac3de',
-  green    = '#73daca',
-  orange   = '#ff9e64',
-  magenta  = '#bb9af7',
-  blue     = '#7aa2f7',
-  red      = '#f7768e',
-  inactive = '#24283b'
+  bg       = '#575268',
+  fg       = '#DEDDF0',
+  yellow   = '#ECDDAA',
+  cyan     = '#92D2E8',
+  darkblue = '#C9CBFF',
+  green    = '#B1E1A6',
+  orange   = '#F7BE95',
+  magenta  = '#C6AAE8',
+  blue     = '#A3B9EF',
+  red      = '#E38C8F',
+  inactive = '#6E6C7E'
 }
 
 local conditions = {
