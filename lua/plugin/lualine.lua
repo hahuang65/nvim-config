@@ -20,7 +20,7 @@ local lualine = require 'lualine'
 
 -- Catppuccin
 Colors = {
-  bg       = '#575268',
+  bg       = '#332E41',
   fg       = '#DEDDF0',
   yellow   = '#ECDDAA',
   cyan     = '#92D2E8',
