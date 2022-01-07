@@ -4,15 +4,9 @@ local cmp = require'cmp'
 
 cmp.setup({
   snippet = {
+    -- REQUIRED - you must specify a snippet engine
     expand = function(args)
-      -- For `vsnip` user.
-      -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` user.
-
-      -- For `luasnip` user.
-      -- require('luasnip').lsp_expand(args.body)
-
-      -- For `ultisnips` user.
-      -- vim.fn["vsnip#anonymous"](args.body)
+      require('snippy').expand_snippet(args.body)
     end,
   },
   mapping = {
@@ -29,19 +23,9 @@ cmp.setup({
   },
   sources = {
     { name = 'nvim_lsp' },
+    { name = 'snippy' },
     { name = 'nvim_lua' },
     { name = 'path' },
-    { name = 'org_mode' },
-
-    -- For vsnip user.
-    -- { name = 'vsnip' },
-
-    -- For luasnip user.
-    -- { name = 'luasnip' },
-
-    -- For ultisnips user.
-    -- { name = 'ultisnips' },
-
     { name = 'buffer', keyword_length = 5 },
   },
   experimental = {
