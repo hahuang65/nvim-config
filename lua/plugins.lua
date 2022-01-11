@@ -22,6 +22,10 @@ return require('packer').startup(function()
     cmd = 'StartupTime'
   }
 
+  use { 'f-person/git-blame.nvim',
+    config = function() require'plugin/git-blame' end
+  }
+
   use { 'folke/tokyonight.nvim',
     config = function() require'plugin/tokyonight' end
   }
@@ -126,10 +130,6 @@ return require('packer').startup(function()
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
   use { 'tpope/vim-unimpaired' }
-
-  use { 'ttys3/nvim-blamer.lua',
-    config = function() require'plugin/blamer' end
-  }
 
   use { 'vim-test/vim-test',
     requires = { 'tpope/vim-dispatch' }, -- Auto-determine compiler for tests
