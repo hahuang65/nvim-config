@@ -7,18 +7,18 @@ catppuccin.setup {
   term_colors = true,
   styles = {
     comments = "italic",
-    functions = "italic",
-    keywords = "italic",
+    functions = "bold",
+    keywords = "underline",
     strings = "NONE",
-    variables = "italic",
+    variables = "NONE",
   },
   integrations = {
     treesitter = true,
     native_lsp = {
       enabled = true,
       virtual_text = {
-        errors = "italic",
-        hints = "italic",
+        errors = "bold,italic",
+        hints = "underline",
         warnings = "italic",
         information = "italic",
       },
