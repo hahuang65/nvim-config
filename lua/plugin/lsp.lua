@@ -1,4 +1,5 @@
 -- https://github.com/neovim/nvim-lspconfig
+-- https://github.com/j-hui/fidget.nvim
 
 -- Enumerate the LSP servers desired
 -- npm install -g bash-language-server
@@ -148,5 +149,15 @@ require'lspconfig'.sumneko_lua.setup {
         enable = false,
       }
     }
+  }
+}
+
+require'fidget'.setup{
+  text = {
+    spinner = "dots",
+    done = "✅"
+  },
+  timer = {
+    fidget_decay = -1 -- Always show
   }
 }

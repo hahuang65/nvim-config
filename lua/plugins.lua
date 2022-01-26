@@ -34,12 +34,6 @@ return require('packer').startup(function()
     config = function() require'plugin/which-key' end
   }
 
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-    config = function() require'plugin/lualine' end
-  }
-
   use { 'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-buffer',
@@ -85,11 +79,19 @@ return require('packer').startup(function()
   }
 
   use { 'neovim/nvim-lsp',
+    requires = {
+      'j-hui/fidget.nvim'
+    },
     config = function() require'plugin/lsp' end
   }
 
   use { 'numToStr/Comment.nvim',
     config = function() require'plugin/comment' end
+  }
+
+  use { 'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function() require'plugin/lualine' end
   }
 
   use { 'nvim-telescope/telescope.nvim',
