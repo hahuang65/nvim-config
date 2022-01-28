@@ -94,6 +94,13 @@ return require('packer').startup(function()
     config = function() require'plugin/lualine' end
   }
 
+  use { 'nvim-orgmode/orgmode',
+    requires = {
+      'akinsho/org-bullets.nvim'
+    },
+    config = function() require'plugin/orgmode' end
+  }
+
   use { 'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/popup.nvim',

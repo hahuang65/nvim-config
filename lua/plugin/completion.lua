@@ -24,6 +24,7 @@ cmp.setup({
   sources = {
     { name = 'nvim_lsp' },
     { name = 'snippy' },
+    { name = 'orgmode' },
     { name = 'nvim_lua' },
     { name = 'path' },
     { name = 'buffer', keyword_length = 5 },
