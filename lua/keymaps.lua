@@ -142,7 +142,7 @@ map('n', 't}', [[<cmd>Telescope tags<CR>]])
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
 wk.register({
-  ['<leader>o'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Open Projects" }
+  ['<leader>P'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
 })
 
 -- LSP
@@ -202,8 +202,35 @@ function go_keymaps(bufnr)
     ['<leader>tt'] = { ':GoTestFunc!<CR>)', "Test Nearest" }
   }, { buffer = bufnr })
 end
+
+-- Orgmode
+-- https://github.com/nvim-orgmode/orgmode
+-- These are in a function so that they can be loaded ONLY for Org buffers.
+function org_keymaps(bufnr)
+  wk.register({
+    ['<leader>o']  = { name = "Orgmode" },
+    ['<leader>o$'] = { '<Cmd>lua require("orgmode").action("org_mappings.archive")<CR>', "Archive Subtree" },
+    ["<leader>o'"] = { '<Cmd>lua require("orgmode").action("org_mappings.edit_special")<CR>', "Edit Code Block" },
+    ['<leader>o*'] = { '<Cmd>lua require("orgmode").action("org_mappings.toggle_heading")<CR>', "Toggle Headline" },
+    ['<leader>o,'] = { '<Cmd>lua require("orgmode").action("org_mappings.set_priority")<CR>', "Set Priority" },
+    ['<leader>oa'] = { '<Cmd>lua require("orgmode").action("agenda.prompt")<CR>', "Open Agenda" },
+    ['<leader>oo'] = { '<Cmd>lua require("orgmode").action("org_mappings.open_at_point")<CR>', "Follow Link/Date" },
+    ['<leader>or'] = { '<Cmd>lua require("orgmode").action("capture.refile_headline_to_destination")<CR>', "Refile" },
+    ['<leader>ot'] = { '<Cmd>lua require("orgmode").action("org_mappings.set_tags")<CR>', "Tag" },
+    ['<leader>oi'] = { name = "Insert" },
+    ['<leader>oid'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_deadline")<CR>', "Deadline" },
+    ['<leader>ois'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_schedule")<CR>', "Schedule" },
+    ['<leader>oi.'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_timestamp")<CR>', "Timestamp" },
+    ['<leader>oi!'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_timestamp", "true")<CR>', "Timestamp (Inactive)" },
+    ['<leader>oit'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_todo_heading_respect_content")<CR>', "TODO" },
+    ['<leader>oiT'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_todo_heading")<CR>', "TODO (Immediate)" },
+    ['<leader>oih'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_heading_respect_content")<CR>', "Heading" },
+    ['<leader>ox'] = { name = "Insert" },
+  }, { buffer = bufnr })
+end
 return {
   lsp_keymaps = lsp_keymaps,
   delve_keymaps = delve_keymaps,
-  go_keymaps = go_keymaps
+  go_keymaps = go_keymaps,
+  org_keymaps = org_keymaps
 }
