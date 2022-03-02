@@ -179,7 +179,7 @@ wk.register({
 -- delve
 -- https://github.com/sebdah/vim-delve
 -- These are in a function so that they can be loaded ONLY for Go buffers.
-function delve_keymaps(bufnr)
+function delve_keymaps()
   wk.register({
     ['<leader>d']  = { name = "Debug" },
     ['<leader>dd'] = { [[:DlvToggleBreakpoint<CR>]], "Toggle Breakpoint" },
@@ -188,46 +188,58 @@ function delve_keymaps(bufnr)
     ['<leader>dR'] = { [[:DlvDebug]],                "Delve Debug w/ flags" },
     ['<leader>dt'] = { [[:DlvTest<CR>]],             "Delve Test (non-main packages)" },
     ['<leader>dT'] = { [[:DlvTest]],                 "Delve Test w/flags" }
-  }, { buffer = bufnr })
+  }, { buffer = 0 })
 end
 
 -- Go
 -- https://github.com/fatih/vim-go
 -- These are in a function so that they can be loaded ONLY for Go buffers.
 -- Remove these if https://github.com/vim-test/vim-test/issues/617 gets fixed
-function go_keymaps(bufnr)
+function go_keymaps()
   wk.register({
     ['<leader>ta'] = { ':GoTest!<CR>', "Test Package" },
     ['<leader>tf'] = { ':GoTest!<CR>', "Test Package" },
     ['<leader>tt'] = { ':GoTestFunc!<CR>)', "Test Nearest" }
-  }, { buffer = bufnr })
+  }, { buffer = 0 })
 end
 
 -- Orgmode
 -- https://github.com/nvim-orgmode/orgmode
 -- These are in a function so that they can be loaded ONLY for Org buffers.
-function org_keymaps(bufnr)
+function org_keymaps()
   wk.register({
     ['<leader>o']  = { name = "Orgmode" },
-    ['<leader>o$'] = { '<Cmd>lua require("orgmode").action("org_mappings.archive")<CR>', "Archive Subtree" },
     ["<leader>o'"] = { '<Cmd>lua require("orgmode").action("org_mappings.edit_special")<CR>', "Edit Code Block" },
+    ['<leader>o$'] = { '<Cmd>lua require("orgmode").action("org_mappings.archive")<CR>', "Archive Subtree" },
     ['<leader>o*'] = { '<Cmd>lua require("orgmode").action("org_mappings.toggle_heading")<CR>', "Toggle Headline" },
     ['<leader>o,'] = { '<Cmd>lua require("orgmode").action("org_mappings.set_priority")<CR>', "Set Priority" },
+    ['<leader>oA'] = { '<Cmd>lua require("orgmode").action("agenda.toggle_archive_tag")<CR>', "Toggle Archive" },
+    ['<leader>oJ'] = { '<Cmd>lua require("orgmode").action("org_mappings.move_subtree_down")<CR>', "Move Subtree Down" },
+    ['<leader>oK'] = { '<Cmd>lua require("orgmode").action("org_mappings.move_subtree_up")<CR>', "Move Subtree Up" },
     ['<leader>oa'] = { '<Cmd>lua require("orgmode").action("agenda.prompt")<CR>', "Open Agenda" },
+    ['<leader>oc'] = { '<Cmd>lua require("orgmode").action("capture.prompt")<CR>', "Capture" },
+    ['<leader>oe'] = { '<Cmd>lua require("orgmode").action("org_mappings.export")<CR>', "Export" },
+    ['<leader>ok'] = { '<Cmd>lua require("orgmode").action("capture.kill")<CR>', "Kill Capture" },
     ['<leader>oo'] = { '<Cmd>lua require("orgmode").action("org_mappings.open_at_point")<CR>', "Follow Link/Date" },
     ['<leader>or'] = { '<Cmd>lua require("orgmode").action("capture.refile_headline_to_destination")<CR>', "Refile" },
     ['<leader>ot'] = { '<Cmd>lua require("orgmode").action("org_mappings.set_tags")<CR>', "Tag" },
     ['<leader>oi'] = { name = "Insert" },
-    ['<leader>oid'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_deadline")<CR>', "Deadline" },
-    ['<leader>ois'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_schedule")<CR>', "Schedule" },
-    ['<leader>oi.'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_timestamp")<CR>', "Timestamp" },
     ['<leader>oi!'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_timestamp", "true")<CR>', "Timestamp (Inactive)" },
-    ['<leader>oit'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_todo_heading_respect_content")<CR>', "TODO" },
+    ['<leader>oi.'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_timestamp")<CR>', "Timestamp" },
     ['<leader>oiT'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_todo_heading")<CR>', "TODO (Immediate)" },
+    ['<leader>oid'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_deadline")<CR>', "Deadline" },
     ['<leader>oih'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_heading_respect_content")<CR>', "Heading" },
-    ['<leader>ox'] = { name = "Insert" },
-  }, { buffer = bufnr })
+    ['<leader>ois'] = { '<Cmd>lua require("orgmode").action("org_mappings.org_schedule")<CR>', "Schedule" },
+    ['<leader>oit'] = { '<Cmd>lua require("orgmode").action("org_mappings.insert_todo_heading_respect_content")<CR>', "TODO" },
+    ['<leader>ox'] = { name = "Clock" },
+    ['<leader>oxe'] = { '<Cmd>lua require("orgmode").action("agenda.set_effort")<CR>', "Set Effort" },
+    ['<leader>oxi'] = { '<Cmd>lua require("orgmode").action("agenda.clock_in")<CR>', "Clock In" },
+    ['<leader>oxj'] = { '<Cmd>lua require("orgmode").action("clock.org_clock_goto")<CR>', "Goto Clock" },
+    ['<leader>oxo'] = { '<Cmd>lua require("orgmode").action("agenda.clock_out")<CR>', "Clock Out" },
+    ['<leader>oxq'] = { '<Cmd>lua require("orgmode").action("agenda.clock_cancel")<CR>', "Cancel Clock" },
+  }, { buffer = 0 })
 end
+
 return {
   lsp_keymaps = lsp_keymaps,
   delve_keymaps = delve_keymaps,

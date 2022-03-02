@@ -45,13 +45,14 @@ augroup('rspec', {
 
 -- Go, requires ray-x/go.nvim
 augroup('golang', {
-  "FileType go :lua require'keymaps'.go_keymaps('.')",
-  "FileType go :lua require'keymaps'.delve_keymaps('.')"
+  "FileType go :lua require'keymaps'.go_keymaps()",
+  "FileType go :lua require'keymaps'.delve_keymaps()"
 })
 
 -- Orgmode
 augroup('orgmode', {
   "FileType org :set conceallevel=2",
   "FileType org :set concealcursor=nc",
-  "FileType org :lua require'keymaps'.org_keymaps('.')",
+  "FileType org :set autochdir",
+  "FileType org :lua require'keymaps'.org_keymaps()",
 })
