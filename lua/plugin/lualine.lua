@@ -46,6 +46,7 @@ local conditions = {
 -- Config
 local config = {
   options = {
+    globalstatus = true, -- Enable laststatus=3
     -- Disable sections and component separators
     component_separators = "",
     section_separators = "",

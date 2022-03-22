@@ -6,12 +6,12 @@ local function map(mode, lhs, rhs, opts)
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-local function buf_map(bufnr, mode, lhs, rhs, opts)
+local function buf_map(mode, lhs, rhs, opts)
     local options = {noremap = true, silent = true}
     if opts then
         options = vim.tbl_extend("force", options, opts)
     end
-    vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, options)
+    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, options)
 end
 
 local wk = require("which-key")
@@ -149,20 +149,20 @@ wk.register({
 -- https://github.com/neovim/nvim-lspconfig
 -- These are in a function because they are bound when an LSP is attached.
 -- lua/plugin/lsp.lua will load this function when the time is right
-function lsp_keymaps(bufnr)
-  buf_map(bufnr, 'n', 'gD',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-  buf_map(bufnr, 'n', 'gd',         '<Cmd>lua vim.lsp.buf.definition()<CR>')
-  buf_map(bufnr, 'n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>')
-  buf_map(bufnr, 'n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  buf_map(bufnr, 'n', '<leader>k',  '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-  buf_map(bufnr, 'n', '<leader>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  buf_map(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map(bufnr, 'n', 'gr',         '<cmd>Telescope lsp_references<CR>')
-  buf_map(bufnr, 'n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  buf_map(bufnr, 'n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map(bufnr, 'n', '<leader>ll', '<cmd>Telescope lsp_document_diagnostics<CR>')
-  buf_map(bufnr, 'n', 'g]',         '<cmd>Telescope lsp_document_symbols<CR>')
-  buf_map(bufnr, 'n', 'g}',         '<cmd>Telescope lsp_workspace_symbols<CR>')
+function lsp_keymaps()
+  buf_map('n', 'gD',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
+  buf_map('n', 'gd',         '<Cmd>lua vim.lsp.buf.definition()<CR>')
+  buf_map('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>')
+  buf_map('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
+  buf_map('n', '<leader>k',  '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+  buf_map('n', '<leader>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+  buf_map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+  buf_map('n', 'gr',         '<cmd>Telescope lsp_references<CR>')
+  buf_map('n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  buf_map('n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+  buf_map('n', '<leader>ll', '<cmd>Telescope lsp_document_diagnostics<CR>')
+  buf_map('n', 'g]',         '<cmd>Telescope lsp_document_symbols<CR>')
+  buf_map('n', 'g}',         '<cmd>Telescope lsp_workspace_symbols<CR>')
 end
 
 -- gitsigns

@@ -59,11 +59,11 @@ opt.smartcase  = true      -- Case sensitivity based on searched text
 opt.scrolloff     = 20 -- Start scrolling the window before the top/bottom margins
 opt.sidescrolloff = 20 -- Start scrolling the window before the side margins
 opt.sidescroll    = 1  -- Scroll in steps of 1 character when at the edge of the window
- 
+
  -- Splits
  opt.splitbelow = true -- Split to the bottom instead of the top
  opt.splitright = true -- Split to the right instead of left
- 
+
 -- Completion
 opt.completeopt = { 'menu', 'menuone', 'noselect' } -- Show completion even when only 1 result, but do not auto-select first result
 opt.shortmess   = opt.shortmess + 'cI'              -- Skip completion pop-up messages
@@ -73,3 +73,15 @@ opt.undofile = true -- Enable undo
 
 -- Auto Reload
 opt.autoread = true
+
+-- Statusbar and separators
+opt.laststatus = 3 -- Global statusbar
+opt.fillchars  = {
+  horiz     = '━',
+  horizup   = '┻',
+  horizdown = '┳',
+  vert      = '┃',
+  vertleft  = '┫',
+  vertright = '┣',
+  verthoriz = '╋',
+}
