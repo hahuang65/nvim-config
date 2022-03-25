@@ -17,7 +17,9 @@ end
 local wk = require("which-key")
 
 -- Editing
-map('n', 'gp', '`[v`]')
+wk.register({
+  ['gp'] = { '`[v`]', 'Select Previous Edit' }
+})
 map('v', '>',  '>gv')
 map('v', '<',  '<gv')
 
@@ -32,17 +34,17 @@ wk.register({
 -- Make
 wk.register({
   ['<leader>m']  = { name = "Make" },
-  ['<leader>m:'] = { ':make! ', "Make (Prompt)" },
-  ['<leader>ma'] = { ':make!<CR>', "Make" },
-  ['<leader>mf'] = { ':lmake! %<CR>', "Make (File)" },
+  ['<leader>m:'] = { ':make! ',                           "Make (Prompt)" },
+  ['<leader>ma'] = { ':make!<CR>',                        "Make" },
+  ['<leader>mf'] = { ':lmake! %<CR>',                     "Make (File)" },
   ['<leader>mm'] = { ':lmake! %:<C-r>=line(".")<CR><CR>', "Make (Line)" }
 })
 
 -- Test
 wk.register({
   ['<leader>t']  = { name = "Test" },
-  ['<leader>ta'] = { ':TestSuite<CR>', "Test All" },
-  ['<leader>tf'] = { ':TestFile<CR>', "Test File" },
+  ['<leader>ta'] = { ':TestSuite<CR>',   "Test All" },
+  ['<leader>tf'] = { ':TestFile<CR>',    "Test File" },
   ['<leader>tt'] = { ':TestNearest<CR>', "Test Nearest" }
 })
 
@@ -83,17 +85,17 @@ map('t', '<M-~>', '<C-\\><C-n>:Vterminal Terminal<CR>')
 -- https://github.com/tpope/vim-fugitive
 wk.register({
   ['<leader>g']  = { name = "Git" },
-  ['<leader>gg'] = { ':Git<CR>', "Fugitive" },
-  ['<leader>go'] = { ':Git repo view --web<CR>', "Open repository in browser" },
-  ['<leader>gp'] = { ':Git publish<CR>', "Publish" },
-  ['<leader>gr'] = { ':Git pr list --web<CR>', "List open PRs in browser" },
-  ['<leader>gt'] = { ':Git retrunk<CR>', "Re-Trunk" },
-  ['<leader>gs'] = { ':Git sync<CR>', "Sync" },
-  ['<leader>gA'] = { ':Git amend<CR>', "Amend" },
-  ['<leader>gN'] = { ':Git new', "New Branch" },
+  ['<leader>gg'] = { ':Git<CR>',                        "Fugitive" },
+  ['<leader>go'] = { ':Git repo view --web<CR>',        "Open repository in browser" },
+  ['<leader>gp'] = { ':Git publish<CR>',                "Publish" },
+  ['<leader>gr'] = { ':Git pr list --web<CR>',          "List open PRs in browser" },
+  ['<leader>gt'] = { ':Git retrunk<CR>',                "Rebase Against Trunk" },
+  ['<leader>gs'] = { ':Git sync<CR>',                   "Sync" },
+  ['<leader>gA'] = { ':Git amend<CR>',                  "Amend" },
+  ['<leader>gN'] = { ':Git new',                        "New Branch" },
   ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
-  ['<leader>gS'] = { ':Git shove<CR>', "Shove" },
-  ['<leader>gO'] = { ':Git pr view --web<CR>', "Open PR in browser" }
+  ['<leader>gS'] = { ':Git shove<CR>',                  "Shove" },
+  ['<leader>gO'] = { ':Git pr view --web<CR>',          "Open PR in browser" }
 })
 
 -- vim-fugitive: conflicts
@@ -111,35 +113,40 @@ map('n', '<C-\\>', ':NvimTreeToggle<CR>')
 -- https://github.com/nvim-telescope/telescope.nvim
 -- The 2 `g` bindings for buffer tags and tags should be overridden when LSP loads
 -- This just means that tags will be used for files without LSP, and LSP symbols will be used for files with LSP.
-map('n', 'g]',  [[<cmd>Telescope current_buffer_tags<CR>]])
-map('n', 'g}',  [[<cmd>Telescope tags<CR>]])
-map('n', 'g\\', [[<cmd>Telescope treesitter<CR>]])
+wk.register({
+  ['g]'] =  { [[<cmd>Telescope current_buffer_tags<CR>]], "Tags (Buffer)" },
+  ['g}'] =  { [[<cmd>Telescope tags<CR>]],                "Tags (Project)" },
+  ['g\\'] = { [[<cmd>Telescope treesitter<CR>]],          "Treesitter Symbols" }
+})
+
+-- These can be used to invoke ctags in an LSP-enabled project
+wk.register({
+  ['t]'] =  { [[<cmd>Telescope current_buffer_tags<CR>]], "Tags (Buffer)" },
+  ['t}'] =  { [[<cmd>Telescope tags<CR>]],                "Tags (Project)" },
+})
 
 wk.register({
-  ['<leader><leader>'] = { [[<cmd>lua find_project_files()<CR>]], "Files" },
-  ['<leader>?']        = { [[<cmd>Telescope live_grep<CR>]], "Grep (Project)" },
+  ['<leader><leader>'] = { [[<cmd>lua find_project_files()<CR>]],            "Files" },
+  ['<leader>?']        = { [[<cmd>Telescope live_grep<CR>]],                 "Grep (Project)" },
   ['<leader>/']        = { [[<cmd>Telescope current_buffer_fuzzy_find<CR>]], "Grep (Buffer)" },
-  ['<leader>*']        = { [[<cmd>Telescope grep_string<CR>]], "Grep (String)" },
-  ['<leader>b']        = { [[<cmd>Telescope buffers<CR>]], "Buffers" }
+  ['<leader>*']        = { [[<cmd>Telescope grep_string<CR>]],               "Grep (String)" },
+  ['<leader>b']        = { [[<cmd>Telescope buffers<CR>]],                   "Buffers" }
 })
 
 wk.register({
   ['<leader>g']  = { name = "Git" },
   ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
   ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commits (Buffer)" },
-  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]], "Commits (Project)" }
+  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]],  "Commits (Project)" }
 })
 
 wk.register({
   ['<leader>h']  = { name = "Help" },
-  ['<leader>hc'] = { [[<cmd>Telescope commands<CR>]], "Commands" },
+  ['<leader>hc'] = { [[<cmd>Telescope commands<CR>]],  "Commands" },
   ['<leader>hh'] = { [[<cmd>Telescope help_tags<CR>]], "Help Pages" },
-  ['<leader>hk'] = { [[<cmd>Telescope keymaps<CR>]], "Keymaps" },
+  ['<leader>hk'] = { [[<cmd>Telescope keymaps<CR>]],   "Keymaps" },
   ['<leader>hm'] = { [[<cmd>Telescope man_pages<CR>]], "Manpages" },
 })
-
-map('n', 't]', [[<cmd>Telescope current_buffer_tags<CR>]])
-map('n', 't}', [[<cmd>Telescope tags<CR>]])
 
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
@@ -172,44 +179,70 @@ end)
 wk.register({
   ['<leader>s'] = { name = "Snippets" },
   ['<leader>sr'] = { '<Cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>', "Reload Snippets" },
-  ['<leader>se'] = { '<Cmd>split $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>', "Edit Snippets" },
+  ['<leader>se'] = { '<Cmd>split $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>',  "Edit Snippets" },
 })
-
--- LSP
--- https://github.com/neovim/nvim-lspconfig
--- These are in a function because they are bound when an LSP is attached.
--- lua/plugin/lsp.lua will load this function when the time is right
-function lsp_keymaps()
-  buf_map('n', 'gD',         '<Cmd>lua vim.lsp.buf.declaration()<CR>')
-  buf_map('n', 'gd',         '<Cmd>lua vim.lsp.buf.definition()<CR>')
-  buf_map('n', 'K',          '<Cmd>lua vim.lsp.buf.hover()<CR>')
-  buf_map('n', 'gi',         '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  buf_map('n', '<leader>k',  '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-  buf_map('n', '<leader>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  buf_map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  buf_map('n', 'gr',         '<cmd>Telescope lsp_references<CR>')
-  buf_map('n', '[d',         '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-  buf_map('n', ']d',         '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  buf_map('n', '<leader>ll', '<cmd>Telescope lsp_document_diagnostics<CR>')
-  buf_map('n', 'g]',         '<cmd>Telescope lsp_document_symbols<CR>')
-  buf_map('n', 'g}',         '<cmd>Telescope lsp_workspace_symbols<CR>')
-end
 
 -- gitsigns
 -- https://github.com/lewis6991/gitsigns.nvim
-map('n', ']h',         [[&diff ? ']h' : '<cmd>lua require"gitsigns".next_hunk()<CR>']], { expr = true })
-map('n', '[h',         [[&diff ? '[h' : '<cmd>lua require"gitsigns".prev_hunk()<CR>']], { expr = true })
-map('o', 'ih',         [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]])
-map('x', 'ih',         [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]])
+wk.register({
+  [']h'] = { [[&diff ? ']h' : '<cmd>lua require"gitsigns".next_hunk()<CR>']], "Next Git Hunk",     expr = true },
+  ['[h'] = { [[&diff ? '[h' : '<cmd>lua require"gitsigns".prev_hunk()<CR>']], "Previous Git Hunk", expr = true }
+})
+
+wk.register({
+  ['ih'] = { [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]], "Select Git Hunk" }
+}, { mode = 'o' })
+
+wk.register({
+  ['ih'] = { [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]], "Select Git Hunk" }
+}, { mode = 'x' })
+
 wk.register({
   ['<leader>g']  = { name = "Git" },
   ['<leader>gr'] = { [[<cmd>lua require"gitsigns".reset_hunk()<CR>]], "Reset Hunk" }
 })
 
+-- comment.nvim
+-- https://github.com/numToStr/Comment.nvim
+wk.register({
+ ['gb'] =  { name = "Comment (Blockwise)" },
+ ['gbc'] = { "Toggle Block" }
+})
+
+wk.register({
+ ['gc'] =  { name = "Comment (Linewise)" },
+ ['gcc'] = { "Toggle Line" },
+ ['gco'] = { "Add comment below" },
+ ['gcA'] = { "Add comment above" },
+ ['gcO'] = { "Add comment above" },
+
+})
+-- LSP
+-- https://github.com/neovim/nvim-lspconfig
+-- These are in a function because they are bound when an LSP is attached.
+-- lua/plugin/lsp.lua will load this function when the time is right
+local function lsp_keymaps()
+  wk.register({
+    ['gD'] =         { '<Cmd>lua vim.lsp.buf.declaration()<CR>',      "Go to Declaration" },
+    ['gd'] =         { '<Cmd>lua vim.lsp.buf.definition()<CR>',       "Go to Definition" },
+    ['gi'] =         { '<Cmd>lua vim.lsp.buf.implementation()<CR>',   "Go to Implementation" },
+    ['gr'] =         { '<Cmd>Telescope lsp_references<CR>',           "Show Other References" },
+    ['gt'] =         { '<Cmd>lua vim.lsp.buf.type_definition()<CR>',  "Go to Type Definition" },
+    ['g]'] =         { '<Cmd>Telescope lsp_document_symbols<CR>',     "LSP Symbols (Buffer)" },
+    ['g}'] =         { '<Cmd>Telescope lsp_workspace_symbols<CR>',    "LSP Symbols (Project)" },
+    ['K'] =          { '<Cmd>lua vim.lsp.buf.hover()<CR>',            "Hover" },
+    ['[d'] =         { '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', "Previous Diagnostic" },
+    [']d'] =         { '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', "Next Diagnostic" },
+    ['<leader>k'] =  { '<Cmd>lua vim.lsp.buf.signature_help()<CR>',   "Show Signature Help" },
+    ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>', "List Diagnostics" },
+    ['<leader>rn'] = { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
+  }, { buffer = 0 })
+end
+
 -- delve
 -- https://github.com/sebdah/vim-delve
 -- These are in a function so that they can be loaded ONLY for Go buffers.
-function delve_keymaps()
+local function delve_keymaps()
   wk.register({
     ['<leader>d']  = { name = "Debug" },
     ['<leader>dd'] = { [[:DlvToggleBreakpoint<CR>]], "Toggle Breakpoint" },
@@ -225,18 +258,20 @@ end
 -- https://github.com/fatih/vim-go
 -- These are in a function so that they can be loaded ONLY for Go buffers.
 -- Remove these if https://github.com/vim-test/vim-test/issues/617 gets fixed
-function go_keymaps()
+local function go_keymaps()
   wk.register({
-    ['<leader>ta'] = { ':GoTest!<CR>', "Test Package" },
-    ['<leader>tf'] = { ':GoTest!<CR>', "Test Package" },
-    ['<leader>tt'] = { ':GoTestFunc!<CR>)', "Test Nearest" }
+    ['<leader>ta'] = { ':GoTest!<CR>',      "Test Go Package" },
+    ['<leader>tf'] = { ':GoTest!<CR>',      "Test Go Package" },
+    ['<leader>tt'] = { ':GoTestFunc!<CR>)', "Test Go Function" }
   }, { buffer = 0 })
 end
 
 -- Orgmode
 -- https://github.com/nvim-orgmode/orgmode
 -- These are in a function so that they can be loaded ONLY for Org buffers.
-function org_keymaps()
+-- Weirdly, which-key is UNABLE to just provide labels without un-binding the functions...
+-- So for now, we have to keep the mappings a bit more verbose by calling the functions specifically.
+local function org_keymaps()
   wk.register({
     ['<leader>o']  = { name = "Orgmode" },
     ["<leader>o'"] = { '<Cmd>lua require("orgmode").action("org_mappings.edit_special")<CR>', "Edit Code Block" },

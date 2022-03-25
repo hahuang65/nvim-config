@@ -7,7 +7,7 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.cmd('packadd packer.nvim')
 end
 
-return require('packer').startup(function()
+return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP warnings: https://github.com/wbthomason/packer.nvim/issues/243
   use { 'airblade/vim-rooter' }
 
   use { 'catppuccin/nvim',
@@ -141,7 +141,6 @@ return require('packer').startup(function()
   use { 'tpope/vim-fugitive' }
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
-  use { 'tpope/vim-unimpaired' }
 
   use { 'vim-test/vim-test',
     requires = { 'tpope/vim-dispatch' }, -- Auto-determine compiler for tests
