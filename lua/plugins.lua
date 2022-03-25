@@ -15,8 +15,6 @@ return require('packer').startup(function()
     config = function() require'plugin/catppuccin' end
   }
 
-  use { 'dcampos/nvim-snippy' }
-
   use { 'dstein64/vim-startuptime',
     opt = true,
     cmd = 'StartupTime'
@@ -40,7 +38,8 @@ return require('packer').startup(function()
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lua',
-      'onsails/lspkind-nvim'
+      'onsails/lspkind-nvim',
+      'saadparwaiz1/cmp_luasnip'
     },
     config = function() require'plugin/completion' end
   }
@@ -61,6 +60,10 @@ return require('packer').startup(function()
   use { 'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function() require'plugin/nvim-tree' end
+  }
+
+  use { 'L3MON4D3/LuaSnip',
+    config = function() require'plugin/snippets' end
   }
 
   use { 'lewis6991/gitsigns.nvim',

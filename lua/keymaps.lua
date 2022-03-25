@@ -3,15 +3,15 @@ local function map(mode, lhs, rhs, opts)
     if opts then
         options = vim.tbl_extend("force", options, opts)
     end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    vim.keymap.set(mode, lhs, rhs, options)
 end
 
 local function buf_map(mode, lhs, rhs, opts)
-    local options = {noremap = true, silent = true}
+    local options = {noremap = true, silent = true, buffer = true}
     if opts then
         options = vim.tbl_extend("force", options, opts)
     end
-    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, options)
+    vim.keymap.set(mode, lhs, rhs, options)
 end
 
 local wk = require("which-key")
@@ -90,7 +90,9 @@ wk.register({
   ['<leader>gt'] = { ':Git retrunk<CR>', "Re-Trunk" },
   ['<leader>gs'] = { ':Git sync<CR>', "Sync" },
   ['<leader>gA'] = { ':Git amend<CR>', "Amend" },
+  ['<leader>gN'] = { ':Git new', "New Branch" },
   ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
+  ['<leader>gS'] = { ':Git shove<CR>', "Shove" },
   ['<leader>gO'] = { ':Git pr view --web<CR>', "Open PR in browser" }
 })
 
@@ -143,6 +145,34 @@ map('n', 't}', [[<cmd>Telescope tags<CR>]])
 -- https://github.com/nvim-telescope/telescope-project.nvim
 wk.register({
   ['<leader>P'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
+})
+
+-- LuaSnip
+-- https://github.com/L3MON4D3/LuaSnip
+local ls = require"luasnip"
+
+map({'i', 's'}, '<C-k>', function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end)
+
+map({'i', 's'}, '<C-j>', function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end)
+
+map('i', '<C-l>', function()
+  if ls.choice_active then
+    ls.change_choice(1)
+  end
+end)
+
+wk.register({
+  ['<leader>s'] = { name = "Snippets" },
+  ['<leader>sr'] = { '<Cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>', "Reload Snippets" },
+  ['<leader>se'] = { '<Cmd>split $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>', "Edit Snippets" },
 })
 
 -- LSP
