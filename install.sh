@@ -9,3 +9,4 @@ elif [ -f "${PWD}/init.vim" ]; then
 fi
 
 ln -snf "${PWD}/lua" "${HOME}/.config/nvim/lua"
+ln -snf "${PWD}/ftplugin" "${HOME}/.config/nvim/ftplugin"

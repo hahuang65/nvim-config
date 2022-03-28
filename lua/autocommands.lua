@@ -36,30 +36,3 @@ augroup('terminal', {
   'TermOpen * startinsert',
   'TermClose * call nvim_input("<CR>")' -- Closes the terminal once the shell is exited
 })
-
--- Rspec
-augroup('rspec', {
-  'BufNewFile,BufRead *_spec.rb,*_shared_examples.rb,*_shared_context.rb compiler rspec | set makeprg=bin/rspec',
-  'User Rails compiler rspec' -- https://github.com/tpope/vim-rails/issues/535 this needs to be set for quickfix to be correct when running tests on non-test files from vim-test
-})
-
--- Go, requires ray-x/go.nvim
-augroup('golang', {
-  "FileType go :lua require'keymaps'.go_keymaps()",
-  "FileType go :lua require'keymaps'.delve_keymaps()"
-})
-
--- Orgmode
-augroup('orgmode', {
-  "FileType org :set conceallevel=2",
-  "FileType org :set concealcursor=nc",
-  "FileType org :set autochdir",
-  "FileType org :lua require'keymaps'.org_keymaps()",
-})
-
--- Orgmode
-augroup('orgmode', {
-  "FileType org :set conceallevel=2",
-  "FileType org :set concealcursor=nc",
-  "FileType org :lua require'keymaps'.org_keymaps('.')",
-})
