@@ -148,6 +148,13 @@ wk.register({
   ['<leader>hm'] = { [[<cmd>Telescope man_pages<CR>]], "Manpages" },
 })
 
+-- Shortcuts to edit special projects/files
+wk.register({
+  ['<leader>e']  = { name = "Edit" },
+  ['<leader>ed'] = { [[<cmd>lua find_dotfiles()<CR>]], "Dotfiles" },
+  ['<leader>ev'] = { [[<cmd>lua find_nvim()<CR>]],     "Neovim Config" }
+})
+
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
 wk.register({

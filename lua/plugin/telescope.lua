@@ -30,14 +30,14 @@ require('telescope').setup{
 
 require('telescope').load_extension('fzf')
 
-find_vim_config = function() 
+find_nvim_config = function()
     require("telescope.builtin").find_files({
-        prompt_title = "Vim Config",
+        prompt_title = "Neovim Config",
         cwd = "$HOME/.dotfiles/nvim/",
     })
 end
 
-find_dotfiles = function() 
+find_dotfiles = function()
     require("telescope.builtin").find_files({
         prompt_title = "Dotfiles",
         cwd = "$HOME/.dotfiles/",
