@@ -152,13 +152,13 @@ wk.register({
 wk.register({
   ['<leader>e']  = { name = "Edit" },
   ['<leader>ed'] = { [[<cmd>lua find_dotfiles()<CR>]], "Dotfiles" },
-  ['<leader>ev'] = { [[<cmd>lua find_nvim()<CR>]],     "Neovim Config" }
+  ['<leader>ev'] = { [[<cmd>lua find_nvim_config()<CR>]],     "Neovim Config" }
 })
 
 -- telescope-project
 -- https://github.com/nvim-telescope/telescope-project.nvim
 wk.register({
-  ['<leader>P'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
+  ['<leader>ep'] = { ":lua require'telescope'.extensions.project.project{}<CR>", "Projects" }
 })
 
 -- LuaSnip
