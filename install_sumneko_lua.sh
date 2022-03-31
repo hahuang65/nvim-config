@@ -39,6 +39,15 @@ then
   then
     ./3rd/luamake/luamake rebuild
   fi
+  if [ -d "$SUMNEKO_DIR/bin/${OS^}" ]
+  then
+    shopt -s nullglob
+    for file in $SUMNEKO_DIR/bin/${OS^}/* 
+    do
+      echo "Symlinking $file to ../bin"
+      ln -sf "$file" "$SUMNEKO_DIR/bin/$(basename -- $file)"
+    done
+  fi
 else
   echo "\`ninja\` is not installed. Aborting."
   exit 1

@@ -107,19 +107,18 @@ end
 -- Setup sumneko_lua separately since it has special settings
 -- https://github.com/sumneko/lua-language-server
 -- Install with `./install_sumneko_lua.sh`
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "" -- Linux installs sumneko_lua directly to bin/
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system for sumneko")
+sumneko_root_path = vim.fn.stdpath('cache')..'/lua-language-server'
+sumneko_binary = sumneko_root_path.."/bin/lua-language-server"
+
+local function sumneko_exists()
+  local f = io.open(sumneko_binary, "r")
+  if f ~= nil then io.close(f) return true else return false end
 end
 
-local sumneko_root_path = vim.fn.stdpath('cache')..'/lua-language-server'
-local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+if sumneko_exists() == false then
+  print("Sumneko not installed, please install using install_sumneko_lua.sh.")
+end
+
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
