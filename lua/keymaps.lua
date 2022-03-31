@@ -140,6 +140,24 @@ wk.register({
   ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]],  "Commits (Project)" }
 })
 
+-- Treesitter Objects
+-- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+wk.register({
+  ['vaf'] =        { 'function' },
+  ['vif'] =        { 'function' },
+  ['vac'] =        { 'class' },
+  ['vic'] =        { 'class' },
+  [']]'] =         { 'Next class start' },
+  [']['] =         { 'Next class end' },
+  ['[['] =         { 'Previous class start' },
+  ['[]'] =         { 'Previous class end' },
+  ['<leader>o'] =  { Name = 'Text Objects' },
+  ['<leader>oc'] = { 'Peek class' },
+  ['<leader>of'] = { 'Peek function' },
+  ['<leader>os'] = { 'Swap parameter forward' },
+  ['<leader>oS'] = { 'Swap parameter backward' },
+})
+
 wk.register({
   ['<leader>h']  = { name = "Help" },
   ['<leader>hc'] = { [[<cmd>Telescope commands<CR>]],  "Commands" },

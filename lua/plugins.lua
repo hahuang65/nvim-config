@@ -126,6 +126,8 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     run = ':TSUpdate'
   }
 
+  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+
   use { 'rafcamlet/nvim-luapad',
     opt = true,
     cmd = { 'Luapad', 'LuaRun', 'Lua' }
