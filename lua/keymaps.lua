@@ -151,11 +151,11 @@ wk.register({
   [']['] =         { 'Next class end' },
   ['[['] =         { 'Previous class start' },
   ['[]'] =         { 'Previous class end' },
-  ['<leader>o'] =  { Name = 'Text Objects' },
-  ['<leader>oc'] = { 'Peek class' },
-  ['<leader>of'] = { 'Peek function' },
-  ['<leader>os'] = { 'Swap parameter forward' },
-  ['<leader>oS'] = { 'Swap parameter backward' },
+  ['<leader>c'] =  { Name = 'Code' },
+  ['<leader>cc'] = { 'Peek at class' },
+  ['<leader>cf'] = { 'Peek at function' },
+  ['cp'] =         { 'Swap parameter forward' },
+  ['cP'] =         { 'Swap parameter backward' },
 })
 
 wk.register({
@@ -260,7 +260,7 @@ local function lsp_keymaps()
     [']d'] =         { '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', "Next Diagnostic" },
     ['<leader>k'] =  { '<Cmd>lua vim.lsp.buf.signature_help()<CR>',   "Show Signature Help" },
     ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>', "List Diagnostics" },
-    ['<leader>rn'] = { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
+    ['<leader>R'] =  { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
   }, { buffer = 0 })
 end
 
