@@ -164,6 +164,7 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
   }
 
   use { 'sebdah/vim-delve',
+    config = function() require'keymaps'.delve_keymaps() end,
     ft = "go"
   }
 
