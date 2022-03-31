@@ -154,13 +154,20 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
   -- Languages
 
   use { 'fatih/vim-go',
-    config = function() require'plugin/go' end
+    config = function() require'plugin/go' end,
+    ft = "go"
   }
 
   use { 'hashivim/vim-terraform',
-    config = function() require'plugin/terraform' end
+    config = function() require'plugin/terraform' end,
+    ft = "terraform"
   }
 
-  use { 'sebdah/vim-delve' }
-  use { 'tpope/vim-rails' }
+  use { 'sebdah/vim-delve',
+    ft = "go"
+  }
+
+  use { 'tpope/vim-rails',
+    ft = "ruby"
+  }
 end)
