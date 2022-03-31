@@ -177,7 +177,7 @@ map({'i', 's'}, '<C-j>', function()
   end
 end)
 
-map('i', '<C-l>', function()
+map({'i', 's'}, '<C-l>', function()
   if ls.choice_active then
     ls.change_choice(1)
   end
