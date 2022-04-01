@@ -10,6 +10,9 @@ require('options')
 -- Custom
 require('terminal')
 
+-- Helpers
+require('util')
+
 -- Plugins
 require('plugins')
 

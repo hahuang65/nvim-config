@@ -24,12 +24,16 @@ map('v', '>',  '>gv')
 map('v', '<',  '<gv')
 
 wk.register({
-  ['<leader>y']  = { '"+y', "Copy (to system clipboard)" },
+  ['<leader>y']  = { '"+y', "Copy (to system clipboard)" }
 }, { mode = 'v' })
 
 wk.register({
-  ['<leader>p']  = { '"+p', "Paste (from system clipboard)" },
+  ['<leader>p']  = { '"+p', "Paste (from system clipboard)" }
 })
+
+wk.register({
+  ['<leader>P']  = { ":lua Paste()<CR>", "Paste (to paste.sr.ht)" }
+}, { mode = 'x' })
 
 -- Make
 wk.register({
