@@ -91,7 +91,7 @@ wk.register({
   ['<leader>gr'] = { ':Git pr list --web<CR>',          "List open PRs in browser" },
   ['<leader>gt'] = { ':Git retrunk<CR>',                "Rebase Against Trunk" },
   ['<leader>gs'] = { ':Git sync<CR>',                   "Sync" },
-  ['<leader>gA'] = { ':Git amend<CR>',                  "Amend" },
+  ['<leader>gA'] = { ':help fugitive_c<CR>',            "Amend" },
   ['<leader>gN'] = { ':Git new',                        "New Branch" },
   ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
   ['<leader>gS'] = { ':Git shove<CR>',                  "Shove" },
