@@ -198,8 +198,8 @@ end)
 
 wk.register({
   ['<leader>s'] = { name = "Snippets" },
-  ['<leader>sr'] = { '<Cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>', "Reload Snippets" },
-  ['<leader>se'] = { '<Cmd>split $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>',  "Edit Snippets" },
+  ['<leader>sr'] = { [[<Cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>]],                     "Reload Snippets" },
+  ['<leader>se'] = { [[<Cmd>execute 'split $HOME/.dotfiles/nvim/lua/snippets/' . &filetype . '.lua'<CR>]], "Edit Snippets" },
 })
 
 -- gitsigns
