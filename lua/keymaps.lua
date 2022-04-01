@@ -95,14 +95,9 @@ wk.register({
   ['<leader>gN'] = { ':Git new',                        "New Branch" },
   ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
   ['<leader>gS'] = { ':Git shove<CR>',                  "Shove" },
-  ['<leader>gO'] = { ':Git pr view --web<CR>',          "Open PR in browser" }
-})
-
--- vim-fugitive: conflicts
-wk.register({
-  ['<leader>g']  = { name = "Git" },
-  ['<leader>g['] = { ':diffget //2 | :diffupdate<CR>', "Conflict Select (Left)" },
-  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>', "Conflict Select (Right)" }
+  ['<leader>gO'] = { ':Git pr view --web<CR>',          "Open PR in browser" },
+  ['<leader>g['] = { ':diffget //2 | :diffupdate<CR>',  "Conflict Select (Left)" },
+  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>',  "Conflict Select (Right)" }
 })
 
 -- nvim-tree
