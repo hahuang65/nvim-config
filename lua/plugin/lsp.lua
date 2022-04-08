@@ -6,7 +6,7 @@
 -- npm install -g dockerfile-language-server-nodejs
 -- brew install gopls / paru -S gopls
 -- brew install hashicorp/tap/terraform-ls / paru -S terraform-ls
--- pip install  pyright (run `asdf reshim python` to get the executable accessible)
+-- brew install pyright
 -- paru -S rust-analyzer / brew install rust-analyzer
 -- npm install -g typescript-language-server
 -- npm install -g vls
