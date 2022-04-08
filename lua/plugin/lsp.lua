@@ -6,7 +6,7 @@
 -- npm install -g dockerfile-language-server-nodejs
 -- brew install gopls / paru -S gopls
 -- brew install hashicorp/tap/terraform-ls / paru -S terraform-ls
--- pip install 'python-lsp-server' (run `asdf reshim python` to get the executable accessible)
+-- pip install  pyright (run `asdf reshim python` to get the executable accessible)
 -- paru -S rust-analyzer / brew install rust-analyzer
 -- npm install -g typescript-language-server
 -- npm install -g vls
@@ -15,7 +15,7 @@ local servers = {
   'bashls',
   'dockerls',
   'gopls',
-  'pylsp',
+  'pyright',
   'rust_analyzer',
   'solargraph',
   'terraformls',
