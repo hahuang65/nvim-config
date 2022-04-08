@@ -16,9 +16,9 @@ return {
       ]],
       {
         c(1, {
-          i(1, "method_name"),
+          i(1, "name"),
           sn(1, {
-            i(1, "method_name"),
+            i(1, "name"),
             t("("),
             i(2, "args"),
             t(")")
