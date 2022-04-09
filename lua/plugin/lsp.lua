@@ -6,16 +6,16 @@
 -- npm install -g dockerfile-language-server-nodejs
 -- brew install gopls / paru -S gopls
 -- brew install hashicorp/tap/terraform-ls / paru -S terraform-ls
--- brew install pyright
+-- paru -S pyright / brew install pyright
 -- paru -S rust-analyzer / brew install rust-analyzer
 -- npm install -g typescript-language-server
 -- npm install -g vls
 -- npm install -g vim-language-server
+-- ./install_sumneko_lua
 local servers = {
   'bashls',
   'dockerls',
   'gopls',
-  'pyright',
   'rust_analyzer',
   'solargraph',
   'terraformls',
@@ -98,7 +98,7 @@ end
 
 local nvim_lsp = require('lspconfig')
 
--- Use a loop to conveniently both setup defined servers 
+-- Use a loop to conveniently both setup defined servers
 -- and map buffer local keybindings when the language server attaches
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach, capabilities = capabilities }
@@ -159,4 +159,23 @@ require'fidget'.setup{
   timer = {
     fidget_decay = -1 -- Always show
   }
+}
+
+require'lspconfig'.pyright.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  on_new_config = function (new_config, root_dir)
+    local pipfile_exists = nvim_lsp.util.search_ancestors(root_dir, function(path)
+      local pipfile = nvim_lsp.util.path.join(path, "Pipfile")
+      if nvim_lsp.util.path.is_file(pipfile) then
+        return true
+      else
+        return false
+      end
+    end)
+
+    if pipfile_exists then
+      new_config.cmd = {"pipenv", "run", "pyright-langserver", "--stdio"}
+    end
+  end;
 }
