@@ -5,8 +5,6 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 return {
-  s("#!", t("#!/usr/bin/env python3")),
-
   s("def",
     fmt(
       [[
@@ -55,4 +53,6 @@ return {
       }
     )
   )
+}, {
+  s("#!", t("#!/usr/bin/env python3"))
 }

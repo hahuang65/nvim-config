@@ -13,6 +13,7 @@ return {
         def {}
           {}
         end
+        
       ]],
       {
         c(1, {
@@ -35,6 +36,7 @@ return {
         do {}
           {}
         end
+
       ]],
       {
         c(1, {
@@ -49,4 +51,6 @@ return {
       }
     )
   )
+}, {
+  s("#!", t("#!/usr/bin/env ruby"))
 }
