@@ -21,6 +21,38 @@ return {
     )
   ),
 
+  s("fixture",
+    fmt(
+      [[
+        @pytest.fixture
+        def {}({}):
+            {}
+
+
+      ]],
+      {
+        i(1, "name"),
+        i(2),
+        i(0)
+      }
+    )
+  ),
+
+  s("for",
+    fmt(
+      [[
+        for {} in {}:
+            {}
+
+      ]],
+      {
+        i(1, "name"),
+        i(2, "collection"),
+        i(0)
+      }
+    )
+  ),
+
   s("test",
     fmt(
       [[
@@ -37,22 +69,20 @@ return {
     )
   ),
 
-  s("fixture",
+  s("with",
     fmt(
       [[
-        @pytest.fixture
-        def {}({}):
+        with {} as {}:
             {}
-
 
       ]],
       {
-        i(1, "name"),
-        i(2),
+        i(1, "thing"),
+        i(2, "name"),
         i(0)
       }
     )
-  )
+  ),
 }, {
   s("#!", t("#!/usr/bin/env python3"))
 }
