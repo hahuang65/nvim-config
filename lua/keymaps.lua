@@ -256,8 +256,8 @@ local function lsp_keymaps()
     ['g]'] =         { '<Cmd>Telescope lsp_document_symbols<CR>',     "LSP Symbols (Buffer)" },
     ['g}'] =         { '<Cmd>Telescope lsp_workspace_symbols<CR>',    "LSP Symbols (Project)" },
     ['K'] =          { '<Cmd>lua vim.lsp.buf.hover()<CR>',            "Hover" },
-    ['[d'] =         { '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', "Previous Diagnostic" },
-    [']d'] =         { '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', "Next Diagnostic" },
+    ['[d'] =         { '<Cmd>lua vim.diagnostic.goto_prev()<CR>',     "Previous Diagnostic" },
+    [']d'] =         { '<Cmd>lua vim.diagnostic.goto_next()<CR>',     "Next Diagnostic" },
     ['<leader>k'] =  { '<Cmd>lua vim.lsp.buf.signature_help()<CR>',   "Show Signature Help" },
     ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>', "List Diagnostics" },
     ['<leader>R'] =  { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
