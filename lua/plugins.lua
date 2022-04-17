@@ -20,10 +20,6 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     cmd = 'StartupTime'
   }
 
-  use { 'f-person/git-blame.nvim',
-    config = function() require'plugin/git-blame' end
-  }
-
   use { 'folke/tokyonight.nvim',
     config = function() require'plugin/tokyonight' end
   }

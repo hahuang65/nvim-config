@@ -85,24 +85,43 @@ map('t', '<M-`>', '<C-\\><C-n>:Terminal Terminal<CR>')
 map('n', '<M-~>', ':Vterminal Terminal<CR>')
 map('t', '<M-~>', '<C-\\><C-n>:Vterminal Terminal<CR>')
 
--- vim-fugitive
--- https://github.com/tpope/vim-fugitive
 wk.register({
+  -- vim-fugitive
+  -- https://github.com/tpope/vim-fugitive
   ['<leader>g']  = { name = "Git" },
   ['<leader>gg'] = { ':Git<CR>',                        "Fugitive" },
   ['<leader>go'] = { ':Git repo view --web<CR>',        "Open repository in browser" },
   ['<leader>gp'] = { ':Git publish<CR>',                "Publish" },
-  ['<leader>gr'] = { ':Git pr list --web<CR>',          "List open PRs in browser" },
   ['<leader>gt'] = { ':Git retrunk<CR>',                "Rebase Against Trunk" },
   ['<leader>gs'] = { ':Git sync<CR>',                   "Sync" },
   ['<leader>gA'] = { ':help fugitive_c<CR>',            "Amend" },
   ['<leader>gN'] = { ':Git new',                        "New Branch" },
+  ['<leader>gO'] = { ':Git pr view --web<CR>',          "Open PR in browser" },
+  ['<leader>gP'] = { ':Git pr list --web<CR>',          "List open PRs in browser" },
   ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
   ['<leader>gS'] = { ':Git shove<CR>',                  "Shove" },
-  ['<leader>gO'] = { ':Git pr view --web<CR>',          "Open PR in browser" },
   ['<leader>g['] = { ':diffget //2 | :diffupdate<CR>',  "Conflict Select (Left)" },
-  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>',  "Conflict Select (Right)" }
+  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>',  "Conflict Select (Right)" },
+
+  -- gitsigns
+  -- https://github.com/lewis6991/gitsigns.nvim
+  [']h']         = { [[&diff ? ']h' : '<cmd>lua require"gitsigns".next_hunk()<CR>']], "Next Git Hunk",     expr = true },
+  ['[h']         = { [[&diff ? '[h' : '<cmd>lua require"gitsigns".prev_hunk()<CR>']], "Previous Git Hunk", expr = true },
+  ['<leader>gr'] = { [[<cmd>lua require"gitsigns".reset_hunk()<CR>]],                 "Reset Hunk" },
+  ['<leader>g?'] = { [[<cmd>lua require"gitsigns".preview_hunk()<CR>]],               "Preview Hunk" },
+
+  ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
+  ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commits (Buffer)" },
+  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]],  "Commits (Project)" }
 })
+
+wk.register({
+  ['ih'] = { [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]], "Select Git Hunk" }
+}, { mode = 'o' })
+
+wk.register({
+  ['ih'] = { [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]], "Select Git Hunk" }
+}, { mode = 'x' })
 
 -- nvim-tree
 -- https://github.com/kyazdani42/nvim-tree.lua
@@ -130,13 +149,6 @@ wk.register({
   ['<leader>/']        = { [[<cmd>Telescope current_buffer_fuzzy_find<CR>]], "Grep (Buffer)" },
   ['<leader>*']        = { [[<cmd>Telescope grep_string<CR>]],               "Grep (String)" },
   ['<leader>b']        = { [[<cmd>Telescope buffers<CR>]],                   "Buffers" }
-})
-
-wk.register({
-  ['<leader>g']  = { name = "Git" },
-  ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
-  ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commits (Buffer)" },
-  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]],  "Commits (Project)" }
 })
 
 -- Treesitter Objects
@@ -205,26 +217,6 @@ wk.register({
   ['<leader>sr'] = { [[<Cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>]], "Reload Snippets" },
   ['<leader>se'] = { [[<Cmd>lua EditSnippetsCurrentFiletype()<CR>]],                   "Edit Snippets (Current Filetype)" },
   ['<leader>sE'] = { [[<Cmd>lua EditSnippetsPromptFiletype()<CR>]],                    "Edit Snippets (Prompt Filetype)" },
-})
-
--- gitsigns
--- https://github.com/lewis6991/gitsigns.nvim
-wk.register({
-  [']h'] = { [[&diff ? ']h' : '<cmd>lua require"gitsigns".next_hunk()<CR>']], "Next Git Hunk",     expr = true },
-  ['[h'] = { [[&diff ? '[h' : '<cmd>lua require"gitsigns".prev_hunk()<CR>']], "Previous Git Hunk", expr = true }
-})
-
-wk.register({
-  ['ih'] = { [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]], "Select Git Hunk" }
-}, { mode = 'o' })
-
-wk.register({
-  ['ih'] = { [[:<C-U>lua require"gitsigns.actions".select_hunk()<CR>]], "Select Git Hunk" }
-}, { mode = 'x' })
-
-wk.register({
-  ['<leader>g']  = { name = "Git" },
-  ['<leader>gr'] = { [[<cmd>lua require"gitsigns".reset_hunk()<CR>]], "Reset Hunk" }
 })
 
 -- comment.nvim
