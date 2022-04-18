@@ -16,7 +16,21 @@ cmp.setup({
       i           = cmp.mapping.abort(),
       c           = cmp.mapping.close()
     }),
-    ["<c-y>"]     = cmp.mapping.confirm({
+    ['<C-n>']     = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    ['<C-p>']      = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end,
+    ['<C-y>']     = cmp.mapping.confirm({
         behavior  = cmp.ConfirmBehavior.Replace,
         select    = true,
     })
@@ -30,8 +44,7 @@ cmp.setup({
     { name = 'buffer', keyword_length = 5 },
   },
   experimental = {
-    native_menu = false,
-    ghost_text = true,
+    ghost_text = true
   },
   formatting = {
     format = require'lspkind'.cmp_format({
@@ -42,6 +55,6 @@ cmp.setup({
         nvim_lua = "[Lua]",
         path = "[Path]"
       })
-    }),
-  },
+    })
+  }
 })
