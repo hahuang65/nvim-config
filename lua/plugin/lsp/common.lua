@@ -3,7 +3,7 @@ local on_attach = function(client, bufnr)
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  require'keymaps'.lsp_keymaps()
+  require'keymaps'.lsp_keymaps(client)
 
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then

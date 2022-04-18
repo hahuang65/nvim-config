@@ -238,7 +238,7 @@ wk.register({
 -- https://github.com/neovim/nvim-lspconfig
 -- These are in a function because they are bound when an LSP is attached.
 -- lua/plugin/lsp.lua will load this function when the time is right
-local function lsp_keymaps()
+local function lsp_keymaps(client)
   wk.register({
     ['gD'] =         { '<Cmd>lua vim.lsp.buf.declaration()<CR>',      "Go to Declaration" },
     ['gd'] =         { '<Cmd>lua vim.lsp.buf.definition()<CR>',       "Go to Definition" },
@@ -254,6 +254,16 @@ local function lsp_keymaps()
     ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>', "List Diagnostics" },
     ['<leader>R'] =  { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
   }, { buffer = 0 })
+
+  if client.resolved_capabilities.document_formatting then
+    wk.register({
+      ['gF'] = { '<Cmd>lua vim.lsp.buf.formatting()<CR>', "Format File" }
+    }, { buffer = 0 })
+  elseif client.resolved_capabilities.document_range_formatting then
+    wk.register({
+      ['gF'] = { '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', "Format Selected Text" }
+    }, { buffer = 0 })
+  end
 end
 
 -- delve

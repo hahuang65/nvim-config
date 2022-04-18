@@ -36,3 +36,8 @@ augroup('terminal', {
   'TermOpen * startinsert',
   'TermClose * call nvim_input("<CR>")' -- Closes the terminal once the shell is exited
 })
+
+augroup('format_on_save', {
+  'BufWritePre * lua vim.lsp.buf.formatting_sync()'
+})
+
