@@ -8,6 +8,11 @@ local sn = ls.snippet_node
 local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
+local function split_path(path)
+  local parts = vim.split(path, "[./]", false)
+  return parts[#parts] or ""
+end
+
 local function endif()
   -- This function represents a snippet choice for
   -- 1) `end`ing
@@ -39,8 +44,7 @@ end
 return {
   s("req",
     fmt([[local {} = require('{}')]], { f(function(import_name)
-      local parts = vim.split(import_name[1][1], ".", true)
-      return parts[#parts] or ""
+      return split_path(import_name[1][1])
     end, { 1 }), i(1) })
   ),
 
@@ -74,6 +78,30 @@ return {
         i(1),
         i(2),
         d(3, endif, {})
+      }
+    )
+  ),
+
+  s("use",
+    fmt(
+      [[use {{{}}}]],
+      {
+        c(1, {
+          sn(1, {
+            t(" '"),
+            i(1),
+            t("' ")
+          }),
+          sn(1, {
+            t(" '"),
+            i(1),
+            t({"',", "\tconfig = function() require'plugin/"}),
+            f(function(name)
+              return split_path(name[1][1])
+            end, { 1 }),
+            t({"' end", ""})
+          })
+        })
       }
     )
   )
