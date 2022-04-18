@@ -23,10 +23,11 @@ local on_attach = function(client, bufnr)
   -- https://github.com/ray-x/lsp_signature.nvim
   require "lsp_signature".on_attach({
     bind = true, -- This is mandatory, otherwise border config won't get registered.
+    hint_enable = false,
     handler_opts = {
-    border = "single"
+      border = "double",
     }
-  })
+  }, bufnr)
 end
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
