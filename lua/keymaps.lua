@@ -240,6 +240,7 @@ wk.register({
 -- lua/plugin/lsp.lua will load this function when the time is right
 local function lsp_keymaps(client)
   wk.register({
+    ['ga'] =         { '<Cmd>lua vim.lsp.buf.code_action()<CR>',      "Code Action Menu" },
     ['gD'] =         { '<Cmd>lua vim.lsp.buf.declaration()<CR>',      "Go to Declaration" },
     ['gd'] =         { '<Cmd>lua vim.lsp.buf.definition()<CR>',       "Go to Definition" },
     ['gi'] =         { '<Cmd>lua vim.lsp.buf.implementation()<CR>',   "Go to Implementation" },

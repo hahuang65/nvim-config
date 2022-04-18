@@ -53,6 +53,10 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     config = function() require'plugin/hlslens' end
   }
 
+  use { 'kosayoda/nvim-lightbulb',
+    config = function() require'plugin/lightbulb' end
+  }
+
   use { 'kyazdani42/nvim-tree.lua',
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = function() require'plugin/nvim-tree' end
