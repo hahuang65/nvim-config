@@ -132,6 +132,15 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
 
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
 
+  use { 'pwntester/octo.nvim',
+  requires = {
+    'nvim-lua/plenary.nvim',
+    'nvim-telescope/telescope.nvim',
+    'kyazdani42/nvim-web-devicons',
+  },
+  config = function () require"plugin/octo" end
+}
+
   use { 'rafcamlet/nvim-luapad',
     opt = true,
     cmd = { 'Luapad', 'LuaRun', 'Lua' }
