@@ -111,8 +111,8 @@ wk.register({
   ['<leader>g?'] = { [[<cmd>lua require"gitsigns".preview_hunk()<CR>]],               "Preview Hunk" },
 
   ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
-  ['<leader>gc'] = { [[<cmd>Telescope git_bcommits<CR>]], "Commits (Buffer)" },
-  ['<leader>gC'] = { [[<cmd>Telescope git_commits<CR>]],  "Commits (Project)" }
+  ['<leader>gc'] = { [[:GV!<CR>]],                        "Commits (Buffer)" },
+  ['<leader>gC'] = { [[:GV<CR>]],                         "Commits (Project)" }
 })
 
 wk.register({

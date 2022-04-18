@@ -40,6 +40,10 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     config = function() require'plugin/completion' end
   }
 
+  use { 'junegunn/gv.vim',
+    requires = 'tpope/vim-fugitive'
+  }
+
   use { 'kana/vim-fakeclip',
     cond = function()
       return vim.fn.has("mac") ~= 1 and vim.fn.has("unix") == 1
