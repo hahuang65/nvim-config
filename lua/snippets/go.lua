@@ -36,6 +36,37 @@ local function endif()
 end
 
 return {
+  s("func",
+    fmt(
+      [[
+        func {}({}){}{{
+          {}
+        }}
+
+      ]],
+      {
+        i(1, "name"),
+        c(2, {
+          sn(1, {
+            i(1, "arg"),
+            t(" "),
+            i(2, "type")
+          }),
+          t("")
+        }),
+        c(3, {
+          sn(1, {
+            t(" "),
+            i(1, "return_type"),
+            t(" ")
+          }),
+          t(" ")
+        }),
+        i(0)
+      }
+    )
+  ),
+
   s("if",
     fmt(
       [[
