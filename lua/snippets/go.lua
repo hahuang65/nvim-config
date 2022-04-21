@@ -6,6 +6,7 @@ local s = ls.s
 local sn = ls.snippet_node
 local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
+local rep = require("luasnip.extras").rep
 
 local function endif()
   -- This function provides choices to end an `if` clause.
@@ -36,6 +37,70 @@ local function endif()
 end
 
 return {
+  s("err",
+    fmt(
+      [[
+        if {} != nil {{
+          {}
+        }}
+      ]],
+      {
+        i(1, "err"),
+        i(0)
+      }
+    )
+  ),
+
+  s("for",
+    fmt(
+      [[
+        for {}
+      ]],
+      {
+        c(1, {
+          sn(1, {
+            i(1, "index"),
+            c(2, {
+              sn(1, {
+                t(", "),
+                i(1, "element"),
+              }),
+              t("")
+            }),
+            t(" := range "),
+            i(3, "collection"),
+            t({" {", "\t"}),
+            i(4),
+            t({"", "}"})
+          }),
+          sn(1, {
+            i(1, "i"),
+            t(" := "),
+            i(2, "1"),
+            t("; "),
+            rep(1),
+            c(3, {
+              t(" < "),
+              t(" <= "),
+              t(" > "),
+              t(" >= ")
+            }),
+            i(4, "j"),
+            t("; "),
+            rep(1),
+            c(5, {
+              t("++"),
+              t("--"),
+            }),
+            t({" {", "\t"}),
+            i(6),
+            t({"", "}"})
+          })
+        })
+      }
+    )
+  ),
+
   s("func",
     fmt(
       [[
@@ -45,7 +110,17 @@ return {
 
       ]],
       {
-        i(1, "name"),
+        c(1, {
+          i(1, "name"),
+          sn(1, {
+            t("("),
+            i(1, "t"),
+            t(" "),
+            i(2, "type"),
+            t(") "),
+            i(3, "name")
+          })
+        }),
         c(2, {
           sn(1, {
             i(1, "arg"),
