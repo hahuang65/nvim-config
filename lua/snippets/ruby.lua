@@ -6,6 +6,37 @@ local sn = ls.snippet_node
 local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
+local function block_choice()
+  return c(1, {
+    sn(1, {
+      t("(&:"),
+      i(1, "method"),
+      t(")")
+    }),
+    sn(1, {
+      t(" { "),
+      i(1),
+      t(" }")
+    }),
+    sn(1, {
+      t(" { |"),
+      i(1, "x"),
+      t("| "),
+      i(2),
+      t(" }"),
+    }),
+    sn(1, {
+      t(" do |"),
+      i(1, "x"),
+      t("|"),
+      t({"", "\t"}),
+      i(2),
+      t({"", ""}),
+      t("end")
+    }),
+  })
+end
+
 return {
   s("def",
     fmt(
@@ -58,34 +89,18 @@ return {
         each{}
       ]],
       {
-        c(1, {
-          sn(1, {
-            t("(&:"),
-            i(1, "method"),
-            t(")")
-          }),
-          sn(1, {
-            t(" { "),
-            i(1),
-            t(" }")
-          }),
-          sn(1, {
-            t(" { |"),
-            i(1, "x"),
-            t("| "),
-            i(2),
-            t(" }"),
-          }),
-          sn(1, {
-            t(" do |"),
-            i(1, "x"),
-            t("|"),
-            t({"", "\t"}),
-            i(2),
-            t({"", ""}),
-            t("end")
-          }),
-        }),
+        block_choice()
+      }
+    )
+  ),
+
+  s("filter",
+    fmt(
+      [[
+        filter{}
+      ]],
+      {
+        block_choice()
       }
     )
   ),
@@ -96,37 +111,21 @@ return {
         map{}
       ]],
       {
-        c(1, {
-          sn(1, {
-            t("(&:"),
-            i(1, "method"),
-            t(")")
-          }),
-          sn(1, {
-            t(" { "),
-            i(1),
-            t(" }")
-          }),
-          sn(1, {
-            t(" { |"),
-            i(1, "x"),
-            t("| "),
-            i(2),
-            t(" }"),
-          }),
-          sn(1, {
-            t(" do |"),
-            i(1, "x"),
-            t("|"),
-            t({"", "\t"}),
-            i(2),
-            t({"", ""}),
-            t("end")
-          }),
-        }),
+        block_choice()
       }
     )
-  )
+  ),
+
+  s("sort_by",
+    fmt(
+      [[
+        sort_by{}
+      ]],
+      {
+        block_choice()
+      }
+    )
+  ),
 }, {
   s("#!", t("#!/usr/bin/env ruby"))
 }
