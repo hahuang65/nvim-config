@@ -8,6 +8,23 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 
+local function arglist()
+  return sn(nil, {
+    sn(1, {
+      i(1, "arg"),
+      t(" "),
+      i(2, "type")
+    }),
+    c(2, {
+      t(""),
+      sn(1, {
+        t(", "),
+        d(1, arglist, {})
+      })
+    }),
+  })
+end
+
 local function endif()
   -- This function provides choices to end an `if` clause.
   -- It can simply end the `if` clause as-is,
@@ -122,11 +139,7 @@ return {
           })
         }),
         c(2, {
-          sn(1, {
-            i(1, "arg"),
-            t(" "),
-            i(2, "type")
-          }),
+          d(1, arglist, {}),
           t("")
         }),
         c(3, {
