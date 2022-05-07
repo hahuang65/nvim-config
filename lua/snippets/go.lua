@@ -11,9 +11,7 @@ local rep = require("luasnip.extras").rep
 local function arglist()
   return sn(nil, {
     sn(1, {
-      i(1, "arg"),
-      t(" "),
-      i(2, "type")
+      i(1, "arg type"),
     }),
     c(2, {
       t(""),
@@ -53,7 +51,68 @@ local function endif()
   })
 end
 
+local function testChoices(position)
+  return c(position, {
+    sn(1, {
+      i(1, "got"),
+      t(" := "),
+      i(2),
+      t({"", "\t"}),
+      i(3, "want"),
+      t(" := "),
+      i(4),
+      t({"", "", "\tif "}),
+      rep(1),
+      t(" != "),
+      rep(3),
+      t({" {", "\t\tt.Errorf(\"\\n"}),
+      rep(1),
+      t(": %q\\n"),
+      rep(3),
+      t(": %q\", "),
+      rep(1),
+      t(" ,"),
+      rep(3),
+      t({")", "\t}"})
+    }),
+    sn(1, {
+      i(1, "got"),
+      t(" := "),
+      i(2),
+      t({"", "\t"}),
+      i(3, "want"),
+      t(" := "),
+      i(4),
+      t({"", "", "\tassert"}),
+      i(5, "Something"),
+      t("(t, "),
+      rep(1),
+      t(", "),
+      rep(3),
+      t(")")
+    }),
+    i(1)
+  })
+end
+
 return {
+  s("assert",
+    fmt(
+      [[
+        assert{} := func(t testing.TB, {}) {{
+          t.Helper()
+
+          {}
+        }}
+      ]],
+      {
+        i(1, "Name"),
+        d(2, arglist, {}),
+        i(3)
+      }
+    )
+  ),
+
   s("err",
     fmt(
       [[
@@ -145,7 +204,7 @@ return {
         c(3, {
           sn(1, {
             t(" "),
-            i(1, "return_type"),
+            i(1, "returnType"),
             t(" ")
           }),
           t(" ")
@@ -166,6 +225,62 @@ return {
         i(1),
         i(2),
         d(3, endif, {})
+      }
+    )
+  ),
+
+  s("teaCmd",
+    fmt(
+      [[
+        func {}
+      ]],
+      {
+        c(1, {
+          sn(1, {
+            i(1, "name"),
+            t({"() tea.Msg {", "\t"}),
+            i(2),
+            t({"", "}"})
+          }),
+          sn(1, {
+            i(1, "name"),
+            t("("),
+            i(2, "arg"),
+            t(" "),
+            i(3, "type"),
+            t({") tea.Cmd {", "\treturn func() tea.Msg {", "\t\t"}),
+            i(4),
+            t({"", "\t}", "}"})
+          })
+        })
+      }
+    )
+  ),
+
+  s("test",
+    fmt(
+      [[
+        func Test{}(t *testing.T) {{
+          {}
+        }}
+      ]],
+      {
+        i(1, "Name"),
+        testChoices(2)
+      }
+    )
+  ),
+
+  s("t.Run",
+    fmt(
+      [[
+        t.Run("{}", func(t *testing.T) {{
+          {}
+        }}
+      ]],
+      {
+        i(1, "test description"),
+        testChoices(2)
       }
     )
   )
