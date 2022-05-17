@@ -1,10 +1,16 @@
 function Paste()
-  vim.ui.input({ prompt ="Paste Name: " }, function(name)
+  vim.ui.input({ prompt = "Paste Name: " }, function(name)
     local url = vim.cmd([['<,'>w ! pst -u -n ]]..name..'.'..vim.bo.filetype)
     print(url)
   end)
 end
 
+function NewBranch()
+  vim.ui.input({ prompt = "Branch Name: " }, function(name)
+    vim.cmd([[Git new ]]..name)
+    vim.cmd([[message clear]])
+  end)
+end
 local function EditSnippets(type)
   vim.cmd([[split $HOME/.dotfiles/nvim/lua/snippets/]]..type..[[.lua]])
 end
