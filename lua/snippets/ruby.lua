@@ -20,6 +20,22 @@ local function arglist()
   })
 end
 
+local function do_or_brackets(position)
+  return c(position, {
+    sn(1, {
+      t("{ "),
+      i(1),
+      t(" }")
+    }),
+    sn(1, {
+      t({"do", "\t"}),
+      i(1),
+      t({"", "end"})
+    })
+  })
+end
+
+
 local function block_choice()
   return c(1, {
     sn(1, {
@@ -115,6 +131,33 @@ return {
       ]],
       {
         block_choice()
+      }
+    )
+  ),
+
+  s("it",
+    fmt(
+      [[
+        it "{}" do
+          {}
+        end
+      ]],
+      {
+        i(1, "describe the test"),
+        i(0)
+      }
+    )
+  ),
+
+  s("let",
+    fmt(
+      [[
+        {}(:{}) {}
+      ]],
+      {
+        c(1, {t("let"), t("let!")}),
+        i(2, "name"),
+        do_or_brackets(3)
       }
     )
   ),
