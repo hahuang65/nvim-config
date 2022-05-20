@@ -278,7 +278,7 @@ local function delve_keymaps()
     ['<leader>dr'] = { [[:DlvDebug<CR>]],            "Delve Debug (main packages)" },
     ['<leader>dR'] = { [[:DlvDebug]],                "Delve Debug w/ flags" },
     ['<leader>dt'] = { [[:DlvTest<CR>]],             "Delve Test (non-main packages)" },
-    ['<leader>dT'] = { [[:DlvTest]],                 "Delve Test w/flags" }
+    ['<leader>dT'] = { [[:DlvTestCurrent<CR>]],      "Delve Test Current (non-main packages)" }
   }, { buffer = 0 })
 end
 
