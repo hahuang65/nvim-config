@@ -6,7 +6,7 @@ local on_attach = function(client, bufnr)
   require'keymaps'.lsp_keymaps(client)
 
   -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     vim.api.nvim_exec([[
       hi LspReferenceRead term=underline cterm=bold gui=underline
       hi LspReferenceText term=underline cterm=bold gui=underline
