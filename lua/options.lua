@@ -85,3 +85,5 @@ opt.fillchars  = {
   vertright = '┣',
   verthoriz = '╋',
 }
+
+opt.winbar = "%{%v:lua.require'util'.Filename()%}"

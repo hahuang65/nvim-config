@@ -2,6 +2,7 @@
 -- https://gist.githubusercontent.com/hoob3rt/b200435a765ca18f09f83580a606b878/raw/d99388470ed5ddb1da32a0bd3bccd4a69eb15429/evil_lualine.lua
 
 local lualine = require 'lualine'
+local util = require("../util")
 
 -- Tokyo Night Storm
 -- Colors = {
@@ -200,13 +201,9 @@ ins_left {
 
 ins_left_with_inactive {
   function()
-    local function file_icon(filename, extension)
-      local ok,devicons = pcall(require,'nvim-web-devicons')
-      if not ok then print('No icon plugin found. Please install \'kyazdani42/nvim-web-devicons\'') return '' end
-      Icon = devicons.get_icon(filename, extension) or ''
-      return Icon
-    end
-    return file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
+    local filename = vim.fn.expand('%:t')
+    local extension = vim.fn.expand('%:e')
+    return util.FiletypeIcon(filename, extension)
   end,
   condition = conditions.buffer_not_empty,
   color = {fg = Colors.magenta, gui = 'bold'},
@@ -215,34 +212,7 @@ ins_left_with_inactive {
 
 ins_left_with_inactive {
   function()
-    if vim.b.term_title then
-      return vim.b.term_title
-    else
-      local filename = vim.fn.expand('%:t')
-      if vim.fn.empty(filename) == 1 then return '' end
-
-      local readonly = ''
-
-      if vim.bo.filetype == 'help' then
-        readonly = ''
-      elseif vim.bo.readonly == true then
-        readonly = ' ' .. Icon
-      else
-        readonly = ''
-      end
-
-      if string.len(readonly) ~= 0 then
-        return filename .. readonly
-      end
-
-      if vim.bo.modifiable then
-        if vim.bo.modified then
-          return filename .. ' ' .. ''
-        end
-      end
-      return filename
-
-    end
+    return util.Filename()
   end,
   condition = conditions.buffer_not_empty,
   color = {fg = Colors.magenta, gui = 'bold'},
