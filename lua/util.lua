@@ -47,12 +47,6 @@ function Filename()
 
     if vim.bo.filetype == 'help' then
       readonly = ''
-    elseif vim.bo.filetype == 'gitcommit' then
-      filename = shortname
-    elseif vim.bo.filetype == 'fugitive' then
-      filename = "Git"
-    elseif vim.bo.filetype == 'NvimTree' then
-      filename = "Files"
     elseif vim.bo.readonly == true then
       readonly = ' ' .. FiletypeIcon(shortname, extension)
     else

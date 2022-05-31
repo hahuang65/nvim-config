@@ -41,3 +41,23 @@ augroup('format_on_save', {
   'BufWritePre * lua vim.lsp.buf.formatting_sync()'
 })
 
+-- Winbar
+vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost" }, {
+  callback = function()
+    local winbar_filetype_exclude = {
+      "help",
+      "dashboard",
+      "packer",
+      "fugitive",
+      "gitcommit",
+      "NvimTree",
+    }
+
+    if vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
+      vim.opt_local.winbar = nil
+      return
+    end
+
+    vim.opt_local.winbar = require('util').Filename()
+  end,
+})
