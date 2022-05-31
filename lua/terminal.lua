@@ -5,7 +5,7 @@ local fn = vim.fn
 
 local function create_terminal(name, split)
   cmd(split..'new +terminal')
-  bufnr = api.nvim_get_current_buf()
+  local bufnr = api.nvim_get_current_buf()
   terminals[name] = bufnr
   vim.b.term_title = name
 
@@ -14,14 +14,14 @@ end
 
 local function attach_terminal(bufnr, split)
   cmd(split..'new +startinsert')
-  winnr = fn.win_getid()
+  local winnr = fn.win_getid()
   api.nvim_win_set_buf(winnr, bufnr)
 end
 
-toggle_terminal = function(name, split)
-  local split = split or ''
+ToggleTerminal = function(name, split)
+  split = split or ''
 
-  bufnr = terminals[name]
+  local bufnr = terminals[name]
   if bufnr and api.nvim_buf_is_valid(bufnr) then -- Buffer is available
     local winnr = fn.bufwinid(bufnr)
     if winnr == -1 then -- Window is hidden
@@ -38,5 +38,5 @@ toggle_terminal = function(name, split)
   end
 end
 
-cmd("command -nargs=1 Terminal lua toggle_terminal(<f-args>)")
-cmd("command -nargs=1 Vterminal lua toggle_terminal(<f-args>, 'v')")
+cmd("command -nargs=1 Terminal lua ToggleTerminal(<f-args>)")
+cmd("command -nargs=1 Vterminal lua ToggleTerminal(<f-args>, 'v')")
