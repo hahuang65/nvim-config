@@ -231,9 +231,21 @@ wk.register({
  ['gcc'] = { "Toggle Line" },
  ['gco'] = { "Add comment below" },
  ['gcA'] = { "Add comment above" },
- ['gcO'] = { "Add comment above" },
-
+ ['gcO'] = { "Add comment above" }
 })
+
+-- DAP
+wk.register({
+ ['<leader>d'] =  { name = "Debug" },
+ ['<leader>dd'] = { "<Cmd>lua require'dap'.continue()<CR>",                                                    "Start/Continue Debugger"},
+ ['<leader>do'] = { "<Cmd>lua require'dap'.step_over()<CR>",                                                   "Step Over"},
+ ['<leader>di'] = { "<Cmd>lua require'dap'.step_into()<CR>",                                                   "Step Into"},
+ ['<leader>dO'] = { "<Cmd>lua require'dap'.step_out()<CR>",                                                    "Step Out"},
+ ['<leader>db'] = { "<Cmd>lua require'dap'.toggle_breakpoint()<CR>",                                           "Toggle Breakpoint"},
+ ['<leader>dB'] = { "<Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",        "Set Conditional Breakpoint"},
+ ['<leader>dL'] = { "<Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>", "Set Log Point"},
+})
+
 -- LSP
 -- https://github.com/neovim/nvim-lspconfig
 -- These are in a function because they are bound when an LSP is attached.
@@ -267,30 +279,16 @@ local function lsp_keymaps(client)
   end
 end
 
--- delve
--- https://github.com/sebdah/vim-delve
--- These are in a function so that they can be loaded ONLY for Go buffers.
-local function delve_keymaps()
-  wk.register({
-    ['<leader>d']  = { name = "Debug" },
-    ['<leader>dd'] = { [[:DlvToggleBreakpoint<CR>]], "Toggle Breakpoint" },
-    ['<leader>dD'] = { [[:DlvToggleTracepoint<CR>]], "Toggle Tracepoint" },
-    ['<leader>dr'] = { [[:DlvDebug<CR>]],            "Delve Debug (main packages)" },
-    ['<leader>dR'] = { [[:DlvDebug]],                "Delve Debug w/ flags" },
-    ['<leader>dt'] = { [[:DlvTest<CR>]],             "Delve Test (non-main packages)" },
-    ['<leader>dT'] = { [[:DlvTestCurrent<CR>]],      "Delve Test Current (non-main packages)" }
-  }, { buffer = 0 })
-end
-
 -- Go
 -- https://github.com/fatih/vim-go
 -- These are in a function so that they can be loaded ONLY for Go buffers.
 -- Remove these if https://github.com/vim-test/vim-test/issues/617 gets fixed
 local function go_keymaps()
   wk.register({
-    ['<leader>ta'] = { ':GoTest!<CR>',      "Test Go Package" },
-    ['<leader>tf'] = { ':GoTest!<CR>',      "Test Go Package" },
-    ['<leader>tt'] = { ':GoTestFunc!<CR>)', "Test Go Function" }
+    ['<leader>ta'] = { ':GoTest!<CR>',                                "Test Go Package" },
+    ['<leader>tf'] = { ':GoTest!<CR>',                                "Test Go Package" },
+    ['<leader>tt'] = { ':GoTestFunc!<CR>)',                           "Test Go Function" },
+    ['<leader>td'] = { "<Cmd>lua require('dap-go').debug_test()<CR>", "Debug Test" }
   }, { buffer = 0 })
 end
 
@@ -335,7 +333,6 @@ end
 
 return {
   lsp_keymaps = lsp_keymaps,
-  delve_keymaps = delve_keymaps,
   go_keymaps = go_keymaps,
   org_keymaps = org_keymaps
 }

@@ -85,6 +85,18 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     config = function() require'plugin/indentline' end
   }
 
+  use { 'mfussenegger/nvim-dap',
+    requires = {
+      -- Technically, these require nvim-dap, but it's just a good way to group the DAP plugins together.
+      'leoluz/nvim-dap-go',
+      'mfussenegger/nvim-dap-python',
+      'rcarriga/nvim-dap-ui',
+      'suketa/nvim-dap-ruby',
+      'theHamsta/nvim-dap-virtual-text',
+    },
+    config = function() require'plugin/dap' end
+  }
+
   use { 'neovim/nvim-lsp',
     requires = {
       'j-hui/fidget.nvim'
@@ -174,11 +186,6 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
   use { 'hashivim/vim-terraform',
     config = function() require'plugin/terraform' end,
     ft = "terraform"
-  }
-
-  use { 'sebdah/vim-delve',
-    config = function() require'keymaps'.delve_keymaps() end,
-    ft = "go"
   }
 
   use { 'tpope/vim-rails',
