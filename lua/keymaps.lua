@@ -47,7 +47,7 @@ wk.register({
 -- Test
 wk.register({
   ['<leader>t']  = { name = "Test" },
-  ['<leader>ta'] = { ':TestSuite<CR>',   "Test All" },
+  ['<leader>ta'] = { ':lua require("neotest").run.run(vim.fn.getcwd())<CR>',    "Test Project" },
   -- ['<leader>td'] = { ':lua require("neotest").run.run({strategy = "dap"})<CR>', "Debug Nearest Test" },
   ['<leader>tf'] = { ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Test File" },
   ['<leader>to'] = { ':lua require("neotest").summary.toggle()<CR>',            "Toggle Test Summary" },
@@ -290,9 +290,9 @@ end
 -- Remove these if https://github.com/vim-test/vim-test/issues/617 gets fixed
 local function go_keymaps()
   wk.register({
-    ['<leader>ta'] = { ':GoTest!<CR>',                                "Test Go Package" },
---     ['<leader>tf'] = { ':GoTest!<CR>',                                "Test Go Package" },
---     ['<leader>tt'] = { ':GoTestFunc!<CR>)',                           "Test Go Function" }
+    -- ['<leader>ta'] = { ':GoTest!<CR>',                                "Test Go Package" },
+    -- ['<leader>tf'] = { ':GoTest!<CR>',                                "Test Go Package" },
+    -- ['<leader>tt'] = { ':GoTestFunc!<CR>)',                           "Test Go Function" }
     ['<leader>td'] = { "<Cmd>lua require('dap-go').debug_test()<CR>", "Debug Test" }
   }, { buffer = 0 })
 end

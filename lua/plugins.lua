@@ -119,7 +119,8 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-python",
-      "https://github.com/akinsho/neotest-go"
+      "nvim-neotest/neotest-go",
+      "olimorris/neotest-rspec"
     },
     config = function() require'plugin/test' end
   }

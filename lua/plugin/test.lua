@@ -5,6 +5,7 @@ require("neotest").setup({
     require("neotest-python")({
       dap = { justMyCode = false },
     }),
-    require("neotest-go")
+    require("neotest-go"),
+    require("neotest-rspec")
   }
 })
