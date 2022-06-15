@@ -48,8 +48,13 @@ wk.register({
 wk.register({
   ['<leader>t']  = { name = "Test" },
   ['<leader>ta'] = { ':TestSuite<CR>',   "Test All" },
-  ['<leader>tf'] = { ':TestFile<CR>',    "Test File" },
-  ['<leader>tt'] = { ':TestNearest<CR>', "Test Nearest" }
+  -- ['<leader>td'] = { ':lua require("neotest").run.run({strategy = "dap"})<CR>', "Debug Nearest Test" },
+  ['<leader>tf'] = { ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Test File" },
+  ['<leader>to'] = { ':lua require("neotest").summary.toggle()<CR>',            "Toggle Test Summary" },
+  ['<leader>tO'] = { ':lua require("neotest").output.open()<CR>',               "Open Test Output" }, -- Use { enter = true } to stay in insert mode in the output window
+  ['<leader>ts'] = { ':lua require("neotest").run.stop()<CR>',                  "Test Stop" },
+  ['<leader>tt'] = { ':lua require("neotest").run.run()<CR>',                   "Test Nearest" },
+  ['<leader>tT'] = { ':lua require("neotest").run.run_last()<CR>',              "Re-Run Last Test" },
 })
 
 -- Quickfix and Location List
@@ -286,8 +291,8 @@ end
 local function go_keymaps()
   wk.register({
     ['<leader>ta'] = { ':GoTest!<CR>',                                "Test Go Package" },
-    ['<leader>tf'] = { ':GoTest!<CR>',                                "Test Go Package" },
-    ['<leader>tt'] = { ':GoTestFunc!<CR>)',                           "Test Go Function" },
+--     ['<leader>tf'] = { ':GoTest!<CR>',                                "Test Go Package" },
+--     ['<leader>tt'] = { ':GoTestFunc!<CR>)',                           "Test Go Function" }
     ['<leader>td'] = { "<Cmd>lua require('dap-go').debug_test()<CR>", "Debug Test" }
   }, { buffer = 0 })
 end

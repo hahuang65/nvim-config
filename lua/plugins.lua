@@ -113,6 +113,17 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     config = function() require'plugin/lualine' end
   }
 
+  use { 'nvim-neotest/neotest',
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-neotest/neotest-python",
+      "https://github.com/akinsho/neotest-go"
+    },
+    config = function() require'plugin/test' end
+  }
+
   use { 'nvim-orgmode/orgmode',
     requires = {
       'akinsho/org-bullets.nvim'
@@ -168,11 +179,6 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
   use { 'tpope/vim-fugitive' }
   use { 'tpope/vim-repeat' }
   use { 'tpope/vim-surround' }
-
-  use { 'vim-test/vim-test',
-    requires = { 'tpope/vim-dispatch' }, -- Auto-determine compiler for tests
-    config = function() require'plugin/test' end
-  }
 
   use { 'wbthomason/packer.nvim' }
 

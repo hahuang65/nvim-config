@@ -1,4 +1,10 @@
--- https://github.com/vim-test/vim-test
+-- https://github.com/nvim-neotest/neotest
 
-vim.g['test#strategy'] = 'make'
-vim.cmd [[let test#python#runner = "pytest"]]
+require("neotest").setup({
+  adapters = {
+    require("neotest-python")({
+      dap = { justMyCode = false },
+    }),
+    require("neotest-go")
+  }
+})
