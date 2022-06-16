@@ -96,23 +96,6 @@ local function testChoices(position)
 end
 
 return {
-  s("assert",
-    fmt(
-      [[
-        assert{} := func(t testing.TB, {}) {{
-          t.Helper()
-
-          {}
-        }}
-      ]],
-      {
-        i(1, "Name"),
-        d(2, arglist, {}),
-        i(3)
-      }
-    )
-  ),
-
   s("err",
     fmt(
       [[
@@ -261,12 +244,26 @@ return {
     fmt(
       [[
         func Test{}(t *testing.T) {{
-          {}
+          cases := []struct {{
+            name string
+            {}
+          }}{{
+            {{"{}", {}}},
+          }}
+
+          for _, c := range cases {{
+            t.Run(c.name, func(t *testing.T) {{
+              {}
+            }})
+          }}
         }}
       ]],
       {
         i(1, "Name"),
-        testChoices(2)
+        i(2),
+        i(3, "TestCaseName"),
+        i(4),
+        i(5)
       }
     )
   ),
