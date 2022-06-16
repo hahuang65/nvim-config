@@ -212,6 +212,28 @@ return {
     )
   ),
 
+  s("main",
+    fmt(
+      [[
+        func main() {{
+          w := {}
+          if err := run(os.Args, w); err != nil {{
+            fmt.Fprintf(w, "%s\n", err)
+            os.Exit(1)
+          }}
+        }}
+
+        func run(args []string, w io.Writer) error {{
+          {}
+        }}
+      ]],
+      {
+        i(1, "os.Stdout"),
+        i(0)
+      }
+    )
+  ),
+
   s("teaCmd",
     fmt(
       [[
