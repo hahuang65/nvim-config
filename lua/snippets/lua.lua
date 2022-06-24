@@ -6,7 +6,7 @@ local i = ls.insert_node
 local s = ls.s
 local sn = ls.snippet_node
 local t = ls.text_node
-local fmt = require("luasnip.extras.fmt").fmt
+local fmt = require("luasnip.extras.fmt").fmta
 
 local function split_path(path)
   local parts = vim.split(path, "[./]", false)
@@ -23,27 +23,35 @@ local function endif()
   return sn(nil, {
     c(1, {
       t("end"),
-      sn(nil, {
-        t("else"),
-        t({"", "\t"}),
-        i(1),
-        t({"", "end"})
-      }),
-      sn(nil, {
-        t("elseif "),
-        i(1),
-        t({" then", "\t"}),
-        i(2),
-        t({"", ""}),
-        d(3, endif, {})
-      })
+      sn(nil, fmt(
+        [[
+          else
+            <>
+          end
+        ]],
+        {
+          i(1)
+        }
+      )),
+      sn(nil, fmt(
+        [[
+          elseif <1> then
+            <2>
+          <3>
+        ]],
+        {
+          i(1),
+          i(2),
+          d(3, endif, {})
+        }
+      ))
     })
   })
 end
 
 return {
   s("req",
-    fmt([[local {} = require('{}')]], { f(function(import_name)
+    fmt([[local <> = require('<>')]], { f(function(import_name)
       return split_path(import_name[1][1])
     end, { 1 }), i(1) })
   ),
@@ -51,8 +59,8 @@ return {
   s("func",
     fmt(
       [[
-      {} {}({})
-        {}
+      <1> <2>(<3>)
+        <4>
       end
       ]],
       {
@@ -62,7 +70,7 @@ return {
         }),
         i(2, "name"),
         i(3),
-        i(0)
+        i(4)
       }
     )
   ),
@@ -70,9 +78,9 @@ return {
   s("if",
     fmt(
       [[
-        if {} then
-          {}
-        {}
+        if <1> then
+          <2>
+        <3>
       ]],
       {
         i(1),
@@ -84,23 +92,30 @@ return {
 
   s("use",
     fmt(
-      [[use {{{}}}]],
+      [[use <>]],
       {
         c(1, {
-          sn(1, {
-            t(" '"),
-            i(1),
-            t("' ")
-          }),
-          sn(1, {
-            t(" '"),
-            i(1),
-            t({"',", "\tconfig = function() require'plugin/"}),
-            f(function(name)
-              return split_path(name[1][1])
-            end, { 1 }),
-            t({"' end", ""})
-          })
+          sn(1, fmt(
+            [[
+              { '<>' }
+            ]],
+            {
+              i(1)
+            }
+          )),
+          sn(1, fmt(
+            [[
+              { '<>',
+                config = function() require'plugin/<>' end
+              }
+            ]],
+            {
+              i(1),
+              f(function(name)
+                return split_path(name[1][1])
+              end, { 1 }),
+            }
+          ))
         })
       }
     )

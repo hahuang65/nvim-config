@@ -8,30 +8,47 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 local function arglist()
-  return sn(nil, {
-    i(1, "arg"),
-    c(2, {
-      t(""),
-      sn(1, {
-        t(", "),
-        d(1, arglist, {})
+  return sn(nil, fmt(
+    [[
+      {1}{2}
+    ]],
+    {
+      i(1, "arg"),
+      c(2, {
+        t(""),
+        sn(1, fmt(
+          [[
+            , {}
+          ]],
+          {
+            d(1, arglist, {})
+          }
+        ))
       })
-    }),
-  })
+    }
+  ))
 end
 
 local function do_or_brackets(position)
   return c(position, {
-    sn(1, {
-      t("{ "),
-      i(1),
-      t(" }")
-    }),
-    sn(1, {
-      t({"do", "\t"}),
-      i(1),
-      t({"", "end"})
-    })
+    sn(1, fmt(
+      [[
+        {{ {} }}
+      ]],
+      {
+        i(1)
+      }
+    )),
+    sn(1, fmt(
+      [[
+        do
+          {}
+        end
+      ]],
+      {
+        i(1)
+      }
+    ))
   })
 end
 
@@ -79,12 +96,15 @@ return {
       {
         c(1, {
           i(1, "name"),
-          sn(1, {
-            i(1, "name"),
-            t("("),
-            d(2, arglist, {}),
-            t(")")
-          })
+          sn(1, fmt(
+            [[
+              {1}({2})
+            ]],
+            {
+              i(1, "name"),
+              d(2, arglist, {}),
+            }
+          ))
         }),
         i(0)
       }
@@ -101,11 +121,14 @@ return {
       ]],
       {
         c(1, {
-          sn(1, {
-            t("|"),
-            i(1, "x"),
-            t("|")
-          }),
+          sn(1, fmt(
+            [[
+              |{}|
+            ]],
+            {
+              i(1, "x"),
+            }
+          )),
           t("")
         }),
         i(0)
@@ -138,13 +161,13 @@ return {
   s("it",
     fmt(
       [[
-        it "{}" do
-          {}
+        it "{1}" do
+          {2}
         end
       ]],
       {
         i(1, "describe the test"),
-        i(0)
+        i(2)
       }
     )
   ),
@@ -152,7 +175,7 @@ return {
   s("let",
     fmt(
       [[
-        {}(:{}) {}
+        {1}(:{2}) {3}
       ]],
       {
         c(1, {t("let"), t("let!")}),

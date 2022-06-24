@@ -5,23 +5,94 @@ local i = ls.insert_node
 local s = ls.s
 local sn = ls.snippet_node
 local t = ls.text_node
-local fmt = require("luasnip.extras.fmt").fmt
-local rep = require("luasnip.extras").rep
+local fmt = require("luasnip.extras.fmt").fmta
 
 local function arglist()
-  return sn(nil, {
-    sn(1, {
+  -- This function provides an infinite argument list
+  -- it supplies a `arg type` which has a choice_node at the end.
+  -- The choice defaults to blank, but change be selected to add
+  -- another `arg type` after the previous one.
+  -- This can be done infinitely.
+  return sn(nil, fmt(
+    [[
+      <1><2>
+    ]],
+    {
       i(1, "arg type"),
-    }),
-    c(2, {
-      t(""),
-      sn(1, {
-        t(", "),
-        d(1, arglist, {})
+      c(2, {
+        t(""),
+        sn(1, fmt(
+          [[
+            , <1>
+          ]],
+          {
+            d(1, arglist, {})
+          }
+        ))
       })
-    }),
-  })
+    }
+  ))
 end
+
+local function subtest(pos)
+  -- FIXME This function has wrong indentation when used in the `test` snippet
+  -- which is why line <2> on is indented 1 extra layer
+  -- This function provides an infinite list of subtests
+  -- Similar to arglist(), it provides a subtest, then optionally
+  -- provides another one after.
+  return sn(pos, fmt(
+    [[
+      t.Run("<1>", func(t *testing.T) {
+          <2>
+        <3>
+    ]],
+    {
+      i(1, "TestName"),
+      i(2),
+      c(3, {
+        t("})"),
+        sn(1, fmt(
+          [[
+            })
+
+            <1>
+          ]],
+          {
+            d(1, subtest, {})
+          }
+        ))
+      })
+    }
+  ))
+end
+
+local function testtable()
+  -- FIXME This function has wrong indentation when used in the `test` snippet
+  -- which is why all lines after `name string` is indented extra
+  return sn(nil, fmt(
+    [[
+      cases := []struct {
+        name string
+          <1>
+        }{
+          {"<2>", <3>},
+        }
+
+        for _, c := range cases {
+          t.Run(c.name, func(t *testing.T) {
+            <4>
+          })
+        }
+    ]],
+    {
+      i(1, "arg type"),
+      i(2, "TestCaseName"),
+      i(3),
+      i(4)
+    })
+  )
+end
+
 
 local function endif()
   -- This function provides choices to end an `if` clause.
@@ -33,65 +104,29 @@ local function endif()
   return sn(nil, {
     c(1, {
       t("}"),
-      sn(nil, {
-        t("} else {"),
-        t({"", "\t"}),
-        i(1),
-        t({"", "}"})
-      }),
-      sn(nil, {
-        t("} else if "),
-        i(1),
-        t({" {", "\t"}),
-        i(2),
-        t({"", ""}),
-        d(3, endif, {})
-      })
+      sn(nil, fmt(
+        [[
+          } else {
+            <1>
+          }
+        ]],
+        {
+          i(1)
+        }
+      )),
+      sn(nil, fmt(
+        [[
+          } else if <1> {
+            <2>
+          <3>
+        ]],
+        {
+          i(1),
+          i(2),
+          d(3, endif, {})
+        }
+      ))
     })
-  })
-end
-
-local function testChoices(position)
-  return c(position, {
-    sn(1, {
-      i(1, "got"),
-      t(" := "),
-      i(2),
-      t({"", "\t"}),
-      i(3, "want"),
-      t(" := "),
-      i(4),
-      t({"", "", "\tif "}),
-      rep(1),
-      t(" != "),
-      rep(3),
-      t({" {", "\t\tt.Errorf(\"\\n"}),
-      rep(1),
-      t(": %q\\n"),
-      rep(3),
-      t(": %q\", "),
-      rep(1),
-      t(" ,"),
-      rep(3),
-      t({")", "\t}"})
-    }),
-    sn(1, {
-      i(1, "got"),
-      t(" := "),
-      i(2),
-      t({"", "\t"}),
-      i(3, "want"),
-      t(" := "),
-      i(4),
-      t({"", "", "\tassert"}),
-      i(5, "Something"),
-      t("(t, "),
-      rep(1),
-      t(", "),
-      rep(3),
-      t(")")
-    }),
-    i(1)
   })
 end
 
@@ -99,13 +134,13 @@ return {
   s("err",
     fmt(
       [[
-        if {} != nil {{
-          {}
-        }}
+        if <1> != nil {
+          <2>
+        }
       ]],
       {
         i(1, "err"),
-        i(0)
+        i(2)
       }
     )
   ),
@@ -113,49 +148,42 @@ return {
   s("for",
     fmt(
       [[
-        for {}
+        for <1> {
+          <2>
+        }
       ]],
       {
         c(1, {
-          sn(1, {
-            i(1, "index"),
-            c(2, {
-              sn(1, {
-                t(", "),
-                i(1, "element"),
-              }),
-              t("")
-            }),
-            t(" := range "),
-            i(3, "collection"),
-            t({" {", "\t"}),
-            i(4),
-            t({"", "}"})
-          }),
-          sn(1, {
-            i(1, "i"),
-            t(" := "),
-            i(2, "1"),
-            t("; "),
-            rep(1),
-            c(3, {
-              t(" < "),
-              t(" <= "),
-              t(" > "),
-              t(" >= ")
-            }),
-            i(4, "j"),
-            t("; "),
-            rep(1),
-            c(5, {
-              t("++"),
-              t("--"),
-            }),
-            t({" {", "\t"}),
-            i(6),
-            t({"", "}"})
-          })
-        })
+          sn(1, fmt(
+            [[
+              <1>, <2> := range <3>
+            ]],
+            {
+              i(1, "index"),
+              i(2, "element"),
+              i(3, "collection"),
+            }
+          )),
+          sn(1, fmt(
+            [[
+              _, <1> := range <2>
+            ]],
+            {
+              i(1, "element"),
+              i(2, "collection")
+            }
+          )),
+          sn(1, fmt(
+            [[
+              <1> := range <2>
+            ]],
+            {
+              i(1, "index"),
+              i(2, "collection")
+            }
+          ))
+        }),
+        i(2)
       }
     )
   ),
@@ -163,22 +191,24 @@ return {
   s("func",
     fmt(
       [[
-        func {}({}){}{{
-          {}
-        }}
+        func <1>(<2>)<3> {
+          <4>
+        }
 
       ]],
       {
         c(1, {
           i(1, "name"),
-          sn(1, {
-            t("("),
-            i(1, "t"),
-            t(" "),
-            i(2, "type"),
-            t(") "),
-            i(3, "name")
-          })
+          sn(1, fmt(--{
+            [[
+              (<1> <2>) <3>
+            ]],
+            {
+              i(1, "t"),
+              i(2, "type"),
+              i(3, "name")
+            })
+          )
         }),
         c(2, {
           d(1, arglist, {}),
@@ -188,9 +218,8 @@ return {
           sn(1, {
             t(" "),
             i(1, "returnType"),
-            t(" ")
           }),
-          t(" ")
+          t("")
         }),
         i(0)
       }
@@ -200,9 +229,9 @@ return {
   s("if",
     fmt(
       [[
-        if {} {{
-          {}
-        {}
+        if <1> {
+          <2>
+        <3>
       ]],
       {
         i(1),
@@ -215,21 +244,21 @@ return {
   s("main",
     fmt(
       [[
-        func main() {{
-          w := {}
-          if err := run(os.Args, w); err != nil {{
+        func main() {
+          w := <1>
+          if err := run(os.Args, w); err != nil {
             fmt.Fprintf(w, "%s\n", err)
             os.Exit(1)
-          }}
-        }}
+          }
+        }
 
-        func run(args []string, w io.Writer) error {{
-          {}
-        }}
+        func run(args []string, w io.Writer) error {
+          <2>
+        }
       ]],
       {
         i(1, "os.Stdout"),
-        i(0)
+        i(2)
       }
     )
   ),
@@ -237,26 +266,35 @@ return {
   s("teaCmd",
     fmt(
       [[
-        func {}
+        func <1>
       ]],
       {
         c(1, {
-          sn(1, {
-            i(1, "name"),
-            t({"() tea.Msg {", "\t"}),
-            i(2),
-            t({"", "}"})
-          }),
-          sn(1, {
-            i(1, "name"),
-            t("("),
-            i(2, "arg"),
-            t(" "),
-            i(3, "type"),
-            t({") tea.Cmd {", "\treturn func() tea.Msg {", "\t\t"}),
-            i(4),
-            t({"", "\t}", "}"})
-          })
+          sn(1, fmt(
+            [[
+              <1>() tea.Msg {
+                <2>
+              }
+            ]],
+            {
+              i(1, "name"),
+              i(2),
+            }
+          )),
+          sn(1, fmt(
+            [[
+              <1>(<2>) tea.Msg {
+                return func() tea.Msg {
+                  <3>
+                }
+              }
+            ]],
+            {
+              i(1, "name"),
+              d(2, arglist, {}),
+              i(3),
+            }
+          ))
         })
       }
     )
@@ -265,41 +303,17 @@ return {
   s("test",
     fmt(
       [[
-        func Test{}(t *testing.T) {{
-          cases := []struct {{
-            name string
-            {}
-          }}{{
-            {{"{}", {}}},
-          }}
-
-          for _, c := range cases {{
-            t.Run(c.name, func(t *testing.T) {{
-              {}
-            }})
-          }}
-        }}
+        func Test<1>(t *testing.T) {
+          <2>
+        }
       ]],
       {
         i(1, "Name"),
-        i(2),
-        i(3, "TestCaseName"),
-        i(4),
-        i(5)
-      }
-    )
-  ),
-
-  s("t.Run",
-    fmt(
-      [[
-        t.Run("{}", func(t *testing.T) {{
-          {}
-        }}
-      ]],
-      {
-        i(1, "test description"),
-        testChoices(2)
+        c(2, {
+          subtest(1),
+          i(""),
+          d(1, testtable, {})
+        })
       }
     )
   )

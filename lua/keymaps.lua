@@ -200,7 +200,7 @@ wk.register({
 local ls = require"luasnip"
 
 map({'i', 's'}, '<C-k>', function()
-  if ls.expand_or_jumpable() then
+  if ls.expand_or_locally_jumpable() then
     ls.expand_or_jump()
   end
 end)
@@ -212,7 +212,7 @@ map({'i', 's'}, '<C-j>', function()
 end)
 
 map({'i', 's'}, '<C-l>', function()
-  if ls.choice_active then
+  if ls.choice_active() then
     ls.change_choice(1)
   end
 end)

@@ -17,20 +17,28 @@ local function endif()
   return sn(nil, {
     c(1, {
       t("fi"),
-      sn(nil, {
-        t("else"),
-        t({"", "\t"}),
-        i(1),
-        t({"", "fi"})
-      }),
-      sn(nil, {
-        t("elif "),
-        i(1),
-        t({"; then", "\t"}),
-        i(2),
-        t({"", ""}),
-        d(3, endif, {})
-      })
+      sn(nil, fmt(
+        [[
+          else
+            {1}
+          fi
+        ]],
+        {
+          i(1)
+        }
+      )),
+      sn(nil, fmt(
+        [[
+          elif {1}; then
+            {2}
+          {3}
+        ]],
+        {
+          i(1),
+          i(2),
+          d(3, endif, {})
+        }
+      ))
     })
   })
 end
@@ -39,9 +47,9 @@ return {
   s("if",
     fmt(
       [[
-        if {}; then
-          {}
-        {}
+        if {1}; then
+          {2}
+        {3}
       ]],
       {
         i(1),
