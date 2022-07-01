@@ -38,7 +38,7 @@ augroup('terminal', {
 })
 
 augroup('format_on_save', {
-  'BufWritePre * lua vim.lsp.buf.formatting_sync()'
+  'BufWritePre * lua vim.lsp.buf.format()'
 })
 
 -- Winbar
