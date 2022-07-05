@@ -33,7 +33,7 @@ augroup('nvim_config', {
 augroup('terminal', {
   'TermOpen * setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no',
   'TermOpen * nnoremap <buffer> <C-c> i<C-c>',
-  'TermOpen * startinsert',
+  'TermOpen * lua if vim.startswith(vim.api.nvim_buf_get_name(0), "term://") then vim.cmd("startinsert") end', -- https://github.com/nvim-neotest/neotest/issues/2#issuecomment-1149532666
   'TermClose * call nvim_input("<CR>")' -- Closes the terminal once the shell is exited
 })
 

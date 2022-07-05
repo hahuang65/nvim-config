@@ -47,14 +47,15 @@ wk.register({
 -- Test
 wk.register({
   ['<leader>t']  = { name = "Test" },
-  ['<leader>ta'] = { ':lua require("neotest").run.run(vim.fn.getcwd())<CR>',    "Test Project" },
+  ['<leader>ta'] = { ':lua require("neotest").run.run({ suite = true })<CR>',     "Test Project" },
+  ['<leader>tA'] = { ':lua require("neotest").run.attach()<CR>',                  "Attach to Current Run" },
   -- ['<leader>td'] = { ':lua require("neotest").run.run({strategy = "dap"})<CR>', "Debug Nearest Test" },
-  ['<leader>tf'] = { ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', "Test File" },
-  ['<leader>to'] = { ':lua require("neotest").summary.toggle()<CR>',            "Toggle Test Summary" },
-  ['<leader>tO'] = { ':lua require("neotest").output.open()<CR>',               "Open Test Output" }, -- Use { enter = true } to stay in insert mode in the output window
-  ['<leader>ts'] = { ':lua require("neotest").run.stop()<CR>',                  "Test Stop" },
-  ['<leader>tt'] = { ':lua require("neotest").run.run()<CR>',                   "Test Nearest" },
-  ['<leader>tT'] = { ':lua require("neotest").run.run_last()<CR>',              "Re-Run Last Test" },
+  ['<leader>tf'] = { ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>',   "Test File" },
+  ['<leader>to'] = { ':lua require("neotest").summary.toggle()<CR>',              "Toggle Test Summary" },
+  ['<leader>tO'] = { ':lua require("neotest").output.open({ enter = true })<CR>', "Open Test Output" }, -- Use { enter = true } to stay in insert mode in the output window
+  ['<leader>ts'] = { ':lua require("neotest").run.stop()<CR>',                    "Test Stop" },
+  ['<leader>tt'] = { ':lua require("neotest").run.run()<CR>',                     "Test Nearest" },
+  ['<leader>tT'] = { ':lua require("neotest").run.run_last()<CR>',                "Re-Run Last Test" },
 })
 
 -- Quickfix and Location List
