@@ -271,6 +271,7 @@ local function lsp_keymaps(client)
     ['K'] =          { '<Cmd>lua vim.lsp.buf.hover()<CR>',            "Hover" },
     ['[d'] =         { '<Cmd>lua vim.diagnostic.goto_prev()<CR>',     "Previous Diagnostic" },
     [']d'] =         { '<Cmd>lua vim.diagnostic.goto_next()<CR>',     "Next Diagnostic" },
+    ['<leader>D'] =  { '<Cmd>lua vim.diagnostic.open_float()<CR>',    "Open Diagnostic in Float" },
     ['<leader>k'] =  { '<Cmd>lua vim.lsp.buf.signature_help()<CR>',   "Show Signature Help" },
     ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>', "List Diagnostics" },
     ['<leader>R'] =  { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
