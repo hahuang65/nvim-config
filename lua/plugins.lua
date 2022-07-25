@@ -12,6 +12,7 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
 
   use { 'catppuccin/nvim',
     as = "catppuccin",
+    run = ":CatppuccinCompile",
     config = function() require'plugin/catppuccin' end
   }
 
