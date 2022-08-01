@@ -1,6 +1,7 @@
 -- https://github.com/catppuccin/nvim
 
 local catppuccin = require("catppuccin")
+vim.g.catppuccin_flavour = "mocha"
 
 catppuccin.setup {
   compile = {
