@@ -37,8 +37,15 @@ augroup('terminal', {
   'TermClose * call nvim_input("<CR>")' -- Closes the terminal once the shell is exited
 })
 
-augroup('format_on_save', {
-  'BufWritePre * lua vim.lsp.buf.format()'
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = function()
+      if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
+          return
+      end
+
+      vim.lsp.buf.format()
+  end
 })
 
 -- Winbar
