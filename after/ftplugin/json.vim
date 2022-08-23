@@ -1,1 +1,1 @@
-command! FormatJSON %!python -m json.tool
+command! FormatJSON :%!jq '.'
