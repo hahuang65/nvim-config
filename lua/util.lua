@@ -1,16 +1,30 @@
 function Paste()
-  vim.ui.input({ prompt = "Paste Name: " }, function(name)
+  vim.ui.input({ prompt = "New Paste:" }, function(name)
     local url = vim.cmd([['<,'>w ! pst -u -n ]]..name..'.'..vim.bo.filetype)
     print(url)
   end)
 end
 
 function NewBranch()
-  vim.ui.input({ prompt = "Branch Name: " }, function(name)
-    vim.cmd([[Git new ]]..name)
-    vim.cmd([[message clear]])
+  vim.ui.input({ prompt = "New Branch:" }, function(name)
+    if name then
+      vim.cmd([[Git new ]]..name)
+    end
   end)
 end
+
+function ChangeBranch()
+  local branches = vim.fn.systemlist("git branches | grep --invert-match '^* '")
+
+  vim.ui.select(branches,
+    { prompt = "Select Branch:" },
+    function(branch)
+      if branch then
+        vim.cmd([[Git change ]]..branch)
+      end
+    end)
+end
+
 local function EditSnippets(type)
   vim.cmd([[split $HOME/.dotfiles/nvim/lua/snippets/]]..type..[[.lua]])
 end

@@ -97,6 +97,7 @@ wk.register({
   -- vim-fugitive
   -- https://github.com/tpope/vim-fugitive
   ['<leader>g']  = { name = "Git" },
+  ['<leader>gb'] = { ':lua ChangeBranch()<CR>',         "Change Branch" },
   ['<leader>gg'] = { ':Git<CR>',                        "Fugitive" },
   ['<leader>go'] = { ':Git repo view --web<CR>',        "Open repository in browser" },
   ['<leader>gp'] = { ':Git publish<CR>',                "Publish" },
@@ -117,10 +118,6 @@ wk.register({
   ['[h']         = { [[&diff ? '[h' : '<cmd>lua require"gitsigns".prev_hunk()<CR>']], "Previous Git Hunk", expr = true },
   ['<leader>gr'] = { [[<cmd>lua require"gitsigns".reset_hunk()<CR>]],                 "Reset Hunk" },
   ['<leader>g?'] = { [[<cmd>lua require"gitsigns".preview_hunk()<CR>]],               "Preview Hunk" },
-
-  ['<leader>gb'] = { [[<cmd>Telescope git_branches<CR>]], "Branch" },
-  ['<leader>gc'] = { [[:GV!<CR>]],                        "Commits (Buffer)" },
-  ['<leader>gC'] = { [[:GV<CR>]],                         "Commits (Project)" }
 })
 
 wk.register({
