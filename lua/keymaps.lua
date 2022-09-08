@@ -98,6 +98,8 @@ wk.register({
   -- https://github.com/tpope/vim-fugitive
   ['<leader>g']  = { name = "Git" },
   ['<leader>gb'] = { ':lua ChangeBranch()<CR>',         "Change Branch" },
+  ['<leader>gc'] = { ':GV!<CR>',                        "Commits (Buffer)" },
+  ['<leader>gC'] = { ':GV<CR>',                         "Commits (Project)" },
   ['<leader>gg'] = { ':Git<CR>',                        "Fugitive" },
   ['<leader>go'] = { ':Git repo view --web<CR>',        "Open repository in browser" },
   ['<leader>gp'] = { ':Git publish<CR>',                "Publish" },
