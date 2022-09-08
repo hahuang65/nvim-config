@@ -9,9 +9,9 @@ catppuccin.setup {
     path = vim.fn.stdpath "cache" .. "/catppuccin"
   },
   dim_inactive = {
-		enabled = false,
+		enabled = true,
 		shade = "dark",
-		percentage = 0.15,
+		percentage = 0.40,
 	},
   transparent_background = false,
   term_colors = true,
