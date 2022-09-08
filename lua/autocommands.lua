@@ -48,6 +48,17 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
+-- Close an unedited buffer if it's unnamed
+vim.api.nvim_create_autocmd({ "BufLeave" }, {
+  pattern = "{}",
+  callback = function()
+    if vim.bo.filetype == "" and vim.fn.line("$") == 1 and vim.fn.getline(1) == "" then
+      vim.bo.buftype = "nofile"
+      vim.bo.bufhidden = "unload"
+    end
+  end
+})
+--
 -- Winbar
 vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost" }, {
   callback = function()
@@ -66,5 +77,5 @@ vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost" }, {
     end
 
     vim.opt_local.winbar = require('util').Filename()
-  end,
+  end
 })
