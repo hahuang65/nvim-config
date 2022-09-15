@@ -69,10 +69,11 @@ vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost" }, {
       "fugitive",
       "gitcommit",
       "NvimTree",
+      "lspinfo",
+      "qf"
     }
 
-    if vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
-      vim.opt_local.winbar = nil
+    if vim.fn.winheight(0) <= 1 or vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
       return
     end
 
