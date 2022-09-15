@@ -163,7 +163,7 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     'nvim-telescope/telescope.nvim',
     'kyazdani42/nvim-web-devicons',
   },
-  config = function () require"plugin/octo" end
+  config = function() require"plugin/octo" end
 }
 
   use { 'rafcamlet/nvim-luapad',
@@ -171,7 +171,10 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     cmd = { 'Luapad', 'LuaRun', 'Lua' }
   }
 
-  use {'ray-x/lsp_signature.nvim'}
+  use {'ray-x/lsp_signature.nvim',
+    config = function() require"plugin/signature" end
+  }
+
   use { 'romainl/vim-cool' }
 
   use {'stevearc/dressing.nvim',
