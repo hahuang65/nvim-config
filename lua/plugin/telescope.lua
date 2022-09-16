@@ -29,23 +29,3 @@ require('telescope').setup{
 }
 
 require('telescope').load_extension('fzf')
-
-find_nvim_config = function()
-    require("telescope.builtin").find_files({
-        prompt_title = "Neovim Config",
-        cwd = "$HOME/.dotfiles/nvim/",
-    })
-end
-
-find_dotfiles = function()
-    require("telescope.builtin").find_files({
-        prompt_title = "Dotfiles",
-        cwd = "$HOME/.dotfiles/",
-    })
-end
-
-find_project_files = function(opts)
-  opts = opts or  {}
-  local ok = pcall(require'telescope.builtin'.git_files, opts)
-  if not ok then require'telescope.builtin'.find_files(opts) end
-end

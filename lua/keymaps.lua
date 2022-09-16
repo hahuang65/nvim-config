@@ -6,14 +6,6 @@ local function map(mode, lhs, rhs, opts)
     vim.keymap.set(mode, lhs, rhs, options)
 end
 
-local function buf_map(mode, lhs, rhs, opts)
-    local options = {noremap = true, silent = true, buffer = true}
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.keymap.set(mode, lhs, rhs, options)
-end
-
 local wk = require("which-key")
 
 -- Editing
@@ -32,7 +24,7 @@ wk.register({
 })
 
 wk.register({
-  ['<leader>P']  = { ":lua Paste()<CR>", "Paste (to paste.sr.ht)" }
+  ['<leader>P']  = { ":lua require('util').paste()<CR>", "Paste (to paste.sr.ht)" }
 }, { mode = 'x' })
 
 -- Make
@@ -97,23 +89,23 @@ wk.register({
   -- vim-fugitive
   -- https://github.com/tpope/vim-fugitive
   ['<leader>g']  = { name = "Git" },
-  ['<leader>gb'] = { ':lua ChangeBranch()<CR>',         "Change Branch" },
-  ['<leader>gc'] = { ':GV!<CR>',                        "Commits (Buffer)" },
-  ['<leader>gC'] = { ':GV<CR>',                         "Commits (Project)" },
-  ['<leader>gg'] = { ':Git<CR>',                        "Fugitive" },
-  ['<leader>go'] = { ':Git repo view --web<CR>',        "Open repository in browser" },
-  ['<leader>gp'] = { ':Git publish<CR>',                "Publish" },
-  ['<leader>gt'] = { ':Git trunk<CR>',                  "Return to Trunk" },
-  ['<leader>gT'] = { ':Git retrunk<CR>',                "Rebase Against Trunk" },
-  ['<leader>gs'] = { ':Git sync<CR>',                   "Sync" },
-  ['<leader>gA'] = { ':help fugitive_c<CR>',            "Amend" },
-  ['<leader>gN'] = { ':lua NewBranch()<CR>',            "New Branch" },
-  ['<leader>gO'] = { ':Git pr view --web<CR>',          "Open PR in browser" },
-  ['<leader>gP'] = { ':Git pr list --web<CR>',          "List open PRs in browser" },
-  ['<leader>gR'] = { ':Git pr create --web --fill<CR>', "Create PR" },
-  ['<leader>gS'] = { ':Git shove<CR>',                  "Shove" },
-  ['<leader>g['] = { ':diffget //2 | :diffupdate<CR>',  "Conflict Select (Left)" },
-  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>',  "Conflict Select (Right)" },
+  ['<leader>gb'] = { ':lua require("git").change_branch()<CR>', "Change Branch" },
+  ['<leader>gc'] = { ':GV!<CR>',                                "Commits (Buffer)" },
+  ['<leader>gC'] = { ':GV<CR>',                                 "Commits (Project)" },
+  ['<leader>gg'] = { ':Git<CR>',                                "Fugitive" },
+  ['<leader>go'] = { ':Git repo view --web<CR>',                "Open repository in browser" },
+  ['<leader>gp'] = { ':Git publish<CR>',                        "Publish" },
+  ['<leader>gt'] = { ':Git trunk<CR>',                          "Return to Trunk" },
+  ['<leader>gT'] = { ':Git retrunk<CR>',                        "Rebase Against Trunk" },
+  ['<leader>gs'] = { ':Git sync<CR>',                           "Sync" },
+  ['<leader>gA'] = { ':help fugitive_c<CR>',                    "Amend" },
+  ['<leader>gN'] = { ':lua require("git").new_branch()<CR>',    "New Branch" },
+  ['<leader>gO'] = { ':Git pr view --web<CR>',                  "Open PR in browser" },
+  ['<leader>gP'] = { ':Git pr list --web<CR>',                  "List open PRs in browser" },
+  ['<leader>gR'] = { ':Git pr create --web --fill<CR>',         "Create PR" },
+  ['<leader>gS'] = { ':Git shove<CR>',                          "Shove" },
+  ['<leader>g['] = { ':diffget //2 | :diffupdate<CR>',          "Conflict Select (Left)" },
+  ['<leader>g]'] = { ':diffget //3 | :diffupdate<CR>',          "Conflict Select (Right)" },
 
   -- gitsigns
   -- https://github.com/lewis6991/gitsigns.nvim
@@ -152,11 +144,12 @@ wk.register({
 })
 
 wk.register({
-  ['<leader><leader>'] = { [[<cmd>lua find_project_files()<CR>]],            "Files" },
-  ['<leader>?']        = { [[<cmd>Telescope live_grep<CR>]],                 "Grep (Project)" },
-  ['<leader>/']        = { [[<cmd>Telescope current_buffer_fuzzy_find<CR>]], "Grep (Buffer)" },
-  ['<leader>*']        = { [[<cmd>Telescope grep_string<CR>]],               "Grep (String)" },
-  ['<leader>b']        = { [[<cmd>Telescope buffers<CR>]],                   "Buffers" }
+  ['<leader><leader>'] = { [[<cmd>lua require("finders").project_files()<CR>]], "Files" },
+  ['<leader>f']        = { [[<cmd>Telescope find_files<CR>]],                   "Files" },
+  ['<leader>?']        = { [[<cmd>Telescope live_grep<CR>]],                    "Grep (Project)" },
+  ['<leader>/']        = { [[<cmd>Telescope current_buffer_fuzzy_find<CR>]],    "Grep (Buffer)" },
+  ['<leader>*']        = { [[<cmd>Telescope grep_string<CR>]],                  "Grep (String)" },
+  ['<leader>b']        = { [[<cmd>Telescope buffers<CR>]],                      "Buffers" }
 })
 
 -- Treesitter Objects
@@ -188,8 +181,8 @@ wk.register({
 -- Shortcuts to edit special projects/files
 wk.register({
   ['<leader>e']  = { name = "Edit" },
-  ['<leader>ed'] = { [[<cmd>lua find_dotfiles()<CR>]], "Dotfiles" },
-  ['<leader>ev'] = { [[<cmd>lua find_nvim_config()<CR>]],     "Neovim Config" }
+  ['<leader>ed'] = { [[:lua require("finders").dotfiles()<CR>]], "Dotfiles" },
+  ['<leader>ev'] = { [[:lua require("finders").config()<CR>]],   "Neovim Config" }
 })
 
 -- telescope-project
@@ -223,8 +216,8 @@ end)
 wk.register({
   ['<leader>s'] = { name = "Snippets" },
   ['<leader>sr'] = { [[<Cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>]], "Reload Snippets" },
-  ['<leader>se'] = { [[<Cmd>lua EditSnippetsCurrentFiletype()<CR>]],                   "Edit Snippets (Current Filetype)" },
-  ['<leader>sE'] = { [[<Cmd>lua EditSnippetsPromptFiletype()<CR>]],                    "Edit Snippets (Prompt Filetype)" },
+  ['<leader>se'] = { [[<Cmd>lua require("snippets").edit_current_file_type()<CR>]],    "Edit Snippets (Current Filetype)" },
+  ['<leader>sE'] = { [[<Cmd>lua require("snippets").edit_with_prompt()<CR>]],          "Edit Snippets (Prompt Filetype)" },
 })
 
 -- comment.nvim

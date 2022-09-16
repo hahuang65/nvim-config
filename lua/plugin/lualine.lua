@@ -1,8 +1,8 @@
 -- https://github.com/hoob3rt/lualine.nvim
 -- https://gist.githubusercontent.com/hoob3rt/b200435a765ca18f09f83580a606b878/raw/d99388470ed5ddb1da32a0bd3bccd4a69eb15429/evil_lualine.lua
 
-local lualine = require 'lualine'
-local util = require("../util")
+local lualine = require("lualine")
+local util = require("util")
 
 -- Tokyo Night Storm
 -- Colors = {
@@ -203,7 +203,7 @@ ins_left_with_inactive {
   function()
     local filename = vim.fn.expand('%:t')
     local extension = vim.fn.expand('%:e')
-    return util.FiletypeIcon(filename, extension)
+    return util.filetype_icon(filename, extension)
   end,
   condition = conditions.buffer_not_empty,
   color = {fg = Colors.magenta, gui = 'bold'},
@@ -212,7 +212,7 @@ ins_left_with_inactive {
 
 ins_left_with_inactive {
   function()
-    return util.Filename()
+    return util.filename()
   end,
   condition = conditions.buffer_not_empty,
   color = {fg = Colors.magenta, gui = 'bold'},

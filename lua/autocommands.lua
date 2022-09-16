@@ -1,3 +1,5 @@
+local util = require('util')
+
 local function augroup(name, autocmds)
   vim.cmd('augroup ' .. name)
   vim.cmd('autocmd!')
@@ -77,6 +79,6 @@ vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost", "CursorHold", "Cursor
       return
     end
 
-    vim.opt_local.winbar = require('util').Filename()
+    vim.opt_local.winbar = util.filename()
   end
 })

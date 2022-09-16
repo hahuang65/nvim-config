@@ -1,51 +1,18 @@
-function Paste()
+local function paste()
   vim.ui.input({ prompt = "New Paste:" }, function(name)
     local url = vim.cmd([['<,'>w ! pst -u -n ]]..name..'.'..vim.bo.filetype)
     print(url)
   end)
 end
 
-function NewBranch()
-  vim.ui.input({ prompt = "New Branch:" }, function(name)
-    if name then
-      vim.cmd([[Git new ]]..name)
-    end
-  end)
+local function filetype_icon(filename, extension)
+  local ok,devicons = pcall(require,'nvim-web-devicons')
+  if not ok then print('No icon plugin found. Please install \'kyazdani42/nvim-web-devicons\'') return '' end
+  Icon = devicons.get_icon(filename, extension) or ''
+  return Icon
 end
 
-function ChangeBranch()
-  local branches = vim.fn.systemlist("git branches | grep --invert-match '^* '")
-
-  vim.ui.select(branches,
-    { prompt = "Select Branch:" },
-    function(branch)
-      if branch then
-        vim.cmd([[Git change ]]..branch)
-      end
-    end)
-end
-
-local function EditSnippets(type)
-  vim.cmd([[split $HOME/.dotfiles/nvim/lua/snippets/]]..type..[[.lua]])
-end
-
-function EditSnippetsPromptFiletype()
-  vim.ui.input({ prompt ="File Type: " }, function(type)
-    EditSnippets(type)
-  end)
-end
-
-function EditSnippetsCurrentFiletype()
-  local filetype = vim.bo.filetype
-
-  if filetype == "" then
-    EditSnippetsPromptFiletype()
-  else
-    EditSnippets(filetype)
-  end
-end
-
-function Filename()
+local function filename()
   if vim.b.term_title then
     return vim.b.term_title
   else
@@ -55,40 +22,34 @@ function Filename()
       return '[No Name]'
     end
 
-    local filename = vim.fn.expand('%')
+    local name = vim.fn.expand('%')
     local extension = vim.fn.expand('%:e')
     local readonly = ''
 
     if vim.bo.filetype == 'help' then
       readonly = ''
     elseif vim.bo.readonly == true then
-      readonly = ' ' .. FiletypeIcon(shortname, extension)
+      readonly = ' ' .. filetype_icon(shortname, extension)
     else
       readonly = ''
     end
 
     if string.len(readonly) ~= 0 then
-      return filename .. readonly
+      return name .. readonly
     end
 
     if vim.bo.modifiable then
       if vim.bo.modified then
-        return filename .. ' ' .. ''
+        return name .. ' ' .. ''
       end
     end
-    return filename
+    return name
 
   end
 end
 
-function FiletypeIcon(filename, extension)
-  local ok,devicons = pcall(require,'nvim-web-devicons')
-  if not ok then print('No icon plugin found. Please install \'kyazdani42/nvim-web-devicons\'') return '' end
-  Icon = devicons.get_icon(filename, extension) or ''
-  return Icon
-end
-
 return {
-  Filename = Filename,
-  FiletypeIcon = FiletypeIcon
+  filename = filename,
+  filetype_icon = filetype_icon,
+  paste = paste
 }
