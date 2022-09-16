@@ -62,7 +62,7 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
 })
 --
 -- Winbar
-vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost", "CursorHold", "CursorHoldI"}, {
+vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost", "BufWritePost", "CursorHold", "CursorHoldI"}, {
   callback = function()
     local winbar_filetype_exclude = {
       "help",
