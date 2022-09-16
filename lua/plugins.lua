@@ -145,11 +145,6 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     run = 'make'
   }
 
-  use { 'nvim-telescope/telescope-project.nvim',
-    requires = { 'nvim-telescope/telescope.nvim' },
-    config = function() require'telescope'.load_extension('project') end
-  }
-
   use { 'nvim-treesitter/nvim-treesitter',
     config = function() require'plugin/treesitter' end,
     run = ':TSUpdate'

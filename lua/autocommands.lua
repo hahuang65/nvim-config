@@ -75,10 +75,11 @@ vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost", "BufWritePost", "Curs
       "qf"
     }
 
-    if vim.fn.winheight(0) <= 1 or vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
+    local filename = util.filename()
+    if vim.fn.winheight(0) <= 1 or filename == "[No Name]" or vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
       return
     end
 
-    vim.opt_local.winbar = util.filename()
+    vim.opt_local.winbar = filename
   end
 })
