@@ -23,6 +23,7 @@ opt.cursorline     = true     -- Highlight the current line
 opt.cursorcolumn   = true     -- Highlight the current column
 opt.lazyredraw     = true     -- Don't redraw for macros and commands that aren't manually typed
 opt.number         = true     -- Show line numbers
+opt.relativenumber = true     -- Show relative line numbers
 opt.showmatch      = true     -- Briefly flash a matching bracket/parenthesis when cursor moves onto one
 opt.signcolumn     = 'auto:2' -- Automatically size the `signcolumn`, max being the number
 

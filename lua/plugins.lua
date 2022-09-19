@@ -151,6 +151,7 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
   }
 
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  use { 'nvim-treesitter/nvim-treesitter-context' }
 
   use { 'pwntester/octo.nvim',
   requires = {

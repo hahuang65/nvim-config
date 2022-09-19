@@ -39,6 +39,12 @@ augroup('terminal', {
   'TermClose * call nvim_input("<CR>")' -- Closes the terminal once the shell is exited
 })
 
+-- Only relativenumber on active windows
+augroup('line_numbers', {
+  'BufLeave * setlocal norelativenumber',
+  'BufEnter * setlocal relativenumber'
+})
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
