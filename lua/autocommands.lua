@@ -1,64 +1,145 @@
 local util = require('util')
 
-local function augroup(name, autocmds)
-  vim.cmd('augroup ' .. name)
-  vim.cmd('autocmd!')
-  for _, autocmd in ipairs(autocmds) do
-    vim.cmd('autocmd ' .. autocmd)
-  end
-  vim.cmd('augroup END')
-end
+-- Create augroups
+vim.api.nvim_create_augroup("active_window", { clear = true })
+vim.api.nvim_create_augroup("autoformatting", { clear = true })
+vim.api.nvim_create_augroup("autoreload", { clear = true })
+vim.api.nvim_create_augroup("cleanup", { clear = true })
+vim.api.nvim_create_augroup("nvim_config", { clear = true })
+vim.api.nvim_create_augroup("terminal", { clear = true })
+vim.api.nvim_create_augroup("winbar", { clear = true })
+vim.api.nvim_create_augroup("yank_highlight", { clear = true })
 
--- Auto Reload
-augroup('autoreload', {
-  'FocusGained, BufEnter * silent! checktime'
+-- Autoreload current buffer when switching to it
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
+  group = "autoreload",
+  pattern = { "*" },
+  command = "silent! checktime"
 })
 
--- Active Window
-augroup('active_window', {
-  'WinEnter,BufEnter * if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif',
-  'WinLeave,BufLeave * setlocal nocursorline nocursorcolumn'
+-- Flash the yanked text when yanking
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = "yank_highlight",
+  pattern = { "*" },
+  command = "silent! lua vim.highlight.on_yank()"
 })
 
--- Highlight text on yank
-augroup('yank_highlight', {
-  'TextYankPost * silent! lua vim.highlight.on_yank()'
+-- Recompile Packer whenever nvim config changes
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = "nvim_config",
+  pattern = { "*/nvim/**/*.lua" },
+  command = "PackerCompile"
 })
 
--- Auto Source Config Files
-augroup('nvim_config', {
-  'BufWritePost $MYVIMRC nested source $MYVIMRC',
-  'BufWritePost */nvim/**/*.lua PackerCompile'
+-- Reload nvim config when it changes
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = "nvim_config",
+  pattern = { "$MYVIMRC" },
+  command = "source $MYVIMRC"
 })
 
--- Terminal
-augroup('terminal', {
-  'TermOpen * setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no',
-  'TermOpen * nnoremap <buffer> <C-c> i<C-c>',
-  'TermOpen * lua if vim.startswith(vim.api.nvim_buf_get_name(0), "term://") then vim.cmd("startinsert") end', -- https://github.com/nvim-neotest/neotest/issues/2#issuecomment-1149532666
-  'TermClose * call nvim_input("<CR>")' -- Closes the terminal once the shell is exited
+-- Clear editor clutter for terminal windows
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = "terminal",
+  pattern = { "*" },
+  command = "setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no"
 })
 
--- Only relativenumber on active windows
-augroup('line_numbers', {
-  'BufLeave * setlocal norelativenumber',
-  'BufEnter * setlocal relativenumber'
+-- Map Ctrl-c even when not in insertmode
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = "terminal",
+  pattern = { "*" },
+  command = "nnoremap <buffer> <C-c> i<C-c>"
 })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
+-- Start insertmode when opening a terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = "terminal",
+  pattern = { "*" },
   callback = function()
-      if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
-          return
-      end
+    if vim.startswith(vim.api.nvim_buf_get_name(0), "term://") then
+      vim.cmd("startinsert")
+    end
+  end
+})
 
-      vim.lsp.buf.format()
+-- Autoclose terminal when exiting
+vim.api.nvim_create_autocmd("TermClose", {
+  group = "terminal",
+  pattern = { "*" },
+  command = [[call nvim_input("<CR>")]]
+})
+
+-- Turn off certain UI elements when buffer is inactive
+vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+  group = "active_window",
+  pattern = { "*" },
+  callback = function()
+    local filetype_exclude = {
+      "dashboard",
+      "fugitive",
+      "help",
+      "lspinfo",
+      "NvimTree",
+      "packer",
+    }
+
+    if vim.tbl_contains(filetype_exclude, vim.bo.filetype) then
+      return
+    end
+
+    vim.opt_local.cursorline = false
+    vim.opt_local.cursorcolumn = false
+    vim.opt_local.relativenumber = false
+  end
+})
+
+-- Turn on relativenumber when buffer is active
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+  group = "active_window",
+  pattern = { "*" },
+  callback = function()
+    local filetype_exclude = {
+      "dashboard",
+      "fugitive",
+      "help",
+      "lspinfo",
+      "NvimTree",
+      "packer",
+    }
+
+    if vim.tbl_contains(filetype_exclude, vim.bo.filetype) then
+      return
+    end
+
+    vim.opt_local.relativenumber = true
+  end
+})
+
+-- Set cursorline and column for the active window
+vim.api.nvim_create_autocmd({"WinEnter", "BufEnter"}, {
+  group = "active_window",
+  pattern = { "*" },
+  command = [[if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif]]
+})
+
+-- Format buffers before saving
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = "autoformatting",
+  pattern = { "*" },
+  callback = function()
+    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
+      return
+    end
+
+    vim.lsp.buf.format()
   end
 })
 
 -- Close an unedited buffer if it's unnamed
 vim.api.nvim_create_autocmd({ "BufLeave" }, {
-  pattern = "{}",
+  group = "cleanup",
+  pattern = { "*" },
   callback = function()
     if vim.bo.filetype == "" and vim.fn.line("$") == 1 and vim.fn.getline(1) == "" then
       vim.bo.buftype = "nofile"
@@ -66,23 +147,25 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
     end
   end
 })
---
--- Winbar
+
+-- Set winbar to filename, when possible
 vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost", "BufWritePost", "CursorHold", "CursorHoldI"}, {
+  group = "winbar",
+  pattern = { "*" },
   callback = function()
-    local winbar_filetype_exclude = {
-      "help",
+    local filetype_exclude = {
       "dashboard",
-      "packer",
       "fugitive",
       "gitcommit",
-      "NvimTree",
+      "help",
       "lspinfo",
+      "NvimTree",
+      "packer",
       "qf"
     }
 
     local filename = util.filename()
-    if vim.fn.winheight(0) <= 1 or filename == "[No Name]" or vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
+    if vim.fn.winheight(0) <= 1 or filename == "[No Name]" or vim.tbl_contains(filetype_exclude, vim.bo.filetype) then
       return
     end
 
