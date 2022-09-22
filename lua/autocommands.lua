@@ -84,7 +84,11 @@ vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
       "packer",
     }
 
-    if vim.tbl_contains(filetype_exclude, vim.bo.filetype) then
+    local buftype_exclude = {
+      "terminal",
+    }
+
+    if vim.tbl_contains(filetype_exclude, vim.bo.filetype) or vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
       return
     end
 
@@ -108,7 +112,11 @@ vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
       "packer",
     }
 
-    if vim.tbl_contains(filetype_exclude, vim.bo.filetype) then
+    local buftype_exclude = {
+      "terminal",
+    }
+
+    if vim.tbl_contains(filetype_exclude, vim.bo.filetype) or vim.tbl_contains(buftype_exclude, vim.bo.buftype) then
       return
     end
 
