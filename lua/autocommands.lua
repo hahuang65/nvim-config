@@ -116,6 +116,12 @@ vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   end
 })
 
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  group = "active_window",
+  pattern = { "TelescopePrompt" },
+  command = [[set nonumber norelativenumber]]
+})
+
 -- Set cursorline and column for the active window
 vim.api.nvim_create_autocmd({"WinEnter", "BufEnter"}, {
   group = "active_window",
