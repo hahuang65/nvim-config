@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd("TermClose", {
 })
 
 -- Turn off certain UI elements when buffer is inactive
-vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   group = "active_window",
   pattern = { "*" },
   callback = function()
@@ -99,7 +99,7 @@ vim.api.nvim_create_autocmd({ "WinLeave", "BufLeave" }, {
 })
 
 -- Turn on relativenumber when buffer is active
-vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
   group = "active_window",
   pattern = { "*" },
   callback = function()
