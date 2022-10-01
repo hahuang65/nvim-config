@@ -26,6 +26,7 @@ local function projects()
   local project_dirs = {
     "~/Documents/Projects",
     "~/Documents/Projects/a5",
+    "~/Documents/Projects/photopool",
     "~/.dotfiles"
   }
 
