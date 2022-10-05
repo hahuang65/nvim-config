@@ -26,6 +26,7 @@ opt.number         = true     -- Show line numbers
 opt.relativenumber = true     -- Show relative line numbers
 opt.showmatch      = true     -- Briefly flash a matching bracket/parenthesis when cursor moves onto one
 opt.signcolumn     = 'auto:2' -- Automatically size the `signcolumn`, max being the number
+opt.mouse          = ''       -- Disable mouse
 
 -- Per-Project
 opt.exrc   = true -- Allow local configuration files per project
