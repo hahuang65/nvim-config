@@ -67,6 +67,7 @@ require'nvim-treesitter.configs'.setup {
     "dockerfile",
     "go",
     "html",
+    "javascript",
     "json",
     "lua",
     "make",
@@ -75,6 +76,7 @@ require'nvim-treesitter.configs'.setup {
     "ruby",
     "rust",
     "toml",
+    "typescript",
     "vim",
     "vue",
     "yaml"
