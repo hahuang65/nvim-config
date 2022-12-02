@@ -248,21 +248,21 @@ wk.register({
 -- lua/plugin/lsp.lua will load this function when the time is right
 local function lsp_keymaps(client)
   wk.register({
-    ['ga'] =         { '<Cmd>lua vim.lsp.buf.code_action()<CR>',      "Code Action Menu" },
-    ['gD'] =         { '<Cmd>lua vim.lsp.buf.declaration()<CR>',      "Go to Declaration" },
-    ['gd'] =         { '<Cmd>lua vim.lsp.buf.definition()<CR>',       "Go to Definition" },
-    ['gi'] =         { '<Cmd>lua vim.lsp.buf.implementation()<CR>',   "Go to Implementation" },
-    ['gr'] =         { '<Cmd>Telescope lsp_references<CR>',           "Show Other References" },
-    ['gt'] =         { '<Cmd>lua vim.lsp.buf.type_definition()<CR>',  "Go to Type Definition" },
-    ['g]'] =         { '<Cmd>Telescope lsp_document_symbols<CR>',     "LSP Symbols (Buffer)" },
-    ['g}'] =         { '<Cmd>Telescope lsp_workspace_symbols<CR>',    "LSP Symbols (Project)" },
-    ['K'] =          { '<Cmd>lua vim.lsp.buf.hover()<CR>',            "Hover" },
-    ['[d'] =         { '<Cmd>lua vim.diagnostic.goto_prev()<CR>',     "Previous Diagnostic" },
-    [']d'] =         { '<Cmd>lua vim.diagnostic.goto_next()<CR>',     "Next Diagnostic" },
-    ['<leader>D'] =  { '<Cmd>lua vim.diagnostic.open_float()<CR>',    "Open Diagnostic in Float" },
-    ['<leader>k'] =  { '<Cmd>lua vim.lsp.buf.signature_help()<CR>',   "Show Signature Help" },
-    ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>', "List Diagnostics" },
-    ['<leader>R'] =  { '<Cmd>lua vim.lsp.buf.rename()<CR>',           "Rename" }
+    ['ga'] =         { '<Cmd>lua vim.lsp.buf.code_action()<CR>',           "Code Action Menu" },
+    ['gD'] =         { '<Cmd>lua vim.lsp.buf.declaration()<CR>',           "Go to Declaration" },
+    ['gd'] =         { '<Cmd>lua vim.lsp.buf.definition()<CR>',            "Go to Definition" },
+    ['gi'] =         { '<Cmd>lua vim.lsp.buf.implementation()<CR>',        "Go to Implementation" },
+    ['gr'] =         { '<Cmd>Telescope lsp_references<CR>',                "Show Other References" },
+    ['gt'] =         { '<Cmd>lua vim.lsp.buf.type_definition()<CR>',       "Go to Type Definition" },
+    ['g]'] =         { '<Cmd>Telescope lsp_document_symbols<CR>',          "LSP Symbols (Buffer)" },
+    ['g}'] =         { '<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>', "LSP Symbols (Project)" },
+    ['K'] =          { '<Cmd>lua vim.lsp.buf.hover()<CR>',                 "Hover" },
+    ['[d'] =         { '<Cmd>lua vim.diagnostic.goto_prev()<CR>',          "Previous Diagnostic" },
+    [']d'] =         { '<Cmd>lua vim.diagnostic.goto_next()<CR>',          "Next Diagnostic" },
+    ['<leader>D'] =  { '<Cmd>lua vim.diagnostic.open_float()<CR>',         "Open Diagnostic in Float" },
+    ['<leader>k'] =  { '<Cmd>lua vim.lsp.buf.signature_help()<CR>',        "Show Signature Help" },
+    ['<leader>ll'] = { '<Cmd>Telescope lsp_document_diagnostics<CR>',      "List Diagnostics" },
+    ['<leader>R'] =  { '<Cmd>lua vim.lsp.buf.rename()<CR>',                "Rename" }
   }, { buffer = 0 })
 
   if client.server_capabilities.document_formatting then
