@@ -11,7 +11,7 @@ vim.api.nvim_create_augroup("winbar", { clear = true })
 vim.api.nvim_create_augroup("yank_highlight", { clear = true })
 
 -- Autoreload current buffer when switching to it
-vim.api.nvim_create_autocmd({"FocusGained", "BufEnter"}, {
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = "autoreload",
   pattern = { "*" },
   command = "silent! checktime"
@@ -120,6 +120,8 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
       return
     end
 
+    vim.opt_local.cursorline = true
+    vim.opt_local.cursorcolumn = true
     vim.opt_local.relativenumber = true
   end
 })
@@ -131,7 +133,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 -- Set cursorline and column for the active window
-vim.api.nvim_create_autocmd({"WinEnter", "BufEnter"}, {
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   group = "active_window",
   pattern = { "*" },
   command = [[if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif]]
@@ -163,7 +165,7 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
 })
 
 -- Set winbar to filename, when possible
-vim.api.nvim_create_autocmd({"BufWinEnter", "BufFilePost", "BufWritePost", "CursorHold", "CursorHoldI"}, {
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "CursorHold", "CursorHoldI" }, {
   group = "winbar",
   pattern = { "*" },
   callback = function()
