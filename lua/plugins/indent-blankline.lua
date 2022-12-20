@@ -1,7 +1,6 @@
 -- https://github.com/lukas-reineke/indent-blankline.nvim
 
 require("indent_blankline").setup {
-  char = '¦',
   use_treesitter = true,
   filetype_exclude = { 'help' },
   buftype_exclude = { 'terminal' },
