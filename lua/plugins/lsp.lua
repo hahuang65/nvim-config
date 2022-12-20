@@ -1,0 +1,168 @@
+-- https://github.com/neovim/nvim-lspconfig
+-- https://github.com/j-hui/fidget.nvim
+
+local servers = {
+  'bashls',
+  'dockerls',
+  'gopls',
+  'pyright',
+  'solargraph',
+  'sumneko_lua',
+  'svelte',
+  'terraformls',
+  'tsserver',
+  'vimls'
+}
+
+-- Define diagnostic signs and highlighting colors
+vim.fn.sign_define('LspDiagnosticsSignError', {
+  text = '',
+  texthl = 'LspDiagnosticsDefaultError',
+  numhl = 'LspDiagnosticsDefaultError'
+})
+
+vim.fn.sign_define('LspDiagnosticsSignWarning', {
+  text = '',
+  texthl = 'LspDiagnosticsDefaultWarning',
+  numhl = 'LspDiagnosticsDefaultWarning'
+})
+
+vim.fn.sign_define('LspDiagnosticsSignInformation', {
+  text = '',
+  texthl = 'LspDiagnosticsDefaultInformation',
+  numhl = 'LspDiagnosticsDefaultInformation'
+})
+
+vim.fn.sign_define('LspDiagnosticsSignHint', {
+  text = '',
+  texthl = 'LspDiagnosticsDefaultHint',
+  numhl = 'LspDiagnosticsDefaultHint'
+})
+
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+  update_in_insert = true,
+  signs = false,
+  virtual_text = {
+    spacing = 1
+  }
+}
+)
+
+--  This function gets run when an LSP connects to a particular buffer.
+local on_attach = function(client, bufnr)
+  -- NOTE: Remember that lua is a real programming language, and as such it is possible
+  -- to define small helper and utility functions so you don't have to repeat yourself
+  -- many times.
+  --
+  -- In this case, we create a function that lets us more easily define mappings specific
+  -- for LSP related items. It sets the mode, buffer and description for us each time.
+  local nmap = function(keys, func, desc)
+    if desc then
+      desc = 'LSP - ' .. desc
+    end
+
+    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+  end
+
+  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+
+  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+  nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
+  nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+  nmap('<leader>g]', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+  nmap('<leader>g}', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+
+  -- See `:help K` for why this keymap
+  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+
+  -- Formatting keymaps
+  if client.server_capabilities.document_formatting then
+    if vim.lsp.buf.format then
+      nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
+    elseif vim.lsp.buf.formatting then
+      nmap('<leader>f', vim.lsp.buf.formatting, '[F]ormat')
+    end
+  end
+
+  if client.server_capabilities.document_range_formatting then
+    nmap('<leader>F', vim.lsp.buf.range_formatting, '[F]ormat range')
+  end
+end
+
+require 'fidget'.setup {
+  text = {
+    spinner = 'dots',
+    done = '✅'
+  },
+  timer = {
+    fidget_decay = -1 -- Always show
+  }
+}
+
+require('mason').setup()
+require('mason-lspconfig').setup {
+  ensure_installed = servers,
+}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+for _, lsp in ipairs(servers) do
+  require('lspconfig')[lsp].setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+  }
+end
+
+-- Make runtime files discoverable to the server
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
+
+require('lspconfig').sumneko_lua.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+        version = 'LuaJIT',
+        -- Setup your lua path
+        path = runtime_path,
+      },
+      diagnostics = {
+        globals = { 'vim' },
+      },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true),
+        checkThirdParty = false
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = { enable = false },
+    },
+  },
+}
+
+require('lspconfig').pyright.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  on_new_config = function(new_config, root_dir)
+    local pipfile_exists = require('lspconfig').util.search_ancestors(root_dir, function(path)
+      local pipfile = require('lspconfig').util.path.join(path, 'Pipfile')
+      if require('lspconfig').util.path.is_file(pipfile) then
+        return true
+      else
+        return false
+      end
+    end)
+
+    if pipfile_exists then
+      new_config.cmd = { 'pipenv', 'run', 'pyright-langserver', '--stdio' }
+    end
+  end;
+}

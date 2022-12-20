@@ -9,13 +9,7 @@ require('options')
 
 -- Custom
 require('terminal')
-
--- Helpers
-require('util')
+require('keymaps')
 
 -- Plugins
 require('plugins')
-
--- Post-plugins
-require('keymaps')
-require('autocommands')

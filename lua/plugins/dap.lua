@@ -5,7 +5,7 @@
 -- https://github.com/suketa/nvim-dap-ruby
 -- https://github.com/mfussenegger/nvim-dap-python
 
-require("nvim-dap-virtual-text").setup {
+require('nvim-dap-virtual-text').setup {
     enabled = true,                        -- enable this plugin (the default)
     enabled_commands = true,               -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
     highlight_changed_variables = true,    -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
@@ -23,20 +23,19 @@ require("nvim-dap-virtual-text").setup {
                                            -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
 }
 
-require("dapui").setup({
-  icons = { expanded = "▾", collapsed = "▸" },
+require('dapui').setup({
+  icons = { expanded = '▾', collapsed = '▸' },
   mappings = {
     -- Use a table to apply multiple mappings
-    expand = { "<CR>", "<2-LeftMouse>" },
-    open = "o",
-    remove = "d",
-    edit = "e",
-    repl = "r",
-    toggle = "t",
+    expand = { '<CR>', '<2-LeftMouse>' },
+    open = 'o',
+    remove = 'd',
+    edit = 'e',
+    repl = 'r',
+    toggle = 't',
   },
   -- Expand lines larger than the window
-  -- Requires >= 0.7
-  expand_lines = vim.fn.has("nvim-0.7"),
+  expand_lines = true,
   layouts = {
     {
       elements = {
@@ -60,9 +59,9 @@ require("dapui").setup({
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.
-    border = "single", -- Border style. Can be "single", "double" or "rounded"
+    border = 'single', -- Border style. Can be 'single', 'double' or 'rounded'
     mappings = {
-      close = { "q", "<Esc>" },
+      close = { 'q', '<Esc>' },
     },
   },
   windows = { indent = 1 },
@@ -71,16 +70,36 @@ require("dapui").setup({
   }
 })
 
-local dap, dapui = require("dap"), require("dapui")
-dap.listeners.after.event_initialized["dapui_config"] = function()
+local dap, dapui = require('dap'), require('dapui')
+dap.listeners.after.event_initialized['dapui_config'] = function()
   dapui.open()
 end
-dap.listeners.before.event_terminated["dapui_config"] = function()
+dap.listeners.before.event_terminated['dapui_config'] = function()
   dapui.close()
 end
-dap.listeners.before.event_exited["dapui_config"] = function()
+dap.listeners.before.event_exited['dapui_config'] = function()
   dapui.close()
 end
 
+-- https://github.com/catppuccin/nvim#special-integrations
+local sign = vim.fn.sign_define
+sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = ""})
+sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = ""})
+sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = ""})
+
 require('dap-go').setup()
 require('dap-ruby').setup()
+
+vim.keymap.set('n', '<leader>dd', require'dap'.continue,          { desc = '[D]ebug - Start/Continue [D]ebugger' })
+vim.keymap.set('n', '<leader>do', require'dap'.step_over,         { desc = '[D]ebug - Step [O]ver' })
+vim.keymap.set('n', '<leader>di', require'dap'.step_into,         { desc = '[D]ebug - Step [I]nto' })
+vim.keymap.set('n', '<leader>dO', require'dap'.step_out,          { desc = '[D]ebug - Step [O]ut' })
+vim.keymap.set('n', '<leader>db', require'dap'.toggle_breakpoint, { desc = '[D]ebug - Toggle [B]reakpoint' })
+
+vim.keymap.set('n', '<leader>dB', function()
+  require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))
+end, { desc = '[D]ebug - Set Conditional [B]reakpoint' })
+
+vim.keymap.set('n', '<leader>dL', function()
+  require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+end, { desc = '[D]ebug - Set [L]og Point' })

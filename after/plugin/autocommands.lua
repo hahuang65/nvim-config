@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- Recompile Packer whenever nvim config changes
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = "nvim_config",
-  pattern = { "*/nvim/**/*.lua" },
+  pattern = { "plugins.lua", "*/nvim/**/*.lua" },
   command = "PackerCompile"
 })
 

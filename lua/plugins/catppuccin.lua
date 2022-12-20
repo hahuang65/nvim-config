@@ -23,7 +23,19 @@ catppuccin.setup {
     variables = {},
   },
   integrations = {
-    treesitter = true,
+    cmp = true,
+    dap = {
+      enabled = true,
+      enable_ui = true
+    },
+    fidget = true,
+    gitsigns = true,
+    indent_blankline = {
+      enabled = true,
+      colored_indent_levels = false
+    },
+    mason = true,
+    neotest = true,
     native_lsp = {
       enabled = true,
       virtual_text = {
@@ -39,33 +51,9 @@ catppuccin.setup {
         information = { "underline" },
       },
     },
-    lsp_trouble = false,
-    cmp = true,
-    lsp_saga = false,
-    gitgutter = false,
-    gitsigns = true,
-    telescope = true,
-    nvimtree = {
-      enabled = true,
-      show_root = false,
-    },
-    which_key = true,
-    indent_blankline = {
-      enabled = true,
-      colored_indent_levels = true,
-    },
-    dashboard = false,
-    neogit = false,
-    vim_sneak = false,
-    fern = false,
-    barbar = false,
-    bufferline = false,
-    markdown = true,
-    lightspeed = false,
-    ts_rainbow = false,
-    hop = false,
-    notify = false,
-    telekasten = false,
+    treesitter = true,
+    treesitter_context = true,
+    telescope = true
   }
 }
 

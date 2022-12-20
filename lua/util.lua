@@ -1,5 +1,21 @@
+local function toggle_quickfix()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win["quickfix"] == 1 then
+      qf_exists = true
+    end
+  end
+  if qf_exists == true then
+    vim.cmd "cclose"
+    return
+  end
+  if not vim.tbl_isempty(vim.fn.getqflist()) then
+    vim.cmd "copen"
+  end
+end
+
 local function paste()
-  vim.ui.input({ prompt = "New Paste:" }, function(name)
+  vim.ui.input({ prompt = "New Paste (omit extension): " }, function(name)
     local url = vim.cmd([['<,'>w ! pst -u -n ]]..name..'.'..vim.bo.filetype)
     print(url)
   end)
@@ -51,5 +67,6 @@ end
 return {
   filename = filename,
   filetype_icon = filetype_icon,
-  paste = paste
+  paste = paste,
+  toggle_quickfix = toggle_quickfix
 }
