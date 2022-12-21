@@ -1,6 +1,16 @@
 -- https://github.com/hrsh7th/nvim-cmp
 
 local cmp = require 'cmp'
+local border = {
+  { "╭", "CmpBorder" },
+  { "─", "CmpBorder" },
+  { "╮", "CmpBorder" },
+  { "│", "CmpBorder" },
+  { "╯", "CmpBorder" },
+  { "─", "CmpBorder" },
+  { "╰", "CmpBorder" },
+  { "│", "CmpBorder" },
+}
 
 cmp.setup({
   snippet = {
@@ -9,6 +19,7 @@ cmp.setup({
       require('luasnip').lsp_expand(args.body)
     end,
   },
+
   mapping = {
     ['<C-d>']     = cmp.mapping.scroll_docs(-4),
     ['<C-f>']     = cmp.mapping.scroll_docs(4),
@@ -36,6 +47,7 @@ cmp.setup({
       select   = true,
     })
   },
+
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
@@ -44,14 +56,26 @@ cmp.setup({
     { name = 'path' },
     { name = 'buffer', keyword_length = 5 },
   },
+
   experimental = {
     ghost_text = true
   },
+
+  window = {
+    documentation = {
+      border = border,
+    },
+    completion = {
+      border = border,
+    }
+  },
+
   formatting = {
     format = require 'lspkind'.cmp_format({
       with_text = true,
       menu = ({
         buffer = "[Buffer]",
+        luasnip = "[LuaSnip]",
         nvim_lsp = "[LSP]",
         nvim_lua = "[Lua]",
         path = "[Path]"
