@@ -28,5 +28,5 @@ vim.keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuz
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').live_grep, { desc = 'Search current file' })
 
 vim.keymap.set('n', '<leader>sd', function()
-  require('telescope.builtin').diagnostics({ bufnr = true })
+  require('telescope.builtin').diagnostics({ bufnr = 0 })
 end, { desc = '[S]earch [D]iagnostics' })

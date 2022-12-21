@@ -57,13 +57,13 @@ local config = {
   inactive_sections = {
     -- these are to remove the defaults
     lualine_a = {},
-    lualine_v = {},
-    lualine_y = {},
-    lualine_z = {},
+    lualine_b = {},
     lualine_c = {},
-    lualine_x = {}
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
   },
-  extensions = { 'fugitive', 'nvim-tree', 'quickfix' }
+  extensions = { 'fugitive', 'quickfix' }
 }
 
 local function deep_copy(original)

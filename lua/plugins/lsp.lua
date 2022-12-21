@@ -16,35 +16,11 @@ local servers = {
   'vimls'
 }
 
--- Define diagnostic signs and highlighting colors
-vim.fn.sign_define('LspDiagnosticsSignError', {
-  text = '',
-  texthl = 'LspDiagnosticsDefaultError',
-  numhl = 'LspDiagnosticsDefaultError'
-})
-
-vim.fn.sign_define('LspDiagnosticsSignWarning', {
-  text = '',
-  texthl = 'LspDiagnosticsDefaultWarning',
-  numhl = 'LspDiagnosticsDefaultWarning'
-})
-
-vim.fn.sign_define('LspDiagnosticsSignInformation', {
-  text = '',
-  texthl = 'LspDiagnosticsDefaultInformation',
-  numhl = 'LspDiagnosticsDefaultInformation'
-})
-
-vim.fn.sign_define('LspDiagnosticsSignHint', {
-  text = '',
-  texthl = 'LspDiagnosticsDefaultHint',
-  numhl = 'LspDiagnosticsDefaultHint'
-})
-
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
   update_in_insert = true,
   signs = false,
+  severity_sort = true,
   virtual_text = {
     spacing = 1
   }
@@ -99,9 +75,6 @@ require 'fidget'.setup {
   text = {
     spinner = 'dots',
     done = '✅'
-  },
-  timer = {
-    fidget_decay = -1 -- Always show
   }
 }
 
