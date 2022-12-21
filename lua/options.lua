@@ -46,7 +46,6 @@ opt.tabstop     = 2 -- Tab size of 2
 
 -- https://github.com/lukas-reineke/indent-blankline.nvim#with-context-indent-highlighted-by-treesitter
 opt.list = true
-opt.listchars:append "eol:↴"
 
 -- Line Breaks
 opt.textwidth  = 0 -- Disable linebreaking by line size

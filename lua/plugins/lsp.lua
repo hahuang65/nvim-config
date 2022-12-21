@@ -5,8 +5,10 @@ local servers = {
   'bashls',
   'dockerls',
   'gopls',
+  'jsonls',
   'pyright',
   'solargraph',
+  'sqlls',
   'sumneko_lua',
   'svelte',
   'terraformls',
@@ -105,7 +107,7 @@ require 'fidget'.setup {
 
 require('mason').setup()
 require('mason-lspconfig').setup {
-  ensure_installed = servers,
+  ensure_installed = servers
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
