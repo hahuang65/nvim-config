@@ -7,7 +7,6 @@ local servers = {
   'gopls',
   'jsonls',
   'pyright',
-  'solargraph',
   'sqlls',
   'sumneko_lua',
   'svelte',
@@ -74,7 +73,7 @@ end
 require 'fidget'.setup {
   text = {
     spinner = 'dots',
-    done = '✅'
+    done = '✓'
   }
 }
 
@@ -139,4 +138,13 @@ require('lspconfig').pyright.setup {
       new_config.cmd = { 'pipenv', 'run', 'pyright-langserver', '--stdio' }
     end
   end;
+}
+
+-- Setup solargraph separately, as mason ends up installing it to a central location,
+-- which does not guarantee the same set of gems as a project. This makes it better to
+-- install solargraph, rubocop, rubocop-rails, rubocop-performance, rubocop-rspec, standardrb
+-- in the project.
+require('lspconfig').solargraph.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
