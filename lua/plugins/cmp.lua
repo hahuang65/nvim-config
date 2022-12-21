@@ -1,6 +1,6 @@
 -- https://github.com/hrsh7th/nvim-cmp
 
-local cmp = require'cmp'
+local cmp = require 'cmp'
 
 cmp.setup({
   snippet = {
@@ -12,9 +12,10 @@ cmp.setup({
   mapping = {
     ['<C-d>']     = cmp.mapping.scroll_docs(-4),
     ['<C-f>']     = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>']     = cmp.mapping({
-      i           = cmp.mapping.abort(),
-      c           = cmp.mapping.close()
+      i = cmp.mapping.abort(),
+      c = cmp.mapping.close()
     }),
     ['<C-n>']     = function(fallback)
       if cmp.visible() then
@@ -23,7 +24,7 @@ cmp.setup({
         fallback()
       end
     end,
-    ['<C-p>']      = function(fallback)
+    ['<C-p>']     = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       else
@@ -31,8 +32,8 @@ cmp.setup({
       end
     end,
     ['<C-y>']     = cmp.mapping.confirm({
-        behavior  = cmp.ConfirmBehavior.Replace,
-        select    = true,
+      behavior = cmp.ConfirmBehavior.Replace,
+      select   = true,
     })
   },
   sources = {
@@ -47,7 +48,7 @@ cmp.setup({
     ghost_text = true
   },
   formatting = {
-    format = require'lspkind'.cmp_format({
+    format = require 'lspkind'.cmp_format({
       with_text = true,
       menu = ({
         buffer = "[Buffer]",

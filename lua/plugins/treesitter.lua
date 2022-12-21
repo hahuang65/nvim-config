@@ -1,6 +1,6 @@
 -- https://github.com/nvim-treesitter/nvim-treesitter
 
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   ensure_installed = {
     "bash",
     "css",
@@ -27,6 +27,16 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   },
 
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = '<C-Space>',
+      node_incremental = '<C-Space>',
+      scope_incremental = '<C-s>',
+      node_decremental = '<C-backSpace>'
+    }
+  },
+
   textobjects = {
     select = {
       enable = true,
@@ -42,7 +52,7 @@ require'nvim-treesitter.configs'.setup {
     swap = {
       enable = true,
       swap_next = {
-       ["cp"] = "@parameter.inner",
+        ["cp"] = "@parameter.inner",
       },
       swap_previous = {
         ["cP"] = "@parameter.inner",
