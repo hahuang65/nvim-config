@@ -42,6 +42,14 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+  local vmap = function(keys, func, desc)
+    if desc then
+      desc = 'LSP - ' .. desc
+    end
+
+    vim.keymap.set('v', keys, func, { buffer = bufnr, desc = desc })
+  end
+
   nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -57,17 +65,8 @@ local on_attach = function(client, bufnr)
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Formatting keymaps
-  if client.server_capabilities.document_formatting then
-    if vim.lsp.buf.format then
-      nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
-    elseif vim.lsp.buf.formatting then
-      nmap('<leader>f', vim.lsp.buf.formatting, '[F]ormat')
-    end
-  end
-
-  if client.server_capabilities.document_range_formatting then
-    nmap('<leader>F', vim.lsp.buf.range_formatting, '[F]ormat range')
-  end
+  nmap('<leader>f', vim.lsp.buf.format, '[F]ormat')
+  vmap('<leader>f', vim.lsp.buf.format, '[F]ormat range')
 end
 
 require 'fidget'.setup {

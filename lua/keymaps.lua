@@ -1,13 +1,22 @@
--- Visual Mode
+-- Better than defaults
+vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines without moving cursor to the end' })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Scroll half-page without moving cursor' })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Scroll half-page without moving cursor' })
+vim.keymap.set('n', 'n', 'nzzzv', { desc = 'Go to next search result without moving cursort' })
+vim.keymap.set('n', 'N', 'Nzzzv', { desc = 'Go to next search result without moving cursort' })
 vim.keymap.set('v', '>', '>gv', { desc = 'Re-highlight after indenting' })
 vim.keymap.set('v', '<', '<gv', { desc = 'Re-highlight after indenting' })
 
+-- Editing Improvements
+vim.keymap.set('x', '<leader>p', '"_dP', { desc = 'Paste without clobbering default register' })
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete without clobbering default register' })
+vim.keymap.set('v', '<C-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selected lines down' })
+vim.keymap.set('v', '<C-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selected lines up' })
+
 -- Copy/Paste
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Copy to system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>Y', '"+Y', { desc = 'Copy line to system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste from system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P', { desc = 'Paste (above) from system clipboard' })
-vim.keymap.set('x', '<leader>cp', require('util').paste, { desc = '[C]reate [P]aste in paste.sr.ht' })
+vim.keymap.set({ 'n' }, '<leader>Y', '"+Y', { desc = 'Copy line to system clipboard' })
+vim.keymap.set('x', '<leader>P', require('util').paste, { desc = '[C]reate [P]aste in paste.sr.ht' })
 
 -- Quickfix
 vim.keymap.set('n', '<leader>q', require('util').toggle_quickfix, { desc = 'Toggle [q]uickfix list' })
