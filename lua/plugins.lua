@@ -21,6 +21,13 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
     config = function() require('plugins/catppuccin') end
   }
 
+  use { 'folke/todo-comments.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = function() require('plugins/todo-comments') end
+  }
+
   use { 'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-buffer',
