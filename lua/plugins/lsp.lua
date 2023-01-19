@@ -130,12 +130,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.markdownlint,
     null_ls.builtins.diagnostics.pylint,
     null_ls.builtins.diagnostics.rubocop,
-    null_ls.builtins.diagnostics.selene.with({
-      extra_args = {
-        "--config",
-        "selene.toml",
-      },
-    }),
+    null_ls.builtins.diagnostics.selene,
 
     -- Formatters
     null_ls.builtins.formatting.autopep8,
