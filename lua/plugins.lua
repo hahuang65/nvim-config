@@ -87,6 +87,7 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
   use { 'neovim/nvim-lspconfig',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
+      'jose-elias-alvarez/null-ls.nvim',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',

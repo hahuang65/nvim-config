@@ -1,5 +1,8 @@
 -- https://github.com/neovim/nvim-lspconfig
 -- https://github.com/j-hui/fidget.nvim
+-- https://github.com/jose-elias-alvarez/null-ls.nvim
+-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+-- https://github.com/williamboman/mason-lspconfig.nvim
 
 local servers = {
   'bashls',
@@ -20,27 +23,29 @@ local tools = {
   'debugpy',
   'delve',
   'flake8',
+  'fixjson',
   'golangci-lint',
   'jsonlint',
   'luacheck',
   'markdownlint',
+  'prettierd',
   'pylint',
   'rubocop',
   'shellcheck',
   'shfmt',
+  'sql-formatter',
+  'stylua',
   'tflint'
 }
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.diagnostic.config({
   update_in_insert = true,
   signs = false,
   severity_sort = true,
   virtual_text = {
     spacing = 1
   }
-}
-)
+})
 
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(client, bufnr)
@@ -114,6 +119,34 @@ end
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
+
+local null_ls = require('null-ls')
+null_ls.setup({
+  sources = {
+    -- Linters
+    null_ls.builtins.diagnostics.flake8,
+    null_ls.builtins.diagnostics.golangci_lint,
+    null_ls.builtins.diagnostics.jsonlint,
+    null_ls.builtins.diagnostics.luacheck,
+    null_ls.builtins.diagnostics.markdownlint,
+    null_ls.builtins.diagnostics.pylint,
+    null_ls.builtins.diagnostics.rubocop,
+    null_ls.builtins.diagnostics.rubocop,
+
+    -- Formatters
+    null_ls.builtins.formatting.autopep8,
+    null_ls.builtins.formatting.fixjson,
+    null_ls.builtins.formatting.gofmt,
+    null_ls.builtins.formatting.markdownlint,
+    null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.rubocop,
+    null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.formatting.sql_formatter,
+    null_ls.builtins.formatting.stylua,
+  },
+  diagnostics_format = "[#{c}] #{m} (#{s})"
+})
+
 
 require('lspconfig').sumneko_lua.setup {
   on_attach = on_attach,
