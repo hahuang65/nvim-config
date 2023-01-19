@@ -130,7 +130,12 @@ null_ls.setup({
     null_ls.builtins.diagnostics.markdownlint,
     null_ls.builtins.diagnostics.pylint,
     null_ls.builtins.diagnostics.rubocop,
-    null_ls.builtins.diagnostics.selene,
+    null_ls.builtins.diagnostics.selene.with({
+      extra_args = {
+        "--config",
+        vim.fn.expand("$HOME/.selene.toml"),
+      },
+    }),
 
     -- Formatters
     null_ls.builtins.formatting.autopep8,
@@ -141,7 +146,12 @@ null_ls.setup({
     null_ls.builtins.formatting.rubocop,
     null_ls.builtins.formatting.shfmt,
     null_ls.builtins.formatting.sql_formatter,
-    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.stylua.with({
+      extra_args = {
+        "--config-path",
+        vim.fn.expand("$HOME/.stylua.toml"),
+      },
+    }),
   },
   diagnostics_format = "[#{c}] #{m} (#{s})",
 })
