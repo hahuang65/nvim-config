@@ -15,6 +15,22 @@ local servers = {
   'vimls'
 }
 
+local tools = {
+  'autopep8',
+  'debugpy',
+  'delve',
+  'flake8',
+  'golangci-lint',
+  'jsonlint',
+  'luacheck',
+  'markdownlint',
+  'pylint',
+  'rubocop',
+  'shellcheck',
+  'shfmt',
+  'tflint'
+}
+
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
   update_in_insert = true,
@@ -79,6 +95,9 @@ require 'fidget'.setup {
 require('mason').setup()
 require('mason-lspconfig').setup {
   ensure_installed = servers
+}
+require('mason-tool-installer').setup {
+  ensure_installed = tools
 }
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()

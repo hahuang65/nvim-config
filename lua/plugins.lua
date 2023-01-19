@@ -89,6 +89,7 @@ return require('packer').startup(function(use) -- Pass `use` in, to avoid LSP wa
       'hrsh7th/cmp-nvim-lsp',
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
       'j-hui/fidget.nvim'
     },
     config = function() require('plugins/lsp') end
