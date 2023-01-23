@@ -1,4 +1,4 @@
-local util = require('util')
+local util = require("util")
 
 -- Create augroups
 vim.api.nvim_create_augroup("active_window", { clear = true })
@@ -14,42 +14,42 @@ vim.api.nvim_create_augroup("yank_highlight", { clear = true })
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = "autoreload",
   pattern = { "*" },
-  command = "silent! checktime"
+  command = "silent! checktime",
 })
 
 -- Flash the yanked text when yanking
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = "yank_highlight",
   pattern = { "*" },
-  command = "silent! lua vim.highlight.on_yank()"
+  command = "silent! lua vim.highlight.on_yank()",
 })
 
 -- Recompile Packer whenever nvim config changes
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = "nvim_config",
   pattern = { "plugins.lua", "*/nvim/**/*.lua" },
-  command = "PackerCompile"
+  command = "PackerCompile",
 })
 
 -- Reload nvim config when it changes
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = "nvim_config",
   pattern = { "$MYVIMRC" },
-  command = "source $MYVIMRC"
+  command = "source $MYVIMRC",
 })
 
 -- Clear editor clutter for terminal windows
 vim.api.nvim_create_autocmd("TermOpen", {
   group = "terminal",
   pattern = { "*" },
-  command = "setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no"
+  command = "setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no",
 })
 
 -- Map Ctrl-c even when not in insertmode
 vim.api.nvim_create_autocmd("TermOpen", {
   group = "terminal",
   pattern = { "*" },
-  command = "nnoremap <buffer> <C-c> i<C-c>"
+  command = "nnoremap <buffer> <C-c> i<C-c>",
 })
 
 -- Start insertmode when opening a terminal
@@ -60,14 +60,14 @@ vim.api.nvim_create_autocmd("TermOpen", {
     if vim.startswith(vim.api.nvim_buf_get_name(0), "term://") then
       vim.cmd("startinsert")
     end
-  end
+  end,
 })
 
 -- Autoclose terminal when exiting
 vim.api.nvim_create_autocmd("TermClose", {
   group = "terminal",
   pattern = { "*" },
-  command = [[call nvim_input("<CR>")]]
+  command = [[call nvim_input("<CR>")]],
 })
 
 -- Turn off certain UI elements when buffer is inactive
@@ -95,7 +95,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
     vim.opt_local.cursorline = false
     vim.opt_local.cursorcolumn = false
     vim.opt_local.relativenumber = false
-  end
+  end,
 })
 
 -- Turn on relativenumber when buffer is active
@@ -123,20 +123,20 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
     vim.opt_local.cursorline = true
     vim.opt_local.cursorcolumn = true
     vim.opt_local.relativenumber = true
-  end
+  end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = "active_window",
   pattern = { "TelescopePrompt" },
-  command = [[set nonumber norelativenumber]]
+  command = [[set nonumber norelativenumber]],
 })
 
 -- Set cursorline and column for the active window
 vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
   group = "active_window",
   pattern = { "*" },
-  command = [[if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif]]
+  command = [[if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif]],
 })
 
 -- Format buffers before saving
@@ -144,12 +144,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = "autoformatting",
   pattern = { "*" },
   callback = function()
-    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
+    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/*") then
       return
     end
 
     vim.lsp.buf.format()
-  end
+  end,
 })
 
 -- Close an unedited buffer if it's unnamed
@@ -161,7 +161,7 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
       vim.bo.buftype = "nofile"
       vim.bo.bufhidden = "unload"
     end
-  end
+  end,
 })
 
 -- Set winbar to filename, when possible
@@ -177,7 +177,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "Cur
       "lspinfo",
       "NvimTree",
       "packer",
-      "qf"
+      "qf",
     }
 
     local filename = util.filename()
@@ -186,5 +186,5 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "Cur
     end
 
     vim.opt_local.winbar = filename
-  end
+  end,
 })
