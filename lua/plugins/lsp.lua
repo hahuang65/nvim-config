@@ -86,8 +86,29 @@ local on_attach = function(client, bufnr)
   nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
   -- Formatting keymaps
-  nmap("<leader>f", vim.lsp.buf.format, "[F]ormat")
-  vmap("<leader>f", vim.lsp.buf.format, "[F]ormat range")
+  nmap("<leader>F", function()
+    if client.server_capabilities.documentFormattingProvider then
+      vim.lsp.buf.format()
+    else
+      print("LSP does not support formatting.")
+    end
+  end, "[F]ormat file")
+
+  vmap("<leader>f", function()
+    if client.server_capabilities.documentRangeFormattingProvider then
+      vim.lsp.buf.format()
+    else
+      print("LSP does not support range formatting.")
+    end
+  end, "[F]ormat range")
+
+  nmap("<leader>f", function()
+    if client.server_capabilities.documentRangeFormattingProvider then
+      require("util").format_just_edited()
+    else
+      print("LSP does not support range formatting.")
+    end
+  end, "[F]ormat most recently edited text")
 end
 
 require("fidget").setup({
