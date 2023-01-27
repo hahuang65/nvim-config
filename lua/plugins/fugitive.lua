@@ -1,17 +1,22 @@
 -- https://github.com/tpope/vim-fugitive
-vim.keymap.set('n', '<leader>gb', require('git').change_branch,      { desc = '[G]it [b]ranch' })
-vim.keymap.set('n', '<leader>gB', ':Git repo view --web<CR>',        { desc = '[G]it - Open in [b]rowser' })
-vim.keymap.set('n', '<leader>gc', ':GV!<CR>',                        { desc = '[G]it [c]ommits (Buffer)' })
-vim.keymap.set('n', '<leader>gC', ':GV<CR>',                         { desc = '[G]it [C]ommits (Project)' })
-vim.keymap.set('n', '<leader>gg', ':Git<CR>',                        { desc = 'Fugitive' })
-vim.keymap.set('n', '<leader>gN', require('git').new_branch,         { desc = '[G]it [N]ew Branch' })
-vim.keymap.set('n', '<leader>gO', ':Git pr view --web<CR>',          { desc = '[G]it - [O]pen PR in browser' })
-vim.keymap.set('n', '<leader>gp', ':Git publish<CR>',                { desc = '[G]it [P]ublish' })
-vim.keymap.set('n', '<leader>gP', ':Git pr list --web<CR>',          { desc = '[G]it - List open [P]Rs in browser' })
-vim.keymap.set('n', '<leader>gR', ':Git pr create --web --fill<CR>', { desc = '[G]it - Create pull [r]equest' })
-vim.keymap.set('n', '<leader>gt', ':Git trunk<CR>',                  { desc = '[G]it - Switch to [t]runk branch' })
-vim.keymap.set('n', '<leader>gT', ':Git retrunk<CR>',                { desc = '[G]it - Rebase Against [t]runk branch' })
-vim.keymap.set('n', '<leader>gs', ':Git sync<CR>',                   { desc = '[G]it Sync' })
-vim.keymap.set('n', '<leader>gS', ':Git shove<CR>',                  { desc = '[G]it Shove' })
-vim.keymap.set('n', '<leader>g[', ':diffget //2 | :diffupdate<CR>',  { desc = 'Conflict Select (Left)' })
-vim.keymap.set('n', '<leader>g]', ':diffget //3 | :diffupdate<CR>',  { desc = 'Conflict Select (Right)' })
+return {
+  "tpope/vim-fugitive",
+  keys = {
+    { "<leader>gb", require("git").change_branch, desc = "[G]it [b]ranch" },
+    { "<leader>gB", ":Git repo view --web<CR>", desc = "[G]it - Open in [b]rowser" },
+    { "<leader>gc", ":GV!<CR>", desc = "[G]it [c]ommits (Buffer)" },
+    { "<leader>gC", ":GV<CR>", desc = "[G]it [C]ommits (Project)" },
+    { "<leader>gg", ":Git<CR>", desc = "Fugitive" },
+    { "<leader>gN", require("git").new_branch, desc = "[G]it [N]ew Branch" },
+    { "<leader>gO", ":Git pr view --web<CR>", desc = "[G]it - [O]pen PR in browser" },
+    { "<leader>gp", ":Git publish<CR>", desc = "[G]it [P]ublish" },
+    { "<leader>gP", ":Git pr list --web<CR>", desc = "[G]it - List open [P]Rs in browser" },
+    { "<leader>gR", ":Git pr create --web --fill<CR>", desc = "[G]it - Create pull [r]equest" },
+    { "<leader>gt", ":Git trunk<CR>", desc = "[G]it - Switch to [t]runk branch" },
+    { "<leader>gT", ":Git retrunk<CR>", desc = "[G]it - Rebase Against [t]runk branch" },
+    { "<leader>gs", ":Git sync<CR>", desc = "[G]it Sync" },
+    { "<leader>gS", ":Git shove<CR>", desc = "[G]it Shove" },
+    { "<leader>g[", ":diffget //2 | :diffupdate<CR>", desc = "Conflict Select (Left)" },
+    { "<leader>g]", ":diffget //3 | :diffupdate<CR>", desc = "Conflict Select (Right)" },
+  },
+}

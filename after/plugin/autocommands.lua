@@ -24,13 +24,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   command = "silent! lua vim.highlight.on_yank()",
 })
 
--- Recompile Packer whenever nvim config changes
-vim.api.nvim_create_autocmd("BufWritePost", {
-  group = "nvim_config",
-  pattern = { "plugins.lua", "*/nvim/**/*.lua" },
-  command = "PackerCompile",
-})
-
 -- Reload nvim config when it changes
 vim.api.nvim_create_autocmd("BufWritePost", {
   group = "nvim_config",
