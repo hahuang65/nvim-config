@@ -4,6 +4,5 @@ return {
   "airblade/vim-rooter",
   "tpope/vim-repeat",
   "tpope/vim-surround",
-  "wbthomason/packer.nvim",
   "romainl/vim-cool",
 }
