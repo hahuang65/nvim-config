@@ -27,6 +27,7 @@ return {
       "terraformls",
       "tsserver",
       "vimls",
+      "vuels",
     }
 
     local tools = {
