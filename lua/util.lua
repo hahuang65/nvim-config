@@ -88,10 +88,21 @@ local function format_just_edited()
   })
 end
 
+local function has_value(table, value)
+  for _, v in ipairs(table) do
+    if value == v then
+      return true
+    end
+  end
+
+  return false
+end
+
 return {
   filename = filename,
   filetype_icon = filetype_icon,
   paste = paste,
   toggle_quickfix = toggle_quickfix,
   format_just_edited = format_just_edited,
+  has_value = has_value,
 }

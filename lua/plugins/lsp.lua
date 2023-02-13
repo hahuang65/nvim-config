@@ -20,9 +20,9 @@ return {
       "dockerls",
       "gopls",
       "jsonls",
+      "lua_ls",
       "pyright",
       "sqlls",
-      "sumneko_lua",
       "svelte",
       "terraformls",
       "tsserver",
@@ -142,10 +142,13 @@ return {
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(servers) do
-      require("lspconfig")[lsp].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+      local skip = { "lua_ls", "pyright", "solargraph" }
+      if not require("util").has_value(skip, lsp) then
+        require("lspconfig")[lsp].setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+      end
     end
 
     -- Make runtime files discoverable to the server
@@ -189,7 +192,7 @@ return {
       diagnostics_format = "[#{c}] #{m} (#{s})",
     })
 
-    require("lspconfig").sumneko_lua.setup({
+    require("lspconfig").lua_ls.setup({
       on_attach = on_attach,
       capabilities = capabilities,
       settings = {
