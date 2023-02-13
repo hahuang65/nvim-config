@@ -242,6 +242,11 @@ return {
     require("lspconfig").solargraph.setup({
       on_attach = on_attach,
       capabilities = capabilities,
+      settings = {
+        solargraph = {
+          diagnostics = false, -- Handled by rubocop in null-ls
+        },
+      },
     })
   end,
 }
