@@ -30,8 +30,10 @@ local function show_fugitive()
 end
 
 local function toggle_fugitive()
-  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then
+  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then -- Regular git repositories
     vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git//$') ]])
+  elseif vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git/*//$")) ~= 0 then -- Nested git repositories
+    vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git/*//$') ]])
   else
     show_fugitive()
   end
