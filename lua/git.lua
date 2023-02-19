@@ -26,6 +26,8 @@ local function show_fugitive()
       setlocal nonumber
       setlocal norelativenumber
       ]])
+  else
+    print("Git is either in a detached state, or not initialized")
   end
 end
 
