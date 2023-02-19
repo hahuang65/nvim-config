@@ -75,6 +75,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
       "lspinfo",
       "NvimTree",
       "packer",
+      "TelescopePrompt",
     }
 
     local buftype_exclude = {
@@ -103,6 +104,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
       "lspinfo",
       "NvimTree",
       "packer",
+      "TelescopePrompt",
     }
 
     local buftype_exclude = {
