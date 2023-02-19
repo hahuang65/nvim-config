@@ -6,6 +6,7 @@ vim.api.nvim_create_augroup("autoformatting", { clear = true })
 vim.api.nvim_create_augroup("autoreload", { clear = true })
 vim.api.nvim_create_augroup("cleanup", { clear = true })
 vim.api.nvim_create_augroup("nvim_config", { clear = true })
+vim.api.nvim_create_augroup("telescope", { clear = true })
 vim.api.nvim_create_augroup("terminal", { clear = true })
 vim.api.nvim_create_augroup("winbar", { clear = true })
 vim.api.nvim_create_augroup("yank_highlight", { clear = true })
@@ -63,6 +64,21 @@ vim.api.nvim_create_autocmd("TermClose", {
   command = [[call nvim_input("<CR>")]],
 })
 
+-- Clear editor clutter for telescope windows
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = "telescope",
+  pattern = { "*" },
+  callback = function()
+    vim.schedule(function() -- Have to schedule, as Telescope doesn't set filetype upon open
+      if vim.bo.filetype == "TelescopePrompt" then
+        vim.opt_local.cursorline = false
+        vim.opt_local.cursorcolumn = false
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+      end
+    end)
+  end,
+})
 -- Turn off certain UI elements when buffer is inactive
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   group = "active_window",
@@ -125,13 +141,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   group = "active_window",
   pattern = { "TelescopePrompt" },
   command = [[set nonumber norelativenumber]],
-})
-
--- Set cursorline and column for the active window
-vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
-  group = "active_window",
-  pattern = { "*" },
-  command = [[if &buftype != "terminal" | setlocal cursorline cursorcolumn | endif]],
 })
 
 -- Format buffers before saving

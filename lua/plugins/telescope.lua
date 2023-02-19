@@ -76,6 +76,9 @@ return {
     local actions = require("telescope.actions")
     require("telescope").setup({
       defaults = {
+        layout_config = {
+          horizontal = { preview_width = 0.67 },
+        },
         mappings = {
           n = {
             ["<C-g>"] = actions.close,
