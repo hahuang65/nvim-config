@@ -51,7 +51,7 @@ return {
     }
 
     vim.diagnostic.config({
-      update_in_insert = true,
+      update_in_insert = false,
       signs = false,
       severity_sort = true,
       virtual_text = {
