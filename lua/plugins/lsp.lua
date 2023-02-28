@@ -54,9 +54,7 @@ return {
       update_in_insert = false,
       signs = false,
       severity_sort = true,
-      virtual_text = {
-        spacing = 1,
-      },
+      virtual_text = false, -- Since we're using lsp_lines
     })
 
     --  This function gets run when an LSP connects to a particular buffer.
