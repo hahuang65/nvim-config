@@ -1,4 +1,5 @@
 -- https://github.com/tpope/vim-fugitive
+
 return {
   "tpope/vim-fugitive",
   keys = {
@@ -18,5 +19,11 @@ return {
     { "<leader>gS", ":Git shove<CR>",                  desc = "[G]it Shove" },
     { "<leader>g[", ":diffget //2 | :diffupdate<CR>",  desc = "Conflict Select (Left)" },
     { "<leader>g]", ":diffget //3 | :diffupdate<CR>",  desc = "Conflict Select (Right)" },
+    {
+      "<leader>g?",
+      require("git").commits_for_lines,
+      desc = "Conflict Select (Right)",
+      mode = { "n", "v" },
+    },
   },
 }

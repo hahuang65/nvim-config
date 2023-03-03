@@ -41,8 +41,15 @@ local function toggle_fugitive()
   end
 end
 
+local function commits_for_lines()
+  local _, start_line, _, _ = unpack(vim.fn.getpos("v"))
+  local _, end_line, _, _ = unpack(vim.fn.getpos("."))
+  vim.cmd([[Git log -L ]] .. start_line .. "," .. end_line .. ":" .. vim.fn.expand("%"))
+end
+
 return {
   new_branch = new_branch,
   change_branch = change_branch,
   toggle_fugitive = toggle_fugitive,
+  commits_for_lines = commits_for_lines,
 }
