@@ -52,11 +52,24 @@ return {
 
     vim.diagnostic.config({
       update_in_insert = false,
-      signs = false,
       severity_sort = true,
       virtual_text = false, -- Since we're using lsp_lines
-      virtual_lines = true,
+      signs = true,
+      virtual_lines = { only_current_line = true },
     })
+
+    local sign = function(opts)
+      vim.fn.sign_define(opts.name, {
+        texthl = opts.name,
+        text = opts.text,
+        numhl = "",
+      })
+    end
+
+    sign({ name = "DiagnosticSignError", text = " " })
+    sign({ name = "DiagnosticSignWarn", text = " " })
+    sign({ name = "DiagnosticSignHint", text = " " })
+    sign({ name = "DiagnosticSignInfo", text = " " })
 
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(client, bufnr)
