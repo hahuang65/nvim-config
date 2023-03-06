@@ -46,6 +46,7 @@ vim.keymap.set("n", "<M-~>", ":Vterminal Terminal<CR>", { desc = "Open terminal 
 vim.keymap.set("t", "<M-~>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
 
 -- Project quick-access
+vim.keymap.set("n", "<leader><leader>", require("finders").project_files, { desc = "Search Project/Files" })
 vim.keymap.set("n", "<leader>ed", require("finders").dotfiles, { desc = "[E]dit [D]otfiles" })
 vim.keymap.set("n", "<leader>ep", require("finders").projects, { desc = "[E]dit [P]rojects" })
 vim.keymap.set("n", "<leader>ev", require("finders").config, { desc = "[E]dit Neo[v]im Config" })

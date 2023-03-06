@@ -9,13 +9,6 @@ return {
   },
   keys = {
     {
-      "<leader><leader>",
-      function()
-        require("finders").project_files()
-      end,
-      desc = "Search Project/Files",
-    },
-    {
       "<leader>sb",
       function()
         require("telescope.builtin").buffers()
