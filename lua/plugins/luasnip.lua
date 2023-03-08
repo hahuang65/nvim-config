@@ -22,8 +22,8 @@ return {
       "<C-j>",
       function()
         local ls = require("luasnip")
-        if ls.jumpable(-1) then
-          ls.jump(-1)
+        if ls.jumpable( -1) then
+          ls.jump( -1)
         end
       end,
       mode = { "i", "s" },
@@ -44,7 +44,7 @@ return {
 
     {
       "<leader>sr",
-      [[<cmd>source $HOME/.dotfiles/nvim/lua/plugin/snippets.lua<CR>]],
+      [[<cmd>source $HOME/.dotfiles/nvim/lua/snippets.lua<CR>]],
       desc = "[S]nippets - Reload",
     },
 
