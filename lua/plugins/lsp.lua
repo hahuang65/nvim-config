@@ -66,10 +66,9 @@ return {
       })
     end
 
-    sign({ name = "DiagnosticSignError", text = " " })
-    sign({ name = "DiagnosticSignWarn", text = " " })
-    sign({ name = "DiagnosticSignHint", text = " " })
-    sign({ name = "DiagnosticSignInfo", text = " " })
+    for name, icon in pairs(require("statuscolumn").diagnostic_icons) do
+      sign({ name = name, text = icon })
+    end
 
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(client, bufnr)

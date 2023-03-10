@@ -60,4 +60,4 @@ vim.keymap.set("n", "]d", function()
   vim.diagnostic.goto_next({ float = false })
 end, { desc = "Next Diagnostic" })
 
-vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
+vim.keymap.set("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })

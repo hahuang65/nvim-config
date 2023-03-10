@@ -1,19 +1,18 @@
 -- https://github.com/lewis6991/gitsigns.nvim
 
+local signs = {}
+for _, config in pairs(require("statuscolumn").gitsigns_config) do
+  signs[config["name"]] =
+  { hl = config["hl"], text = config["icon"], numhl = config["hl"] .. "Nr", linehl = config["hl"] .. "Ln" }
+end
+
 return {
   "lewis6991/gitsigns.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
   config = {
-    signs = {
-      add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-      change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-      delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-      topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-      changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-      untracked = { hl = "GitSignsAdd", text = "┆", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-    },
+    signs = signs,
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
     numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
     linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
