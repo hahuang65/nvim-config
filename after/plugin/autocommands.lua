@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 vim.api.nvim_create_autocmd("TermOpen", {
   group = "terminal",
   pattern = { "*" },
-  command = "setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no",
+  command = "setlocal nonumber norelativenumber nocursorline nocursorcolumn signcolumn=no statuscolumn=",
 })
 
 -- Map Ctrl-c even when not in insertmode
@@ -142,7 +142,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = "active_window",
   pattern = { "TelescopePrompt" },
-  command = [[set nonumber norelativenumber]],
+  command = [[set nonumber norelativenumber statuscolumn=]],
 })
 
 -- Format buffers before saving
