@@ -11,7 +11,7 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  config = {
+  opts = {
     signs = signs,
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
     numhl = false, -- Toggle with `:Gitsigns toggle_numhl`

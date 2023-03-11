@@ -2,7 +2,7 @@
 
 return {
   "lukas-reineke/indent-blankline.nvim",
-  config = {
+  opts = {
     use_treesitter = true,
     filetype_exclude = { "help", "lazy", "mason" },
     buftype_exclude = { "terminal" },

@@ -2,7 +2,7 @@
 
 return {
   "ray-x/lsp_signature.nvim",
-  config = {
+  opts = {
     debug = false, -- set to true to enable debug logging
     log_path = "/tmp/lsp_signature.log", -- debug log path
     verbose = false, -- show debug line number

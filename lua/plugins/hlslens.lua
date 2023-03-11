@@ -2,7 +2,7 @@
 
 return {
   "kevinhwang91/nvim-hlslens",
-  config = {
+  opts = {
     auto_enable = true, -- Start when searching
     calm_down = true, -- Disable when moving cursor off search
   },

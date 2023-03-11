@@ -2,7 +2,7 @@
 
 return {
   "stevearc/dressing.nvim",
-  config = {
+  opts = {
     input = {
       relative = "editor",
     },
