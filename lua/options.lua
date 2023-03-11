@@ -92,3 +92,6 @@ opt.fillchars = {
 
 -- Statuscolumn
 opt.statuscolumn = [[%!v:lua.statuscolumn()]]
+
+-- Disable Perl provider
+vim.g["loaded_perl_provider"] = 0
