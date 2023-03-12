@@ -47,8 +47,8 @@ local function sign_name(placed_signs)
   return placed_signs["name"]
 end
 
-local function render_sign(group, sym)
-  return table.concat({ "%#", group, "#", sym, "%*" })
+local function render_sign(hlgroup, sym)
+  return table.concat({ "%#", hlgroup, "#", sym, "%*" })
 end
 
 local function placed_signs_for_group(bufnr, lnum, group)
@@ -116,15 +116,12 @@ _G.statuscolumn = function()
   }
 
   local order = {
+    "neotest", -- some bug here where if there's a neotest symbol and a diagnostic symble, the diagnostic won't show up
     "diagnostics",
-    "space",
-    "neotest",
     "sep",
     "num",
-    "space",
     "gitsigns",
     "fold",
-    "space",
   }
 
   for _, val in ipairs(order) do
