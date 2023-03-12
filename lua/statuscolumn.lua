@@ -17,60 +17,85 @@ local diagnostic_icons = {
   DiagnosticSignOk = " ",
 }
 
-local function get_sign_name(cur_sign)
-  if cur_sign == nil then
+local neotest_config = {
+  neotest_passed = { icon = " ", hl = "NeotestPassed" },
+  neotest_skipped = { icon = " ", hl = "NeotestSkipped" },
+  neotest_failed = { icon = " ", hl = "NeotestFailed" },
+  neotest_running = { icon = " ", hl = "NeotestRunning" },
+}
+
+local function sign_name(placed_signs)
+  if placed_signs == nil then
     return nil
   end
 
-  cur_sign = cur_sign[1]
-
-  if cur_sign == nil then
+  placed_signs = placed_signs[1]
+  if placed_signs == nil then
     return nil
   end
 
-  cur_sign = cur_sign.signs
-
-  if cur_sign == nil then
+  placed_signs = placed_signs.signs
+  if placed_signs == nil then
     return nil
   end
 
-  cur_sign = cur_sign[1]
-
-  if cur_sign == nil then
+  placed_signs = placed_signs[1]
+  if placed_signs == nil then
     return nil
   end
 
-  return cur_sign["name"]
+  return placed_signs["name"]
 end
 
-local function mk_hl(group, sym)
+local function render_sign(group, sym)
   return table.concat({ "%#", group, "#", sym, "%*" })
 end
 
-local function get_name_from_group(bufnr, lnum, group)
-  local cur_sign_tbl = vim.fn.sign_getplaced(bufnr, {
+local function placed_signs_for_group(bufnr, lnum, group)
+  local placed_signs = vim.fn.sign_getplaced(bufnr, {
     group = group,
     lnum = lnum,
   })
 
-  return get_sign_name(cur_sign_tbl)
+  return sign_name(placed_signs)
 end
 
-_G.statuscolumn_gitsigns = function(bufnr, lnum)
-  local sign_name = get_name_from_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+_G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
+  if virtnum < 0 then
+    return " "
+  end
 
-  if sign_name ~= nil then
-    return mk_hl(sign_name, gitsigns_config[sign_name]["icon"])
+  local gitsign = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+  if gitsign ~= nil then
+    return render_sign(gitsign, gitsigns_config[gitsign]["icon"])
   else
     return " "
   end
 end
 
-_G.statuscolumn_diagnostics = function(bufnr, lnum)
-  local cur_sign_nm = get_name_from_group(bufnr, lnum, "*")
+_G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
+  if virtnum < 0 then
+    return " "
+  end
 
-  if cur_sign_nm ~= nil and vim.startswith(cur_sign_nm, "DiagnosticSign") then
-    return mk_hl(cur_sign_nm, diagnostic_icons[cur_sign_nm])
+  local diag_sign = placed_signs_for_group(bufnr, lnum, "*")
+
+  if diag_sign ~= nil and vim.startswith(diag_sign, "DiagnosticSign") then
+    return render_sign(diag_sign, diagnostic_icons[diag_sign])
+  else
+    return " "
+  end
+end
+
+_G.statuscolumn_neotest = function(bufnr, lnum, virtnum)
+  if virtnum < 0 then
+    return " "
+  end
+
+  local neotest_sign = placed_signs_for_group(bufnr, lnum, "neotest-status")
+
+  if neotest_sign ~= nil then
+    return render_sign(neotest_config[neotest_sign]["hl"], neotest_config[neotest_sign]["icon"])
   else
     return " "
   end
@@ -80,10 +105,11 @@ _G.statuscolumn = function()
   local str_table = {}
 
   local parts = {
-    ["diagnostics"] = "%{%v:lua.statuscolumn_diagnostics(bufnr(), v:lnum)%}",
+    ["diagnostics"] = "%{%v:lua.statuscolumn_diagnostics(bufnr(), v:lnum, v:virtnum)%}",
     ["fold"] = "%C",
-    ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(), v:lnum)%}",
-    ["num"] = "%{v:relnum?v:relnum:v:lnum}",
+    ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(), v:lnum, v:virtnum)%}",
+    ["neotest"] = "%{%v:lua.statuscolumn_neotest(bufnr(), v:lnum, v:virtnum)%}",
+    ["num"] = '%{v:virtnum<0?"":v:relnum?v:relnum:v:lnum}',
     ["sep"] = "%=",
     ["signcol"] = "%s",
     ["space"] = " ",
@@ -91,6 +117,8 @@ _G.statuscolumn = function()
 
   local order = {
     "diagnostics",
+    "space",
+    "neotest",
     "sep",
     "num",
     "space",
