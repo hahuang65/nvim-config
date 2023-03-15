@@ -101,19 +101,20 @@ _G.statuscolumn_neotest = function(bufnr, lnum, virtnum)
   end
 end
 
+local statuscolumn_parts = {
+  ["diagnostics"] = "%{%v:lua.statuscolumn_diagnostics(bufnr(), v:lnum, v:virtnum)%}",
+  ["fold"] = "%C",
+  ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(), v:lnum, v:virtnum)%}",
+  ["neotest"] = "%{%v:lua.statuscolumn_neotest(bufnr(), v:lnum, v:virtnum)%}",
+  ["num"] = '%{v:virtnum<0?"":v:relnum?v:relnum:v:lnum}',
+  ["absnum"] = '%{v:virtnum<0?"":v:lnum}',
+  ["sep"] = "%=",
+  ["signcol"] = "%s",
+  ["space"] = " ",
+}
+
 _G.statuscolumn = function()
   local str_table = {}
-
-  local parts = {
-    ["diagnostics"] = "%{%v:lua.statuscolumn_diagnostics(bufnr(), v:lnum, v:virtnum)%}",
-    ["fold"] = "%C",
-    ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(), v:lnum, v:virtnum)%}",
-    ["neotest"] = "%{%v:lua.statuscolumn_neotest(bufnr(), v:lnum, v:virtnum)%}",
-    ["num"] = '%{v:virtnum<0?"":v:relnum?v:relnum:v:lnum}',
-    ["sep"] = "%=",
-    ["signcol"] = "%s",
-    ["space"] = " ",
-  }
 
   local order = {
     "neotest", -- some bug here where if there's a neotest symbol and a diagnostic symble, the diagnostic won't show up
@@ -125,7 +126,24 @@ _G.statuscolumn = function()
   }
 
   for _, val in ipairs(order) do
-    table.insert(str_table, parts[val])
+    table.insert(str_table, statuscolumn_parts[val])
+  end
+
+  return table.concat(str_table)
+end
+
+_G.inactive_statuscolumn = function()
+  local str_table = {}
+
+  local order = {
+    "sep",
+    "absnum",
+    "gitsigns",
+    "fold",
+  }
+
+  for _, val in ipairs(order) do
+    table.insert(str_table, statuscolumn_parts[val])
   end
 
   return table.concat(str_table)

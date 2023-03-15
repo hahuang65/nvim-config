@@ -106,6 +106,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
     vim.opt_local.cursorline = false
     vim.opt_local.cursorcolumn = false
     vim.opt_local.relativenumber = false
+    vim.opt.statuscolumn = [[%!v:lua.inactive_statuscolumn()]]
   end,
 })
 
@@ -136,6 +137,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
     vim.opt_local.cursorline = true
     vim.opt_local.cursorcolumn = true
     vim.opt_local.relativenumber = true
+    vim.opt.statuscolumn = [[%!v:lua.statuscolumn()]]
   end,
 })
 
