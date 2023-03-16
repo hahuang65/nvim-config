@@ -7,6 +7,7 @@
 
 return {
   "mfussenegger/nvim-dap",
+  lazy = false,
   dependencies = {
     -- Technically, these require nvim-dap, but it's just a good way to group the DAP plugins together.
     "leoluz/nvim-dap-go",
@@ -16,6 +17,13 @@ return {
     "theHamsta/nvim-dap-virtual-text",
   },
   keys = {
+    {
+      "<leader>dc",
+      function()
+        require("dap").clear_breakpoints()
+      end,
+      desc = "[D]ebug - [C]lear breakpoints",
+    },
     {
       "<leader>dd",
       function()
@@ -61,6 +69,14 @@ return {
     },
 
     {
+      "<leader>dl",
+      function()
+        require("dap").run_last()
+      end,
+      desc = "[D]ebug - Run [L]ast",
+    },
+
+    {
       "<leader>dL",
       function()
         require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
@@ -70,20 +86,20 @@ return {
   },
   config = function()
     require("nvim-dap-virtual-text").setup({
-      enabled = true, -- enable this plugin (the default)
-      enabled_commands = true, -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
-      highlight_changed_variables = true, -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
-      highlight_new_as_changed = false, -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
-      show_stop_reason = true, -- show stop reason when stopped for exceptions
-      commented = false, -- prefix virtual text with comment string
-      only_first_definition = true, -- only show virtual text at first definition (if there are multiple)
-      all_references = false, -- show virtual text on all all references of the variable (not only definitions)
+      enabled = true,                        -- enable this plugin (the default)
+      enabled_commands = true,               -- create commands DapVirtualTextEnable, DapVirtualTextDisable, DapVirtualTextToggle, (DapVirtualTextForceRefresh for refreshing when debug adapter did not notify its termination)
+      highlight_changed_variables = true,    -- highlight changed values with NvimDapVirtualTextChanged, else always NvimDapVirtualText
+      highlight_new_as_changed = false,      -- highlight new variables in the same way as changed variables (if highlight_changed_variables)
+      show_stop_reason = true,               -- show stop reason when stopped for exceptions
+      commented = false,                     -- prefix virtual text with comment string
+      only_first_definition = true,          -- only show virtual text at first definition (if there are multiple)
+      all_references = false,                -- show virtual text on all all references of the variable (not only definitions)
       filter_references_pattern = "<module", -- filter references (not definitions) pattern when all_references is activated (Lua gmatch pattern, default filters out Python modules)
       -- experimental features:
-      virt_text_pos = "eol", -- position of virtual text, see `:h nvim_buf_set_extmark()`
-      all_frames = false, -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
-      virt_lines = false, -- show virtual lines instead of virtual text (will flicker!)
-      virt_text_win_col = nil, -- position the virtual text at a fixed window column (starting from the first text column) ,
+      virt_text_pos = "eol",                 -- position of virtual text, see `:h nvim_buf_set_extmark()`
+      all_frames = false,                    -- show virtual text for all stack frames not only current. Only works for debugpy on my machine.
+      virt_lines = false,                    -- show virtual lines instead of virtual text (will flicker!)
+      virt_text_win_col = nil,               -- position the virtual text at a fixed window column (starting from the first text column) ,
       -- e.g. 80 to position at column 80, see `:h nvim_buf_set_extmark()`
     })
 
@@ -108,7 +124,7 @@ return {
             "stacks",
             "watches",
           },
-          size = 40,
+          size = 60,
           position = "left",
         },
         {
@@ -116,13 +132,13 @@ return {
             "repl",
             "console",
           },
-          size = 10,
+          size = 20,
           position = "bottom",
         },
       },
       floating = {
-        max_height = nil, -- These can be integers or a float between 0 and 1.
-        max_width = nil, -- Floats will be treated as percentage of your screen.
+        max_height = nil,  -- These can be integers or a float between 0 and 1.
+        max_width = nil,   -- Floats will be treated as percentage of your screen.
         border = "single", -- Border style. Can be 'single', 'double' or 'rounded'
         mappings = {
           close = { "q", "<Esc>" },
@@ -138,20 +154,26 @@ return {
     dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
     end
-    dap.listeners.before.event_terminated["dapui_config"] = function()
-      dapui.close()
-    end
-    dap.listeners.before.event_exited["dapui_config"] = function()
-      dapui.close()
+    dap.listeners.before.event_exited["dapui_config"] = function(_, body)
+      if body["exitCode"] == 0 then
+        dapui.close()
+      end
     end
 
     -- https://github.com/catppuccin/nvim#special-integrations
-    local sign = vim.fn.sign_define
-    sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-    sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
-    sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+    for name, icon in pairs(require("statuscolumn").debugger_icons) do
+      require("util").define_sign({ name = name, text = icon })
+    end
 
     require("dap-go").setup()
     require("dap-ruby").setup()
+
+    require("dap-python").test_runner = "pytest" -- This has to happen after setup
+    require("dap-python").resolve_python = function()
+      local venv_dir = vim.fn.system({ "pipenv", "--venv" }):gsub("\n", "")
+      return venv_dir .. "/bin/python"
+    end
+    require("dap-python").setup("~/.asdf/shims/python")
+    require("dap-python").test_runner = "pytest"
   end,
 }

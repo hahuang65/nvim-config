@@ -98,6 +98,15 @@ local function has_value(table, value)
   return false
 end
 
+local function define_sign(opts)
+  vim.fn.sign_define(opts.name, {
+    texthl = opts.name,
+    text = opts.text,
+    linehl = "",
+    numhl = "",
+  })
+end
+
 return {
   filename = filename,
   filetype_icon = filetype_icon,
@@ -105,4 +114,5 @@ return {
   toggle_quickfix = toggle_quickfix,
   format_just_edited = format_just_edited,
   has_value = has_value,
+  define_sign = define_sign,
 }

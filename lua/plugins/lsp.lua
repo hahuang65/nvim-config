@@ -58,16 +58,8 @@ return {
       virtual_lines = { only_current_line = true },
     })
 
-    local sign = function(opts)
-      vim.fn.sign_define(opts.name, {
-        texthl = opts.name,
-        text = opts.text,
-        numhl = "",
-      })
-    end
-
     for name, icon in pairs(require("statuscolumn").diagnostic_icons) do
-      sign({ name = name, text = icon })
+      require("util").define_sign({ name = name, text = icon })
     end
 
     --  This function gets run when an LSP connects to a particular buffer.
