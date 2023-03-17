@@ -35,49 +35,54 @@ local debugger_icons = {
   DapStopped = " ",
 }
 
-local function sign_name(placed_signs)
-  if placed_signs == nil then
-    return nil
-  end
-
-  placed_signs = placed_signs[1]
-  if placed_signs == nil then
-    return nil
-  end
-
-  placed_signs = placed_signs.signs
-  if placed_signs == nil then
-    return nil
-  end
-
-  placed_signs = placed_signs[1]
-  if placed_signs == nil then
-    return nil
-  end
-
-  return placed_signs["name"]
-end
-
 local function render_sign(hlgroup, sym)
   return table.concat({ "%#", hlgroup, "#", sym, "%*" })
 end
 
 local function placed_signs_for_group(bufnr, lnum, group)
-  local placed_signs = vim.fn.sign_getplaced(bufnr, {
+  local signs = {}
+  local placed = vim.fn.sign_getplaced(bufnr, {
     group = group,
     lnum = lnum,
   })
 
-  return sign_name(placed_signs)
+  for _, each in pairs(placed) do
+    for _, sign in pairs(each["signs"]) do
+      table.insert(signs, sign)
+    end
+  end
+  return signs
+end
+
+local function filter_by_prefix(signs, prefix)
+  local matches = {}
+  for _, sign in pairs(signs) do
+    if sign ~= nil and vim.startswith(sign["name"], prefix) then
+      table.insert(matches, sign)
+    end
+  end
+
+  return matches
 end
 
 local function debug_line()
   local bufnr = vim.api.nvim_get_current_buf()
   local _, lnum, _, _ = unpack(vim.fn.getpos("."))
-  print(vim.inspect(vim.fn.sign_getplaced(bufnr, {
-    group = "*",
-    lnum = lnum,
-  })))
+  local debugger_signs = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")
+  print("Debugger Signs")
+  print(vim.inspect(debugger_signs))
+
+  local diagnostic_signs = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "DiagnosticSign")
+  print("Diagnostic Signs")
+  print(vim.inspect(diagnostic_signs))
+
+  local neotest_signs = placed_signs_for_group(bufnr, lnum, "neotest-status")
+  print("Neotest Signs")
+  print(vim.inspect(neotest_signs))
+
+  local gitsign_signs = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+  print("Gitsign Signs")
+  print(vim.inspect(gitsign_signs))
 end
 
 _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
@@ -85,9 +90,9 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
     return " "
   end
 
-  local gitsign = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+  local gitsign = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")[1]
   if gitsign ~= nil then
-    return render_sign(gitsign, gitsigns_config[gitsign]["icon"])
+    return render_sign(gitsign["name"], gitsigns_config[gitsign["name"]]["icon"])
   else
     return " "
   end
@@ -98,10 +103,10 @@ _G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
     return ""
   end
 
-  local diag_sign = placed_signs_for_group(bufnr, lnum, "*")
-
-  if diag_sign ~= nil and vim.startswith(diag_sign, "DiagnosticSign") then
-    return render_sign(diag_sign, diagnostic_icons[diag_sign])
+  local diag_sign = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "DiagnosticSign")[1]
+  if diag_sign ~= nil then
+    local sign_name = diag_sign["name"]
+    return render_sign(sign_name, diagnostic_icons[sign_name])
   else
     return ""
   end
@@ -112,10 +117,10 @@ _G.statuscolumn_neotest = function(bufnr, lnum, virtnum)
     return ""
   end
 
-  local neotest_sign = placed_signs_for_group(bufnr, lnum, "neotest-status")
-
+  local neotest_sign = placed_signs_for_group(bufnr, lnum, "neotest-status")[1]
   if neotest_sign ~= nil then
-    return render_sign(neotest_config[neotest_sign]["hl"], neotest_config[neotest_sign]["icon"])
+    local sign_name = neotest_sign["name"]
+    return render_sign(neotest_config[sign_name]["hl"], neotest_config[sign_name]["icon"])
   else
     return ""
   end
@@ -126,21 +131,22 @@ _G.statuscolumn_debugger = function(bufnr, lnum, virtnum)
     return " "
   end
 
-  local debugger_sign = placed_signs_for_group(bufnr, lnum, "*")
-
-  if debugger_sign ~= nil and vim.startswith(debugger_sign, "Dap") then
-    return render_sign(debugger_sign, debugger_icons[debugger_sign])
+  local debugger_sign = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")[1]
+  if debugger_sign ~= nil then
+    local sign_name = debugger_sign["name"]
+    return render_sign(sign_name, debugger_icons[sign_name])
   else
     return ""
   end
 end
 
 local statuscolumn_parts = {
-  ["debugger"] = "%{%v:lua.statuscolumn_debugger(bufnr(), v:lnum, v:virtnum)%}",
-  ["diagnostics"] = "%{%v:lua.statuscolumn_diagnostics(bufnr(), v:lnum, v:virtnum)%}",
+  -- No spaces in the expression
+  ["debugger"] = "%{%v:lua.statuscolumn_debugger(bufnr(),v:lnum,v:virtnum)%}",
+  ["diagnostics"] = "%{%v:lua.statuscolumn_diagnostics(bufnr(),v:lnum,v:virtnum)%}",
   ["fold"] = "%C",
-  ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(), v:lnum, v:virtnum)%}",
-  ["neotest"] = "%{%v:lua.statuscolumn_neotest(bufnr(), v:lnum, v:virtnum)%}",
+  ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(),v:lnum,v:virtnum)%}",
+  ["neotest"] = "%{%v:lua.statuscolumn_neotest(bufnr(),v:lnum,v:virtnum)%}",
   ["num"] = '%{v:virtnum<0?"":v:relnum?v:relnum:v:lnum}',
   ["absnum"] = '%{v:virtnum<0?"":v:lnum}',
   ["sep"] = "%=",
@@ -152,7 +158,6 @@ _G.statuscolumn = function()
   local str_table = {}
 
   local order = {
-    -- some bug here where only one symbol shows up even if diag, test, and debug all exist
     "diagnostics",
     "neotest",
     "debugger",
