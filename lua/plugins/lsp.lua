@@ -148,7 +148,7 @@ return {
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(servers) do
-      local skip = { "lua_ls", "pyright", "solargraph" }
+      local skip = { "lua_ls", "pyright", "rust_analyzer", "solargraph" }
       if not require("util").has_value(skip, lsp) then
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
@@ -248,6 +248,24 @@ return {
       settings = {
         solargraph = {
           diagnostics = false, -- Handled by rubocop in null-ls
+        },
+      },
+    })
+
+    require("lspconfig").rust_analyzer.setup({
+      settings = {
+        ["rust-analyzer"] = {
+          checkOnSave = {
+            allFeatures = true,
+            overrideCommand = {
+              "cargo",
+              "clippy",
+              "--workspace",
+              "--message-format=json",
+              "--all-targets",
+              "--all-features",
+            },
+          },
         },
       },
     })
