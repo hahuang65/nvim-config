@@ -179,6 +179,8 @@ _G.inactive_statuscolumn = function()
   local str_table = {}
 
   local order = {
+    "diagnostics",
+    "neotest",
     "debugger",
     "sep",
     "absnum",
