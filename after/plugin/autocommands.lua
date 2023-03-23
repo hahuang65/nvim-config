@@ -152,7 +152,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   group = "autoformatting",
   pattern = { "*" },
   callback = function()
-    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/*") then
+    local filetype_exclude = {
+      "gitcommit",
+    }
+
+    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/*") or vim.tbl_contains(filetype_exclude, vim.bo.filetype) then
       return
     end
 
