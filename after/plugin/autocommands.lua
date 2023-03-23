@@ -155,6 +155,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     local filetype_excludes = {
       "conf",
       "gitcommit",
+      "swayconfig",
     }
 
     local ft = vim.bo.filetype
