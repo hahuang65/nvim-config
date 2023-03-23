@@ -20,13 +20,7 @@ end
 
 local function paste()
   vim.ui.input({ prompt = "New Paste (omit extension): " }, function(name)
-    local url = vim.cmd([['<,'>w ! pst -u -n ]] .. name .. "." .. vim.bo.filetype)
-
-    if url == nil or url == "" then
-      vim.notify("Error creating paste", vim.log.levels.ERROR)
-    else
-      vim.notify(url, vim.log.levels.WARN, { title = "paste.sr.ht", timeout = 10000 })
-    end
+    vim.cmd([['<,'>w ! pst -u -n ]] .. name .. "." .. vim.bo.filetype)
   end)
 end
 
