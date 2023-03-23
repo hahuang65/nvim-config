@@ -7,11 +7,7 @@ local function toggle_quickfix()
   end
   if qf_exists == true then
     vim.cmd("cclose")
-    return
-  else
-    vim.notify("Quickfix is empty.", vim.log.levels.WARN)
-  end
-  if not vim.tbl_isempty(vim.fn.getqflist()) then
+  elseif not vim.tbl_isempty(vim.fn.getqflist()) then
     vim.cmd("copen")
   else
     vim.notify("Quickfix is empty.", vim.log.levels.WARN)
