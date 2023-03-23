@@ -153,6 +153,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*" },
   callback = function()
     local filetype_excludes = {
+      "conf",
       "gitcommit",
     }
 
