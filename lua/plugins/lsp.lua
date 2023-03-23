@@ -30,6 +30,7 @@ return {
       "tsserver",
       "vimls",
       "vuels",
+      "yamlls",
     }
 
     local tools = {
@@ -51,6 +52,8 @@ return {
       "sql-formatter",
       "stylua",
       "tflint",
+      "yamlfmt",
+      "yamllint",
     }
 
     vim.diagnostic.config({
@@ -176,6 +179,7 @@ return {
             "--config",
             vim.fn.expand("$HOME/.selene.toml"),
           },
+          null_ls.builtins.diagnostics.yamllint,
         }),
 
         -- Formatters
@@ -194,6 +198,7 @@ return {
             vim.fn.expand("$HOME/.stylua.toml"),
           },
         }),
+        null_ls.builtins.formatting.yamlfmt,
       },
       diagnostics_format = "[#{c}] #{m} (#{s})",
     })
