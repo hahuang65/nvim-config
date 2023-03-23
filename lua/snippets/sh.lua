@@ -1,4 +1,4 @@
-local ls = require'luasnip'
+local ls = require("luasnip")
 local c = ls.choice_node
 local d = ls.dynamic_node
 local i = ls.insert_node
@@ -17,34 +17,41 @@ local function endif()
   return sn(nil, {
     c(1, {
       t("fi"),
-      sn(nil, fmt(
-        [[
+      sn(
+        nil,
+        fmt(
+          [[
           else
             {1}
           fi
         ]],
-        {
-          i(1)
-        }
-      )),
-      sn(nil, fmt(
-        [[
+          {
+            i(1),
+          }
+        )
+      ),
+      sn(
+        nil,
+        fmt(
+          [[
           elif {1}; then
             {2}
           {3}
         ]],
-        {
-          i(1),
-          i(2),
-          d(3, endif, {})
-        }
-      ))
-    })
+          {
+            i(1),
+            i(2),
+            d(3, endif, {}),
+          }
+        )
+      ),
+    }),
   })
 end
 
 return {
-  s("if",
+  s(
+    "if",
     fmt(
       [[
         if {1}; then
@@ -54,10 +61,18 @@ return {
       {
         i(1),
         i(2),
-        d(3, endif, {})
+        d(3, endif, {}),
       }
     )
   ),
+
+  s(
+    "mapfile",
+    fmt([[mapfile -t {1} < <({2})]], {
+      i(1, "variable"),
+      i(2, "command"),
+    })
+  ),
 }, {
-  s("#!", t("#!/usr/bin/env bash"))
+  s("#!", t("#!/usr/bin/env bash")),
 }
