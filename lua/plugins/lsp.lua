@@ -46,7 +46,6 @@ return {
       "golangci-lint",
       "jsonlint",
       "jq",
-      "luacheck",
       "markdownlint",
       "mypy",
       "prettierd",
@@ -179,19 +178,13 @@ return {
         -- Linters
         null_ls.builtins.diagnostics.golangci_lint,
         null_ls.builtins.diagnostics.jsonlint,
-        null_ls.builtins.diagnostics.luacheck,
         null_ls.builtins.diagnostics.markdownlint,
         null_ls.builtins.diagnostics.mypy,
         null_ls.builtins.diagnostics.rubocop,
         null_ls.builtins.diagnostics.ruff,
-        null_ls.builtins.diagnostics.selene.with({
-          extra_args = {
-            "--config",
-            vim.fn.expand("$HOME/.selene.toml"),
-          },
-          null_ls.builtins.diagnostics.sqlfluff,
-          null_ls.builtins.diagnostics.yamllint,
-        }),
+        null_ls.builtins.diagnostics.selene,
+        null_ls.builtins.diagnostics.sqlfluff,
+        null_ls.builtins.diagnostics.yamllint,
 
         -- Formatters
         null_ls.builtins.formatting.autopep8,
