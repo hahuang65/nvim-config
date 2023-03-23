@@ -118,7 +118,7 @@ return {
         if client.server_capabilities.documentFormattingProvider then
           vim.lsp.buf.format()
         else
-          print("LSP does not support formatting.")
+          vim.notify("LSP does not support formatting.", vim.log.levels.WARN)
         end
       end, "[F]ormat file")
 
@@ -126,7 +126,7 @@ return {
         if client.server_capabilities.documentRangeFormattingProvider then
           vim.lsp.buf.format()
         else
-          print("LSP does not support range formatting.")
+          vim.notify("LSP does not support range formatting.", vim.log.levels.WARN)
         end
       end, "[F]ormat range")
 
@@ -134,7 +134,7 @@ return {
         if client.server_capabilities.documentRangeFormattingProvider then
           require("util").format_just_edited()
         else
-          print("LSP does not support range formatting.")
+          vim.notify("LSP does not support range formatting.", vim.log.levels.WARN)
         end
       end, "[F]ormat most recently edited text")
     end

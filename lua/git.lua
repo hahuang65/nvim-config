@@ -27,12 +27,12 @@ local function show_fugitive()
       setlocal norelativenumber
       ]])
   else
-    print("Git is either in a detached state, or not initialized")
+    vim.notify("Git is either in a detached state, or not initialized", vim.log.levels.WARN)
   end
 end
 
 local function toggle_fugitive()
-  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then -- Regular git repositories
+  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then       -- Regular git repositories
     vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git//$') ]])
   elseif vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git/*//$")) ~= 0 then -- Nested git repositories
     vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git/*//$') ]])

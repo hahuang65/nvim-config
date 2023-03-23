@@ -9,26 +9,31 @@ local function toggle_quickfix()
     vim.cmd("cclose")
     return
   else
-    print("Quickfix is empty.")
+    vim.notify("Quickfix is empty.", vim.log.levels.WARN)
   end
   if not vim.tbl_isempty(vim.fn.getqflist()) then
     vim.cmd("copen")
   else
-    print("Quickfix is empty")
+    vim.notify("Quickfix is empty.", vim.log.levels.WARN)
   end
 end
 
 local function paste()
   vim.ui.input({ prompt = "New Paste (omit extension): " }, function(name)
     local url = vim.cmd([['<,'>w ! pst -u -n ]] .. name .. "." .. vim.bo.filetype)
-    print(url)
+
+    if url == nil or url == "" then
+      vim.notify("Error creating paste", vim.log.levels.ERROR)
+    else
+      vim.notify(url, vim.log.levels.WARN, { title = "paste.sr.ht", timeout = 10000 })
+    end
   end)
 end
 
 local function filetype_icon(filename, extension)
   local ok, devicons = pcall(require, "nvim-web-devicons")
   if not ok then
-    print("No icon plugin found. Please install 'kyazdani42/nvim-web-devicons'")
+    vim.notify("No icon plugin found. Please install 'kyazdani42/nvim-web-devicons'", vim.log.levels.WARN)
     return ""
   end
   local icon = devicons.get_icon(filename, extension) or ""

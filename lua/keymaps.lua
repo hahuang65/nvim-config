@@ -16,7 +16,7 @@ vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines u
 -- Copy/Paste
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
 vim.keymap.set({ "n" }, "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })
-vim.keymap.set("x", "<leader>P", require("util").paste, { desc = "[C]reate [P]aste in paste.sr.ht" })
+vim.keymap.set("x", "<leader>P", require("util").paste, { desc = "Create [P]aste in paste.sr.ht" })
 
 -- Quickfix
 vim.keymap.set("n", "<leader>q", require("util").toggle_quickfix, { desc = "Toggle [q]uickfix list" })
