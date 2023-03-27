@@ -168,7 +168,6 @@ return {
     require("dap-go").setup()
     require("dap-ruby").setup()
 
-    require("dap-python").test_runner = "pytest" -- This has to happen after setup
     require("dap-python").resolve_python = function()
       local venv_dir = vim.fn.system({ "pipenv", "--venv" }):gsub("\n", "")
       return venv_dir .. "/bin/python"
