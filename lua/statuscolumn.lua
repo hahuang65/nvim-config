@@ -29,7 +29,7 @@ local neotest_config = {
 
 local debugger_icons = {
   DapBreakpoint = " ",
-  DapBreakpoingCondition = " ",
+  DapBreakpointCondition = " ",
   DapBreakpointRejected = " ",
   DapLogPoint = " ",
   DapStopped = " ",
