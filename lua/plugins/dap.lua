@@ -18,54 +18,70 @@ return {
   },
   keys = {
     {
+      "<F1>",
+      function()
+        require("dap").continue()
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Start/Continue [D]ebugger",
+    },
+    {
+      "<F2>",
+      function()
+        require("dap").step_over()
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Step [O]ver",
+    },
+    {
+      "<F3>",
+      function()
+        require("dap").step_into()
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Step [I]nto",
+    },
+    {
+      "<F6>",
+      function()
+        require("dap").step_out()
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Step [O]ut",
+    },
+    {
+      "<F7>",
+      function()
+        require("dap").toggle_breakpoint()
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Toggle [B]reakpoint",
+    },
+
+    {
+      "<F8>",
+      function()
+        require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Set Conditional [B]reakpoint",
+    },
+
+    {
+      "<F9>",
+      function()
+        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+      end,
+      mode = { "n", "i" },
+      desc = "[D]ebug - Set [L]og Point",
+    },
+
+    {
       "<leader>dc",
       function()
         require("dap").clear_breakpoints()
       end,
       desc = "[D]ebug - [C]lear breakpoints",
-    },
-    {
-      "<leader>dd",
-      function()
-        require("dap").continue()
-      end,
-      desc = "[D]ebug - Start/Continue [D]ebugger",
-    },
-    {
-      "<leader>do",
-      function()
-        require("dap").step_over()
-      end,
-      desc = "[D]ebug - Step [O]ver",
-    },
-    {
-      "<leader>di",
-      function()
-        require("dap").step_into()
-      end,
-      desc = "[D]ebug - Step [I]nto",
-    },
-    {
-      "<leader>dO",
-      function()
-        require("dap").step_out()
-      end,
-      desc = "[D]ebug - Step [O]ut",
-    },
-    {
-      "<leader>db",
-      function()
-        require("dap").toggle_breakpoint()
-      end,
-      desc = "[D]ebug - Toggle [B]reakpoint",
-    },
-
-    {
-      "<leader>dB",
-      function()
-        require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-      end,
-      desc = "[D]ebug - Set Conditional [B]reakpoint",
     },
 
     {
@@ -74,14 +90,6 @@ return {
         require("dap").run_last()
       end,
       desc = "[D]ebug - Run [L]ast",
-    },
-
-    {
-      "<leader>dL",
-      function()
-        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-      end,
-      desc = "[D]ebug - Set [L]og Point",
     },
   },
   config = function()
