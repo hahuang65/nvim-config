@@ -180,7 +180,7 @@ return {
       local venv_dir = vim.fn.system({ "pipenv", "--venv" }):gsub("\n", "")
       return venv_dir .. "/bin/python"
     end
-    require("dap-python").setup("~/.asdf/shims/python")
+    require("dap-python").setup("~/.asdf/shims/python", { include_configs = false })
     require("dap-python").test_runner = "pytest"
   end,
 }
