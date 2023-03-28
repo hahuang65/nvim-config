@@ -174,13 +174,94 @@ return {
     end
 
     require("dap-go").setup()
+
     require("dap-ruby").setup()
+    dap.configurations.ruby = {
+      {
+        type = "ruby",
+        name = "debug rspec line",
+        bundle = "bundle",
+        request = "attach",
+        command = "rspec",
+        script = "${file}",
+        port = 38698,
+        server = "127.0.0.1",
+        options = {
+          source_filetype = "ruby",
+        },
+        localfs = true,
+        waiting = 1000,
+        current_line = true,
+      },
+      {
+        type = "ruby",
+        name = "debug rspec file",
+        bundle = "bundle",
+        request = "attach",
+        command = "rspec",
+        script = "${file}",
+        port = 38698,
+        server = "127.0.0.1",
+        options = {
+          source_filetype = "ruby",
+        },
+        localfs = true,
+        waiting = 1000,
+      },
+      {
+        -- This doesn't fully work, as it seems to ignore breakpoints,
+        -- as well as not being connected to the correct datastores?
+        type = "ruby",
+        name = "debug rails server",
+        bundle = "bundle",
+        request = "attach",
+        command = "rails",
+        script = "server",
+        port = 38698,
+        server = "127.0.0.1",
+        options = {
+          source_filetype = "ruby",
+        },
+        localfs = true,
+        waiting = 1000,
+      },
+      {
+        type = "ruby",
+        name = "debug file",
+        bundle = "",
+        request = "attach",
+        command = "ruby",
+        script = "${file}",
+        port = 38698,
+        server = "127.0.0.1",
+        options = {
+          source_filetype = "ruby",
+        },
+        localfs = true,
+        waiting = 1000,
+      },
+      {
+        type = "ruby",
+        name = "debug rspec suite",
+        bundle = "bundle",
+        request = "attach",
+        command = "rspec",
+        script = "./spec",
+        port = 38698,
+        server = "127.0.0.1",
+        options = {
+          source_filetype = "ruby",
+        },
+        localfs = true,
+        waiting = 1000,
+      },
+    }
 
     require("dap-python").resolve_python = function()
       local venv_dir = vim.fn.system({ "pipenv", "--venv" }):gsub("\n", "")
       return venv_dir .. "/bin/python"
     end
-    require("dap-python").setup("~/.asdf/shims/python", { include_configs = false })
+    require("dap-python").setup("~/.asdf/shims/python")
     require("dap-python").test_runner = "pytest"
   end,
 }
