@@ -3,6 +3,28 @@
 -- https://github.com/jose-elias-alvarez/null-ls.nvim
 -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 -- https://github.com/williamboman/mason-lspconfig.nvim
+--
+local function pipenv_exists(dir)
+  require("lspconfig").util.search_ancestors(dir, function(path)
+    local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
+    if require("lspconfig").util.path.is_file(pipfile) then
+      return true
+    else
+      return false
+    end
+  end)
+end
+
+local function poetry_exists(dir)
+  require("lspconfig").util.search_ancestors(dir, function(path)
+    local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
+    if require("lspconfig").util.path.is_file(poetry_lock) then
+      return true
+    else
+      return false
+    end
+  end)
+end
 
 return {
   "neovim/nvim-lspconfig",
@@ -39,6 +61,7 @@ return {
     local tools = {
       "autopep8",
       "beautysh",
+      "black",
       "debugpy",
       "delve",
       "fixjson",
@@ -179,7 +202,17 @@ return {
         null_ls.builtins.diagnostics.golangci_lint,
         null_ls.builtins.diagnostics.jsonlint,
         null_ls.builtins.diagnostics.markdownlint,
-        null_ls.builtins.diagnostics.mypy,
+        null_ls.builtins.diagnostics.mypy.with({
+          command = function()
+            dir = vim.loop.cwd()
+
+            if pipenv_exists(dir) then
+              return "pipenv run mypy"
+            elseif poetry_exists(dir) then
+              return "poetry run mypy"
+            end
+          end,
+        }),
         null_ls.builtins.diagnostics.rubocop,
         null_ls.builtins.diagnostics.ruff,
         null_ls.builtins.diagnostics.selene,
@@ -189,6 +222,7 @@ return {
         -- Formatters
         null_ls.builtins.formatting.autopep8,
         null_ls.builtins.formatting.beautysh,
+        null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.fixjson,
         null_ls.builtins.formatting.gofmt,
         null_ls.builtins.formatting.goimports,
@@ -234,17 +268,10 @@ return {
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(new_config, root_dir)
-        local pipfile_exists = require("lspconfig").util.search_ancestors(root_dir, function(path)
-          local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
-          if require("lspconfig").util.path.is_file(pipfile) then
-            return true
-          else
-            return false
-          end
-        end)
-
-        if pipfile_exists then
+        if pipenv_exists(root_dir) then
           new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
+        elseif poetry_exists(root_dir) then
+          new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
         end
       end,
     })
