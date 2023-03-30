@@ -168,7 +168,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       return
     end
 
-    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/*") then
+    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
       return
     end
 

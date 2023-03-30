@@ -59,7 +59,6 @@ return {
     }
 
     local tools = {
-      "autopep8",
       "beautysh",
       "black",
       "debugpy",
@@ -220,7 +219,6 @@ return {
         null_ls.builtins.diagnostics.yamllint,
 
         -- Formatters
-        null_ls.builtins.formatting.autopep8,
         null_ls.builtins.formatting.beautysh,
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.fixjson,
