@@ -4,28 +4,6 @@
 -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 -- https://github.com/williamboman/mason-lspconfig.nvim
 --
-local function pipenv_exists(dir)
-  require("lspconfig").util.search_ancestors(dir, function(path)
-    local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
-    if require("lspconfig").util.path.is_file(pipfile) then
-      return true
-    else
-      return false
-    end
-  end)
-end
-
-local function poetry_exists(dir)
-  require("lspconfig").util.search_ancestors(dir, function(path)
-    local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
-    if require("lspconfig").util.path.is_file(poetry_lock) then
-      return true
-    else
-      return false
-    end
-  end)
-end
-
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -203,16 +181,40 @@ return {
         null_ls.builtins.diagnostics.markdownlint,
         null_ls.builtins.diagnostics.mypy.with({
           command = function()
-            dir = vim.loop.cwd()
+            local dir = vim.loop.cwd()
 
-            if pipenv_exists(dir) then
-              return "pipenv run mypy"
-            elseif poetry_exists(dir) then
-              return "poetry run mypy"
-            end
+            require("lspconfig").util.search_ancestors(dir, function(path)
+              local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
+              local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
+              if require("lspconfig").util.path.is_file(poetry_lock) then
+                vim.notify("Running `mypy` with `poetry`")
+                return "poetry run mypy"
+              elseif require("lspconfig").util.path.is_file(pipfile) then
+                vim.notify("Running `mypy` with `pipenv`")
+                return "pipenv run mypy"
+              else
+                vim.notify("Running `mypy` without a virtualenv")
+                return "mypy"
+              end
+            end)
           end,
         }),
-        null_ls.builtins.diagnostics.rubocop,
+        null_ls.builtins.diagnostics.rubocop.with({
+          command = function()
+            local dir = vim.loop.cwd()
+
+            require("lspconfig").util.search_ancestors(dir, function(path)
+              local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
+              if require("lspconfig").util.path.is_file(gemfile) then
+                vim.notify("Running `rubocop` with bundler")
+                return "bundle exec rubocop"
+              else
+                vim.notify("Running `rubocop` without bundler")
+                return "rubocop"
+              end
+            end)
+          end,
+        }),
         null_ls.builtins.diagnostics.ruff,
         null_ls.builtins.diagnostics.selene,
         null_ls.builtins.diagnostics.sqlfluff,
@@ -266,11 +268,19 @@ return {
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(new_config, root_dir)
-        if pipenv_exists(root_dir) then
-          new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
-        elseif poetry_exists(root_dir) then
-          new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
-        end
+        require("lspconfig").util.search_ancestors(dir, function(path)
+          local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
+          local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
+          if require("lspconfig").util.path.is_file(poetry_lock) then
+            vim.notify("Running `pyright` with `poetry`")
+            new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
+          elseif require("lspconfig").util.path.is_file(pipfile) then
+            vim.notify("Running `pyright` with `pipenv`")
+            new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
+          else
+            vim.notify("Running `pyright` without a virtualenv")
+          end
+        end)
       end,
     })
 
@@ -286,6 +296,16 @@ return {
           diagnostics = false, -- Handled by rubocop in null-ls
         },
       },
+      on_new_config = function(new_config, root_dir)
+        require("lspconfig").util.search_ancestors(dir, function(path)
+          local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
+          if require("lspconfig").util.path.is_file(gemfile) then
+            vim.notify("Running `solargraph` with bundler")
+          else
+            vim.notify("Running `solargraph` without bundler")
+          end
+        end)
+      end,
     })
 
     require("lspconfig").rust_analyzer.setup({
