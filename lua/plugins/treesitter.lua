@@ -29,15 +29,12 @@ return {
         "vim",
         "yaml",
       },
-
       highlight = {
         enable = true,
       },
-
       indent = {
         enable = true,
       },
-
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -47,12 +44,12 @@ return {
           node_decremental = "<C-backSpace>",
         },
       },
-
       textobjects = {
         select = {
           enable = true,
           lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-          keymaps = { -- You can use the capture groups defined in textobjects.scm
+          keymaps = {
+            -- You can use the capture groups defined in textobjects.scm
             ["ap"] = "@parameter.outer",
             ["ip"] = "@parameter.inner",
             ["ab"] = "@block.outer",
@@ -61,9 +58,16 @@ return {
             ["if"] = "@function.inner",
             ["ac"] = "@class.outer",
             ["ic"] = "@class.inner",
+            ["al"] = "@loop.outer",
+            ["il"] = "@loop.inner",
+            ["a?"] = "@conditional.outer",
+            ["i?"] = "@conditional.inner",
+            ["a="] = "@assignment.outer",
+            ["l="] = "@assignment.lhs",
+            ["i="] = "@assignment.inner",
+            ["r="] = "@assignment.rhs",
           },
         },
-
         swap = {
           enable = true,
           swap_next = {
@@ -73,13 +77,15 @@ return {
             ["cP"] = "@parameter.inner",
           },
         },
-
         move = {
           enable = true,
           set_jumps = true, -- whether to set jumps in the jumplist
           goto_next_start = {
             ["]f"] = "@function.outer",
             ["]c"] = "@class.outer",
+            ["]p"] = "@parameter.inner",
+            ["]l"] = "@loop.outer",
+            ["]?"] = "@conditional.outer",
           },
           goto_next_end = {
             ["]F"] = "@function.outer",
@@ -88,6 +94,9 @@ return {
           goto_previous_start = {
             ["[f"] = "@function.outer",
             ["[c"] = "@class.outer",
+            ["[p"] = "@parameter.inner",
+            ["[l"] = "@loop.outer",
+            ["[?"] = "@conditional.outer",
           },
           goto_previous_end = {
             ["[F"] = "@function.outer",
