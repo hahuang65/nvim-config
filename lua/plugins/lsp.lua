@@ -18,7 +18,6 @@ return {
     local servers = {
       "bashls",
       "dockerls",
-      "docker_compose_language_service",
       "gopls",
       "jsonls",
       "lua_ls",
@@ -33,7 +32,6 @@ return {
       "tsserver",
       "vimls",
       "vuels",
-      "yamlls",
     }
 
     local tools = {
@@ -268,7 +266,7 @@ return {
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(new_config, root_dir)
-        require("lspconfig").util.search_ancestors(dir, function(path)
+        require("lspconfig").util.search_ancestors(root_dir, function(path)
           local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
           local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
           if require("lspconfig").util.path.is_file(poetry_lock) then
@@ -296,8 +294,8 @@ return {
           diagnostics = false, -- Handled by rubocop in null-ls
         },
       },
-      on_new_config = function(new_config, root_dir)
-        require("lspconfig").util.search_ancestors(dir, function(path)
+      on_new_config = function(_, root_dir)
+        require("lspconfig").util.search_ancestors(root_dir, function(path)
           local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
           if require("lspconfig").util.path.is_file(gemfile) then
             vim.notify("Running `solargraph` with bundler")
