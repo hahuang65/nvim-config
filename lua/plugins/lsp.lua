@@ -265,16 +265,18 @@ return {
     require("lspconfig").pyright.setup({
       on_attach = on_attach,
       capabilities = capabilities,
-      on_new_config = function(new_config, root_dir)
-        require("lspconfig").util.search_ancestors(root_dir, function(path)
+      on_new_config = function(new_config, dir)
+        require("lspconfig").util.search_ancestors(dir, function(path)
           local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
           local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
           if require("lspconfig").util.path.is_file(poetry_lock) then
             vim.notify("Running `pyright` with `poetry`")
             new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
+            return true -- Must return true to tell `search_ancestors` to stop iterating.
           elseif require("lspconfig").util.path.is_file(pipfile) then
             vim.notify("Running `pyright` with `pipenv`")
             new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
+            return true -- Must return true to tell `search_ancestors` to stop iterating.
           else
             vim.notify("Running `pyright` without a virtualenv")
           end
@@ -294,11 +296,13 @@ return {
           diagnostics = false, -- Handled by rubocop in null-ls
         },
       },
-      on_new_config = function(_, root_dir)
-        require("lspconfig").util.search_ancestors(root_dir, function(path)
+      on_new_config = function(new_config, root_dir)
+        local dir = vim.loop.cwd()
+        require("lspconfig").util.search_ancestors(dir, function(path)
           local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
           if require("lspconfig").util.path.is_file(gemfile) then
             vim.notify("Running `solargraph` with bundler")
+            return true -- Must return true to tell `search_ancestors` to stop iterating.
           else
             vim.notify("Running `solargraph` without bundler")
           end
