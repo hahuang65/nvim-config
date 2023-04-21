@@ -47,7 +47,11 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 -- Start insertmode when opening a terminal
-vim.api.nvim_create_autocmd("TermOpen", {
+vim.api.nvim_create_autocmd({
+  "TermOpen",
+  "WinEnter",
+  "BufWinEnter",
+}, {
   group = "terminal",
   pattern = { "*" },
   callback = function()

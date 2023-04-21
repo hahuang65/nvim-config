@@ -4,10 +4,11 @@ return {
   "https://gitlab.com/yorickpeterse/nvim-window.git",
   keys = {
     {
-      "<leader>w",
+      "<M-w>",
       function()
         require("nvim-window").pick()
       end,
+      mode = { "i", "n", "t", "v" },
       desc = "[W]indow picker",
     },
   },
