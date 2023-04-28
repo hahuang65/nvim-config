@@ -24,17 +24,17 @@ vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix entry" })
 vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix entry" })
 
 -- Window movement
-vim.keymap.set("n", "<Left>", "<C-w>h", { desc = "Switch to window left" })
-vim.keymap.set("n", "<Down>", "<C-w>j", { desc = "Switch to window below" })
-vim.keymap.set("n", "<Up>", "<C-w>k", { desc = "Switch to window above" })
-vim.keymap.set("n", "<Right>", "<C-w>l", { desc = "Switch to window right" })
+vim.keymap.set("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })
+vim.keymap.set("n", "<C-M-j>", "<C-w>j", { desc = "Switch to window below" })
+vim.keymap.set("n", "<C-M-k>", "<C-w>k", { desc = "Switch to window above" })
+vim.keymap.set("n", "<C-M-l>", "<C-w>l", { desc = "Switch to window right" })
 
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Go to normal mode" })
-vim.keymap.set("t", "<Left>", "<C-\\><C-n><C-w>h", { desc = "Switch to window left" })
-vim.keymap.set("t", "<Down>", "<C-\\><C-n><C-w>j", { desc = "Switch to window below" })
-vim.keymap.set("t", "<Up>", "<C-\\><C-n><C-w>k", { desc = "Switch to window above" })
-vim.keymap.set("t", "<Right>", "<C-\\><C-n><C-w>l", { desc = "Switch to window right" })
+vim.keymap.set("t", "<C-M-h>", "<C-\\><C-n><C-w>h", { desc = "Switch to window left" })
+vim.keymap.set("t", "<C-M-j>", "<C-\\><C-n><C-w>j", { desc = "Switch to window below" })
+vim.keymap.set("t", "<C-M-k>", "<C-\\><C-n><C-w>k", { desc = "Switch to window above" })
+vim.keymap.set("t", "<C-M-l>", "<C-\\><C-n><C-w>l", { desc = "Switch to window right" })
 
 vim.keymap.set("n", "<M-[>", ":Terminal Console<CR>", { desc = "Open console terminal" })
 vim.keymap.set("t", "<M-[>", "<C-\\><C-n>:Terminal Console<CR>", { desc = "Open console terminal" })
