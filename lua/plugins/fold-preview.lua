@@ -5,7 +5,7 @@ return {
   event = "VeryLazy",
   keys = {
     {
-      "zk",
+      "Z",
       function()
         require("fold-preview").toggle_preview()
       end,
