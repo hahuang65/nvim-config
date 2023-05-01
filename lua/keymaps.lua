@@ -13,6 +13,10 @@ vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without clobbe
 vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
 vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
+-- Folds
+vim.keymap.set({ "n", "v" }, "<Tab>", "za", { desc = "Toggle folds" })
+vim.keymap.set({ "n", "v" }, "zz", "zf", { desc = "Define fold" })
+
 -- Copy/Paste
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
 vim.keymap.set({ "n" }, "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })

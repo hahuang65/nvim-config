@@ -5,6 +5,7 @@ vim.api.nvim_create_augroup("active_window", { clear = true })
 vim.api.nvim_create_augroup("autoformatting", { clear = true })
 vim.api.nvim_create_augroup("autoreload", { clear = true })
 vim.api.nvim_create_augroup("cleanup", { clear = true })
+vim.api.nvim_create_augroup("folds", { clear = true })
 vim.api.nvim_create_augroup("nvim_config", { clear = true })
 vim.api.nvim_create_augroup("telescope", { clear = true })
 vim.api.nvim_create_augroup("terminal", { clear = true })
@@ -16,6 +17,19 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
   group = "autoreload",
   pattern = { "*" },
   command = "silent! checktime",
+})
+
+-- Auto-save/load folds
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  group = "folds",
+  pattern = { "*.*" },
+  command = "mkview!",
+})
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = "folds",
+  pattern = { "*.*" },
+  command = "silent! loadview",
 })
 
 -- Flash the yanked text when yanking
