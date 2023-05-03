@@ -258,7 +258,7 @@ return {
     }
 
     require("dap-python").resolve_python = function()
-      local venv_dir = vim.fn.system({ "pipenv", "--venv" }):gsub("\n", "")
+      local venv_dir = vim.fn.system({ "poetry", "env", "info", "--path" }):gsub("\n", "")
       return venv_dir .. "/bin/python"
     end
     require("dap-python").setup("~/.asdf/shims/python")
