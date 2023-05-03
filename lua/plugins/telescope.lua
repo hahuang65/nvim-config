@@ -75,9 +75,11 @@ return {
         mappings = {
           n = {
             ["<C-g>"] = actions.close,
+            ["<C-q>"] = actions.delete_buffer,
           },
           i = {
             ["<C-g>"] = actions.close,
+            ["<C-q>"] = actions.delete_buffer,
           },
         },
       },

@@ -32,6 +32,7 @@ vim.keymap.set("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })
 vim.keymap.set("n", "<C-M-j>", "<C-w>j", { desc = "Switch to window below" })
 vim.keymap.set("n", "<C-M-k>", "<C-w>k", { desc = "Switch to window above" })
 vim.keymap.set("n", "<C-M-l>", "<C-w>l", { desc = "Switch to window right" })
+vim.keymap.set("n", "<C-M-q>", ":bd<CR>", { desc = "Close buffer" })
 
 -- Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Go to normal mode" })
