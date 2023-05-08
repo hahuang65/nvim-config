@@ -60,21 +60,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   command = "nnoremap <buffer> <C-c> i<C-c>",
 })
 
--- Start insertmode when opening a terminal
-vim.api.nvim_create_autocmd({
-  "TermOpen",
-  "WinEnter",
-  "BufWinEnter",
-}, {
-  group = "terminal",
-  pattern = { "*" },
-  callback = function()
-    if vim.startswith(vim.api.nvim_buf_get_name(0), "term://") then
-      vim.cmd("startinsert")
-    end
-  end,
-})
-
 -- Autoclose terminal when exiting
 vim.api.nvim_create_autocmd("TermClose", {
   group = "terminal",
