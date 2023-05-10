@@ -226,7 +226,12 @@ return {
         null_ls.builtins.formatting.markdownlint,
         null_ls.builtins.formatting.prettierd,
         null_ls.builtins.formatting.rubocop,
-        null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.formatting.shfmt.with({
+          extra_args = {
+            "--indent",
+            "2",
+          },
+        }),
         null_ls.builtins.formatting.sql_formatter,
         null_ls.builtins.formatting.stylua.with({
           extra_args = {
