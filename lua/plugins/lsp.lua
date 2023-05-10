@@ -35,7 +35,6 @@ return {
     }
 
     local tools = {
-      "beautysh",
       "black",
       "debugpy",
       "delve",
@@ -219,7 +218,6 @@ return {
         null_ls.builtins.diagnostics.yamllint,
 
         -- Formatters
-        null_ls.builtins.formatting.beautysh,
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.fixjson,
         null_ls.builtins.formatting.gofmt,
