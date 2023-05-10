@@ -3,8 +3,9 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
     "nvim-treesitter/nvim-treesitter-context",
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    "RRethy/nvim-treesitter-endwise",
   },
   build = function()
     pcall(require("nvim-treesitter.install").update({ with_sync = true }))
@@ -33,6 +34,9 @@ return {
         enable = true,
       },
       indent = {
+        enable = true,
+      },
+      endwise = {
         enable = true,
       },
       incremental_selection = {
