@@ -5,4 +5,5 @@ return {
   "tpope/vim-repeat",
   "tpope/vim-surround",
   "romainl/vim-cool",
+  "wakatime/vim-wakatime",
 }
