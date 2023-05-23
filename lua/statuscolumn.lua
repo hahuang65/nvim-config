@@ -1,6 +1,7 @@
 -- https://www.reddit.com/r/neovim/comments/10fpqbp/gist_statuscolumn_separate_diagnostics_and/
 
 local gitsigns_config = {
+  -- " ▍" for a thicker bar
   GitSignsAdd = { name = "add", icon = "│", hl = "GitSignsAdd" },
   GitSignsChange = { name = "change", icon = "│", hl = "GitSignsChange" },
   GitSignsChangedelete = { name = "changedelete", icon = "~", hl = "GitSignsChange" },

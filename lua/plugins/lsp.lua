@@ -99,10 +99,11 @@ return {
       nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
       nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-      nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-      nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-      nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+      nmap("ge", vim.lsp.buf.declaration, "[G]oto d[E]claration")
+      nmap("gD", vim.lsp.buf.definition, "[G]oto [D]efinition")
       nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+      nmap("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+      nmap("gY", vim.lsp.buf.type_definition, "[G]oto t[Y]pe definition")
       nmap("g]", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
       nmap("g}", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
