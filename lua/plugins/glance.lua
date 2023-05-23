@@ -25,8 +25,31 @@ return {
     },
   },
   config = function()
-    require("glance").setup({
-      -- your configuration
+    local glance = require("glance")
+    local actions = glance.actions
+
+    glance.setup({
+      mappings = {
+        list = {
+          ["j"] = actions.next,
+          ["k"] = actions.previous,
+          ["<Down>"] = false,
+          ["<Up>"] = false,
+          ["<Tab>"] = false,
+          ["<S-Tab>"] = false,
+          ["<C-u>"] = actions.preview_scroll_win(5),
+          ["<C-d>"] = actions.preview_scroll_win(-5),
+          ["<C-v>"] = actions.jump_vsplit,
+          ["<C-x>"] = actions.jump_split,
+          ["t"] = false,
+          ["o"] = actions.jump,
+          ["<CR>"] = actions.enter_win("preview"), -- Focus preview window
+          ["q"] = actions.close,
+          ["Q"] = actions.close,
+          ["<Esc>"] = actions.close,
+          ["<C-q>"] = actions.quickfix,
+        },
+      },
     })
   end,
 }
