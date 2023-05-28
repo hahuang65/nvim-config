@@ -1,9 +1,10 @@
 -- https://www.reddit.com/r/neovim/comments/10fpqbp/gist_statuscolumn_separate_diagnostics_and/
 
+local gitsign_bar = "▍"
+-- local gitsign_bar = "│"
 local gitsigns_config = {
-  -- " ▍" for a thicker bar
-  GitSignsAdd = { name = "add", icon = "│", hl = "GitSignsAdd" },
-  GitSignsChange = { name = "change", icon = "│", hl = "GitSignsChange" },
+  GitSignsAdd = { name = "add", icon = gitsign_bar, hl = "GitSignsAdd" },
+  GitSignsChange = { name = "change", icon = gitsign_bar, hl = "GitSignsChange" },
   GitSignsChangedelete = { name = "changedelete", icon = "~", hl = "GitSignsChange" },
   GitSignsDelete = { name = "delete", icon = "_", hl = "GitSignsDelete" },
   GitSignsTopdelete = { name = "topdelete", icon = "‾", hl = "GitSignsDelete" },
@@ -86,6 +87,16 @@ local function debug_line()
   print(vim.inspect(gitsign_signs))
 end
 
+local function first_key_by_partial_match(table, match)
+  for k, _ in pairs(table) do
+    if vim.startswith(match, k) or vim.startswith(k, match) then
+      return k
+    end
+  end
+
+  return nil
+end
+
 _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
   if virtnum < 0 then
     return " "
@@ -93,7 +104,13 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
 
   local gitsign = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")[1]
   if gitsign ~= nil then
-    return render_sign(gitsign["name"], gitsigns_config[gitsign["name"]]["icon"])
+    local name = first_key_by_partial_match(gitsigns_config, gitsign["name"])
+    if name then
+      return render_sign(gitsigns_config[name]["hl"], gitsigns_config[name]["icon"])
+    else
+      print("Could not find gitsign_config for " .. gitsign["name"])
+      return " "
+    end
   else
     return " "
   end
@@ -166,6 +183,7 @@ _G.statuscolumn = function()
     "num",
     "space",
     "gitsigns",
+    "space",
     "fold",
   }
 
@@ -187,6 +205,7 @@ _G.inactive_statuscolumn = function()
     "absnum",
     "space",
     "gitsigns",
+    "space",
     "fold",
   }
 
