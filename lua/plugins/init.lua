@@ -6,5 +6,4 @@ return {
   "tpope/vim-surround",
   "romainl/vim-cool",
   "wakatime/vim-wakatime",
-  "m4xshen/hardtime.nvim",
 }
