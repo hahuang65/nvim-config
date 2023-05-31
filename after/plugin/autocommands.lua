@@ -61,11 +61,12 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 -- Autoclose terminal when exiting
-vim.api.nvim_create_autocmd("TermClose", {
-  group = "terminal",
-  pattern = { "*" },
-  command = [[call nvim_input("<CR>")]],
-})
+-- This automatically closes terminals such as `:Git show` as well, which I don't want.
+-- vim.api.nvim_create_autocmd("TermClose", {
+--   group = "terminal",
+--   pattern = { "*" },
+--   command = "if !v:event.status | exe 'bdelete! '..expand('<abuf>') | endif"
+-- })
 
 -- Clear editor clutter for telescope windows
 vim.api.nvim_create_autocmd("BufEnter", {
@@ -82,6 +83,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end)
   end,
 })
+
 -- Turn off certain UI elements when buffer is inactive
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   group = "active_window",
