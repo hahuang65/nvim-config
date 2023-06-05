@@ -300,12 +300,12 @@ return {
           diagnostics = false, -- Handled by rubocop in null-ls
         },
       },
-      on_new_config = function(new_config, root_dir)
-        local dir = vim.loop.cwd()
+      on_new_config = function(new_config, dir)
         require("lspconfig").util.search_ancestors(dir, function(path)
           local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
           if require("lspconfig").util.path.is_file(gemfile) then
             vim.notify("Running `solargraph` with bundler")
+            new_config.cmd = { "bundle", "exec", "solargraph", "stdio" }
             return true -- Must return true to tell `search_ancestors` to stop iterating.
           else
             vim.notify("Running `solargraph` without bundler")
