@@ -23,7 +23,7 @@ return {
         require("dap").continue()
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Start/Continue [D]ebugger",
+      desc = "Debug - Start/Continue Debugger",
     },
     {
       "<F2>",
@@ -31,7 +31,7 @@ return {
         require("dap").step_over()
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Step [O]ver",
+      desc = "Debug - Step Over",
     },
     {
       "<F3>",
@@ -39,7 +39,7 @@ return {
         require("dap").step_into()
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Step [I]nto",
+      desc = "Debug - Step Into",
     },
     {
       "<F6>",
@@ -47,7 +47,7 @@ return {
         require("dap").step_out()
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Step [O]ut",
+      desc = "Debug - Step Out",
     },
     {
       "<F7>",
@@ -55,7 +55,7 @@ return {
         require("dap").toggle_breakpoint()
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Toggle [B]reakpoint",
+      desc = "Debug - Toggle Breakpoint",
     },
 
     {
@@ -64,7 +64,7 @@ return {
         require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Set Conditional [B]reakpoint",
+      desc = "Debug - Set Conditional Breakpoint",
     },
 
     {
@@ -73,7 +73,7 @@ return {
         require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
       end,
       mode = { "n", "i" },
-      desc = "[D]ebug - Set [L]og Point",
+      desc = "Debug - Set Log Point",
     },
 
     {
