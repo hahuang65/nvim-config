@@ -70,7 +70,7 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      extensions = { "fugitive", "quickfix" },
+      extensions = { "fugitive", "lazy", "nvim-dap-ui" },
     }
 
     local function deep_copy(original)
