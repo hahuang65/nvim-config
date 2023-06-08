@@ -103,11 +103,11 @@ local function define_sign(opts)
 end
 
 return {
+  define_sign = define_sign,
   filename = filename,
   filetype_icon = filetype_icon,
-  paste = paste,
-  toggle_quickfix = toggle_quickfix,
   format_just_edited = format_just_edited,
   has_value = has_value,
-  define_sign = define_sign,
+  paste = paste,
+  toggle_quickfix = toggle_quickfix,
 }

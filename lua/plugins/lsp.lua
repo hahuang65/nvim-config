@@ -3,7 +3,9 @@
 -- https://github.com/jose-elias-alvarez/null-ls.nvim
 -- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
 -- https://github.com/williamboman/mason-lspconfig.nvim
---
+
+local augroup = vim.api.nvim_create_augroup("lsp", { clear = true })
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -15,8 +17,6 @@ return {
     "j-hui/fidget.nvim",
   },
   config = function()
-    local augroup = vim.api.nvim_create_augroup("autoformatting", { clear = true })
-
     local servers = {
       "bashls",
       "dockerls",
@@ -81,13 +81,10 @@ return {
 
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(client, bufnr)
-      -- NOTE: Remember that lua is a real programming language, and as such it is possible
-      -- to define small helper and utility functions so you don't have to repeat yourself
-      -- many times.
-
       if client.supports_method("textDocument/formatting") then
-        -- Format buffers before saving
+        vim.notify("Formatting available from " .. client.name)
         vim.api.nvim_create_autocmd("BufWritePre", {
+          desc = "Format buffers before saving",
           group = augroup,
           buffer = bufnr,
           callback = function(args)
@@ -101,22 +98,9 @@ return {
       end
 
       if client.supports_method("textDocument/rangeFormatting") then
-        -- Format just edited text
-        vim.api.nvim_create_autocmd("InsertLeave", {
-          group = augroup,
-          buffer = bufnr,
-          callback = function(args)
-            if string.match(args.file, ".+/a5/crm/*") then
-              return
-            end
-
-            require("util").format_just_edited()
-          end,
-        })
+        vim.notify("Range formatting available from " .. client.name)
       end
 
-      -- In this case, we create a function that lets us more easily define mappings specific
-      -- for LSP related items. It sets the mode, buffer and description for us each time.
       local nmap = function(keys, func, desc)
         if desc then
           desc = "LSP - " .. desc
@@ -148,30 +132,9 @@ return {
       nmap("K", vim.lsp.buf.hover, "Hover Documentation")
       nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
-      -- Formatting keymaps
-      nmap("<leader>F", function()
-        if client.supports_method("textDocument/formatting") then
-          vim.lsp.buf.format()
-        else
-          vim.notify("LSP does not support formatting.", vim.log.levels.WARN)
-        end
-      end, "[F]ormat file")
-
-      vmap("<leader>f", function()
-        if client.supports_method("textDocument/rangeFormatting") then
-          vim.lsp.buf.format()
-        else
-          vim.notify("LSP does not support range formatting.", vim.log.levels.WARN)
-        end
-      end, "[F]ormat range")
-
-      nmap("<leader>f", function()
-        if client.supports_method("textDocument/rangeFormatting") then
-          require("util").format_just_edited()
-        else
-          vim.notify("LSP does not support range formatting.", vim.log.levels.WARN)
-        end
-      end, "[F]ormat most recently edited text")
+      nmap("<leader>F", vim.lsp.buf.format, "[F]ormat file")
+      vmap("<leader>f", vim.lsp.buf.format, "[F]ormat range")
+      nmap("<leader>f", require("util").format_just_edited, "[F]ormat most recently edited text")
     end
 
     require("fidget").setup({
@@ -214,6 +177,7 @@ return {
 
     local null_ls = require("null-ls")
     null_ls.setup({
+      on_attach = on_attach,
       sources = {
         -- Linters
         null_ls.builtins.diagnostics.gitlint,

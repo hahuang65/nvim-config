@@ -59,16 +59,16 @@ vim.api.nvim_create_autocmd("TermOpen", {
   command = "nnoremap <buffer> <C-c> i<C-c>",
 })
 
--- Autoclose terminal when exiting
 -- This automatically closes terminals such as `:Git show` as well, which I don't want.
 -- vim.api.nvim_create_autocmd("TermClose", {
+--   desc = "Autoclose terminal when exiting",
 --   group = "terminal",
 --   pattern = { "*" },
 --   command = "if !v:event.status | exe 'bdelete! '..expand('<abuf>') | endif"
 -- })
 
--- Clear editor clutter for telescope windows
 vim.api.nvim_create_autocmd("BufEnter", {
+  desc = "Clear editor clutter for telescope windows",
   group = "telescope",
   pattern = { "*" },
   callback = function()
@@ -83,8 +83,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
--- Turn off certain UI elements when buffer is inactive
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
+  desc = "Turn off certain UI elements when buffer is inactive",
   group = "active_window",
   pattern = { "*" },
   callback = function()
@@ -114,8 +114,8 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   end,
 })
 
--- Turn on relativenumber when buffer is active
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
+  desc = "Turn on relativenumber when buffer is active",
   group = "active_window",
   pattern = { "*" },
   callback = function()
@@ -151,8 +151,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   command = [[set nonumber norelativenumber statuscolumn=]],
 })
 
--- Close an unedited buffer if it's unnamed
 vim.api.nvim_create_autocmd({ "BufLeave" }, {
+  desc = "Close an unedited buffer if it's unnamed",
   group = "cleanup",
   pattern = { "*" },
   callback = function()
@@ -163,8 +163,8 @@ vim.api.nvim_create_autocmd({ "BufLeave" }, {
   end,
 })
 
--- Set winbar to filename, when possible
 vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "CursorHold", "CursorHoldI" }, {
+  desc = "Set winbar to filename, when possible",
   group = "winbar",
   pattern = { "*" },
   callback = function()
