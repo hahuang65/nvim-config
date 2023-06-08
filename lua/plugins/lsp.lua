@@ -87,8 +87,8 @@ return {
           desc = "Format buffers before saving",
           group = augroup,
           buffer = bufnr,
-          callback = function(args)
-            if string.match(args.file, ".+/a5/crm/*") then
+          callback = function()
+            if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
               return
             end
 
