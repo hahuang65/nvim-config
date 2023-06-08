@@ -88,8 +88,8 @@ return {
       if client.supports_method("textDocument/formatting") then
         -- Format buffers before saving
         vim.api.nvim_create_autocmd("BufWritePre", {
-          group = "autoformatting",
-          pattern = { "*" },
+          group = augroup,
+          buffer = bufnr,
           callback = function(args)
             if string.match(args.file, ".+/a5/crm/*") then
               return
@@ -103,8 +103,8 @@ return {
       if client.supports_method("textDocument/rangeFormatting") then
         -- Format just edited text
         vim.api.nvim_create_autocmd("InsertLeave", {
-          group = "autoformatting",
-          pattern = { "*" },
+          group = augroup,
+          buffer = bufnr,
           callback = function(args)
             if string.match(args.file, ".+/a5/crm/*") then
               return
