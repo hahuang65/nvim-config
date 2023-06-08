@@ -2,7 +2,6 @@ local util = require("util")
 
 -- Create augroups
 vim.api.nvim_create_augroup("active_window", { clear = true })
-vim.api.nvim_create_augroup("autoformatting", { clear = true })
 vim.api.nvim_create_augroup("autoreload", { clear = true })
 vim.api.nvim_create_augroup("cleanup", { clear = true })
 vim.api.nvim_create_augroup("folds", { clear = true })
@@ -150,36 +149,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   group = "active_window",
   pattern = { "TelescopePrompt" },
   command = [[set nonumber norelativenumber statuscolumn=]],
-})
-
--- Format buffers before saving
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = "autoformatting",
-  pattern = { "*" },
-  callback = function()
-    local filetype_excludes = {
-      "conf",
-      "gitcommit",
-      "make",
-      "swayconfig",
-    }
-
-    local ft = vim.bo.filetype
-
-    if ft == nil or ft == "" then
-      return
-    end
-
-    if vim.tbl_contains(filetype_excludes, ft) then
-      return
-    end
-
-    if string.match(vim.api.nvim_buf_get_name(0), ".+/a5/crm/*") then
-      return
-    end
-
-    vim.lsp.buf.format()
-  end,
 })
 
 -- Close an unedited buffer if it's unnamed

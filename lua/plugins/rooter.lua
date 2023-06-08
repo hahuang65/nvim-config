@@ -2,5 +2,5 @@
 --
 return {
   "notjedi/nvim-rooter.lua",
-  config = {},
+  opts = {},
 }

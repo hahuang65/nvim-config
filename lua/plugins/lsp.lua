@@ -15,6 +15,8 @@ return {
     "j-hui/fidget.nvim",
   },
   config = function()
+    local augroup = vim.api.nvim_create_augroup("autoformatting", { clear = true })
+
     local servers = {
       "bashls",
       "dockerls",
@@ -47,6 +49,7 @@ return {
       "mypy",
       "prettierd",
       "rubocop",
+      "rubyfmt",
       "ruff",
       "rustfmt",
       "selene",
@@ -77,7 +80,37 @@ return {
       -- NOTE: Remember that lua is a real programming language, and as such it is possible
       -- to define small helper and utility functions so you don't have to repeat yourself
       -- many times.
-      --
+
+      if client.supports_method("textDocument/formatting") then
+        -- Format buffers before saving
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          group = "autoformatting",
+          pattern = { "*" },
+          callback = function(args)
+            if string.match(args.file, ".+/a5/crm/*") then
+              return
+            end
+
+            vim.lsp.buf.format()
+          end,
+        })
+      end
+
+      if client.supports_method("textDocument/rangeFormatting") then
+        -- Format just edited text
+        vim.api.nvim_create_autocmd("InsertLeave", {
+          group = "autoformatting",
+          pattern = { "*" },
+          callback = function(args)
+            if string.match(args.file, ".+/a5/crm/*") then
+              return
+            end
+
+            require("util").format_just_edited()
+          end,
+        })
+      end
+
       -- In this case, we create a function that lets us more easily define mappings specific
       -- for LSP related items. It sets the mode, buffer and description for us each time.
       local nmap = function(keys, func, desc)
@@ -113,7 +146,7 @@ return {
 
       -- Formatting keymaps
       nmap("<leader>F", function()
-        if client.server_capabilities.documentFormattingProvider then
+        if client.supports_method("textDocument/formatting") then
           vim.lsp.buf.format()
         else
           vim.notify("LSP does not support formatting.", vim.log.levels.WARN)
@@ -121,7 +154,7 @@ return {
       end, "[F]ormat file")
 
       vmap("<leader>f", function()
-        if client.server_capabilities.documentRangeFormattingProvider then
+        if client.supports_method("textDocument/rangeFormatting") then
           vim.lsp.buf.format()
         else
           vim.notify("LSP does not support range formatting.", vim.log.levels.WARN)
@@ -129,7 +162,7 @@ return {
       end, "[F]ormat range")
 
       nmap("<leader>f", function()
-        if client.server_capabilities.documentRangeFormattingProvider then
+        if client.supports_method("textDocument/rangeFormatting") then
           require("util").format_just_edited()
         else
           vim.notify("LSP does not support range formatting.", vim.log.levels.WARN)
@@ -144,7 +177,12 @@ return {
       },
     })
 
-    require("mason").setup()
+    require("mason").setup({
+      registries = {
+        "github:mason-org/mason-registry",
+        "github:hahuang65/mason-registry",
+      },
+    })
     require("mason-lspconfig").setup({
       ensure_installed = servers,
     })
@@ -226,7 +264,7 @@ return {
         null_ls.builtins.formatting.jq,
         null_ls.builtins.formatting.markdownlint,
         null_ls.builtins.formatting.prettierd,
-        null_ls.builtins.formatting.rubocop,
+        null_ls.builtins.formatting.rubyfmt,
         null_ls.builtins.formatting.shfmt.with({
           extra_args = {
             "--indent",
