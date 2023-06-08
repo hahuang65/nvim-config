@@ -21,6 +21,7 @@ return {
       "bashls",
       "dockerls",
       "gopls",
+      "html",
       "jsonls",
       "lua_ls",
       "marksman",
@@ -41,8 +42,11 @@ return {
       "debugpy",
       "delve",
       "fixjson",
-      "goimports",
+      "gitlint",
+      "goimports-reviser",
       "golangci-lint",
+      "hadolint",
+      "htmlbeautifier",
       "jsonlint",
       "jq",
       "markdownlint",
@@ -56,7 +60,7 @@ return {
       "shellcheck",
       "shfmt",
       "sqlfluff",
-      "sql-formatter",
+      "sqlfmt",
       "stylua",
       "tflint",
       "yamlfmt",
@@ -212,7 +216,9 @@ return {
     null_ls.setup({
       sources = {
         -- Linters
+        null_ls.builtins.diagnostics.gitlint,
         null_ls.builtins.diagnostics.golangci_lint,
+        null_ls.builtins.diagnostics.hadolint,
         null_ls.builtins.diagnostics.jsonlint,
         null_ls.builtins.diagnostics.markdownlint,
         null_ls.builtins.diagnostics.mypy.with({
@@ -260,7 +266,8 @@ return {
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.fixjson,
         null_ls.builtins.formatting.gofmt,
-        null_ls.builtins.formatting.goimports,
+        null_ls.builtins.formatting.goimports_reviser,
+        null_ls.builtins.formatting.htmlbeautifier,
         null_ls.builtins.formatting.jq,
         null_ls.builtins.formatting.markdownlint,
         null_ls.builtins.formatting.prettierd,
@@ -271,7 +278,7 @@ return {
             "2",
           },
         }),
-        null_ls.builtins.formatting.sql_formatter,
+        null_ls.builtins.formatting.sqlfmt,
         null_ls.builtins.formatting.stylua.with({
           extra_args = {
             "--config-path",
