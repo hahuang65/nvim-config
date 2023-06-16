@@ -14,7 +14,7 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    "j-hui/fidget.nvim",
+    { "j-hui/fidget.nvim", tag = "legacy" },
   },
   config = function()
     local servers = {
