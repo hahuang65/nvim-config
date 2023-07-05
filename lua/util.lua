@@ -102,8 +102,19 @@ local function define_sign(opts)
   })
 end
 
+local function file_contents_match(filepath, word)
+  for line in io.lines(filepath) do
+    if string.find(line, "%f[%a]" .. word .. "%f[%A]") then
+      return true
+    end
+  end
+
+  return false
+end
+
 return {
   define_sign = define_sign,
+  file_contents_match = file_contents_match,
   filename = filename,
   filetype_icon = filetype_icon,
   format_just_edited = format_just_edited,
