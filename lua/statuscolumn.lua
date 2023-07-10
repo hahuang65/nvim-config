@@ -15,11 +15,16 @@ local gitsigns_config = {
 -- Copy glyphs from https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.csv
 
 local diagnostic_icons = {
-  DiagnosticSignError = " ",
-  DiagnosticSignWarn = " ",
-  DiagnosticSignHint = " ",
+  -- DiagnosticSignError = " ",
+  -- DiagnosticSignWarn = " ",
+  -- DiagnosticSignHint = " ",
+  -- DiagnosticSignInfo = " ",
+  -- DiagnosticSignOk = " ",
+  DiagnosticSignError = " ",
+  DiagnosticSignWarn = " ",
+  DiagnosticSignHint = " ",
   DiagnosticSignInfo = " ",
-  DiagnosticSignOk = " ",
+  DiagnosticSignOk = " ",
 }
 
 local neotest_config = {
