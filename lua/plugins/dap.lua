@@ -168,11 +168,6 @@ return {
       end
     end
 
-    -- https://github.com/catppuccin/nvim#special-integrations
-    for name, icon in pairs(require("statuscolumn").debugger_icons) do
-      require("util").define_sign({ name = name, text = icon })
-    end
-
     require("dap-go").setup()
 
     require("dap-ruby").setup()

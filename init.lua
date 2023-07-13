@@ -8,6 +8,7 @@ require("netrw")
 require("options")
 
 -- Custom
+require("statuscolumn")
 require("terminal")
 require("keymaps")
 

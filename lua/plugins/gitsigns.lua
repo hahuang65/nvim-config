@@ -1,9 +1,12 @@
 -- https://github.com/lewis6991/gitsigns.nvim
 
 local signs = {}
-for _, config in pairs(require("statuscolumn").gitsigns_config) do
-  signs[config["name"]] =
-  { hl = config["hl"], text = config["icon"], numhl = config["hl"] .. "Nr", linehl = config["hl"] .. "Ln" }
+for name, config in pairs(require("signs").signs) do
+  if vim.startswith(name, "GitSigns") then
+    local texthl = require("signs").opt(name, "texthl") or name
+    signs[name] =
+    { hl = texthl, text = config.icon, numhl = texthl .. "Nr", linehl = texthl .. "Ln" }
+  end
 end
 
 return {

@@ -75,10 +75,6 @@ return {
       virtual_lines = { only_current_line = true },
     })
 
-    for name, icon in pairs(require("statuscolumn").diagnostic_icons) do
-      require("util").define_sign({ name = name, text = icon })
-    end
-
     --  This function gets run when an LSP connects to a particular buffer.
     local on_attach = function(client, bufnr)
       if client.supports_method("textDocument/formatting") then

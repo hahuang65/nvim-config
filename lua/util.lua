@@ -93,15 +93,6 @@ local function has_value(table, value)
   return false
 end
 
-local function define_sign(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-    linehl = "",
-    numhl = "",
-  })
-end
-
 local function file_contents_match(filepath, word)
   for line in io.lines(filepath) do
     if string.find(line, "%f[%a]" .. word .. "%f[%A]") then
@@ -112,8 +103,16 @@ local function file_contents_match(filepath, word)
   return false
 end
 
+local function camel_case(word)
+  word = word:gsub("(%l)(%w*)", function(first, rest)
+    return first:upper() .. rest:lower()
+  end)
+
+  return word:gsub("_", "")
+end
+
 return {
-  define_sign = define_sign,
+  camel_case = camel_case,
   file_contents_match = file_contents_match,
   filename = filename,
   filetype_icon = filetype_icon,

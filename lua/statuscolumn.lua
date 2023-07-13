@@ -1,53 +1,16 @@
 -- https://www.reddit.com/r/neovim/comments/10fpqbp/gist_statuscolumn_separate_diagnostics_and/
 
-local gitsign_bar = "▍"
--- local gitsign_bar = "│"
-local gitsigns_config = {
-  GitSignsAdd = { name = "add", icon = gitsign_bar, hl = "GitSignsAdd" },
-  GitSignsChange = { name = "change", icon = gitsign_bar, hl = "GitSignsChange" },
-  GitSignsChangedelete = { name = "changedelete", icon = "~", hl = "GitSignsChange" },
-  GitSignsDelete = { name = "delete", icon = "_", hl = "GitSignsDelete" },
-  GitSignsTopdelete = { name = "topdelete", icon = "‾", hl = "GitSignsDelete" },
-  GitSignsUntracked = { name = "untracked", icon = "┆", hl = "GitSignsAdd" },
-}
+local signs = require("signs").signs
 
--- Icons from https://microsoft.github.io/vscode-codicons/dist/codicon.html
--- Copy glyphs from https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.csv
-
-local diagnostic_icons = {
-  -- DiagnosticSignError = " ",
-  -- DiagnosticSignWarn = " ",
-  -- DiagnosticSignHint = " ",
-  -- DiagnosticSignInfo = " ",
-  -- DiagnosticSignOk = " ",
-  DiagnosticSignError = " ",
-  DiagnosticSignWarn = " ",
-  DiagnosticSignHint = " ",
-  DiagnosticSignInfo = " ",
-  DiagnosticSignOk = " ",
-}
-
-local neotest_config = {
-  neotest_passed = { icon = " ", hl = "NeotestPassed" },
-  neotest_skipped = { icon = " ", hl = "NeotestSkipped" },
-  neotest_failed = { icon = " ", hl = "NeotestFailed" },
-  neotest_running = { icon = " ", hl = "NeotestRunning" },
-}
-
-local debugger_icons = {
-  DapBreakpoint = " ",
-  DapBreakpointCondition = " ",
-  DapBreakpointRejected = " ",
-  DapLogPoint = " ",
-  DapStopped = " ",
-}
-
-local function render_sign(hlgroup, sym)
-  return table.concat({ "%#", hlgroup, "#", sym, "%*" })
+local function render_sign(name)
+  local sign = vim.fn.sign_getdefined(name)[1]
+  if sign ~= nil then
+    return table.concat({ "%#", sign.texthl, "#", sign.text:gsub("%s+", ""), "%*" })
+  end
 end
 
 local function placed_signs_for_group(bufnr, lnum, group)
-  local signs = {}
+  local ret = {}
   local placed = vim.fn.sign_getplaced(bufnr, {
     group = group,
     lnum = lnum,
@@ -55,15 +18,16 @@ local function placed_signs_for_group(bufnr, lnum, group)
 
   for _, each in pairs(placed) do
     for _, sign in pairs(each["signs"]) do
-      table.insert(signs, sign)
+      table.insert(ret, sign)
     end
   end
-  return signs
+
+  return ret
 end
 
-local function filter_by_prefix(signs, prefix)
+local function filter_by_prefix(tbl, prefix)
   local matches = {}
-  for _, sign in pairs(signs) do
+  for _, sign in pairs(tbl) do
     if sign ~= nil and vim.startswith(sign["name"], prefix) then
       table.insert(matches, sign)
     end
@@ -109,12 +73,11 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
 
   local gitsign = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")[1]
   if gitsign ~= nil then
-    local name = first_key_by_partial_match(gitsigns_config, gitsign["name"])
+    local name = first_key_by_partial_match(signs, gitsign["name"])
     if name then
-      return render_sign(gitsigns_config[name]["hl"], gitsigns_config[name]["icon"])
+      return render_sign(name)
     else
-      print("Could not find gitsign_config for " .. gitsign["name"])
-      return " "
+      vim.notify("Could not find sign for " .. gitsign["name"])
     end
   else
     return " "
@@ -128,8 +91,7 @@ _G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
 
   local diag_sign = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "DiagnosticSign")[1]
   if diag_sign ~= nil then
-    local sign_name = diag_sign["name"]
-    return render_sign(sign_name, diagnostic_icons[sign_name])
+    return render_sign(diag_sign["name"])
   else
     return ""
   end
@@ -142,8 +104,8 @@ _G.statuscolumn_neotest = function(bufnr, lnum, virtnum)
 
   local neotest_sign = placed_signs_for_group(bufnr, lnum, "neotest-status")[1]
   if neotest_sign ~= nil then
-    local sign_name = neotest_sign["name"]
-    return render_sign(neotest_config[sign_name]["hl"], neotest_config[sign_name]["icon"])
+    local name = require("util").camel_case(neotest_sign["name"])
+    return render_sign(name)
   else
     return ""
   end
@@ -156,8 +118,7 @@ _G.statuscolumn_debugger = function(bufnr, lnum, virtnum)
 
   local debugger_sign = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")[1]
   if debugger_sign ~= nil then
-    local sign_name = debugger_sign["name"]
-    return render_sign(sign_name, debugger_icons[sign_name])
+    return render_sign(debugger_sign["name"])
   else
     return ""
   end
@@ -188,8 +149,6 @@ _G.statuscolumn = function()
     "num",
     "space",
     "gitsigns",
-    "space",
-    "fold",
   }
 
   for _, val in ipairs(order) do
@@ -210,8 +169,6 @@ _G.inactive_statuscolumn = function()
     "absnum",
     "space",
     "gitsigns",
-    "space",
-    "fold",
   }
 
   for _, val in ipairs(order) do
@@ -222,8 +179,5 @@ _G.inactive_statuscolumn = function()
 end
 
 return {
-  debugger_icons = debugger_icons,
-  diagnostic_icons = diagnostic_icons,
-  gitsigns_config = gitsigns_config,
   debug_line = debug_line,
 }
