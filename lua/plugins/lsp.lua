@@ -199,22 +199,7 @@ return {
             end)
           end,
         }),
-        null_ls.builtins.diagnostics.rubocop.with({
-          command = function()
-            local dir = vim.loop.cwd()
-
-            require("lspconfig").util.search_ancestors(dir, function(path)
-              local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
-              if require("lspconfig").util.path.is_file(gemfile) then
-                vim.notify_once("Running `rubocop` with bundler")
-                return "bundle exec rubocop"
-              else
-                vim.notify_once("Running `rubocop` without bundler")
-                return "rubocop"
-              end
-            end)
-          end,
-        }),
+        null_ls.builtins.diagnostics.rubocop,
         null_ls.builtins.diagnostics.ruff,
         null_ls.builtins.diagnostics.selene,
         null_ls.builtins.diagnostics.sqlfluff,
