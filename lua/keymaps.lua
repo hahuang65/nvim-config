@@ -72,3 +72,16 @@ vim.keymap.set("n", "]d", function()
 end, { desc = "Next Diagnostic" })
 
 vim.keymap.set("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
+
+-- Refactoring
+vim.keymap.set("x", "<leader>xf", ":Refactor extract ")
+vim.keymap.set("x", "<leader>xF", ":Refactor extract_to_file ")
+
+vim.keymap.set("x", "<leader>xv", ":Refactor extract_var ")
+
+vim.keymap.set({ "n", "x" }, "<leader>iv", ":Refactor inline_var")
+
+vim.keymap.set("n", "<leader>if", ":Refactor inline_func")
+
+vim.keymap.set("n", "<leader>xb", ":Refactor extract_block")
+vim.keymap.set("n", "<leader>xB", ":Refactor extract_block_to_file")
