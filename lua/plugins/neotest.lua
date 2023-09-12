@@ -46,9 +46,17 @@ return {
     {
       "<leader>to",
       function()
-        require("neotest").output.open({ enter = true })
+        require("neotest").output_panel.toggle()
       end,
-      desc = "[T]est - Show [o]utput",
+      desc = "[T]est - Show [o]utput panel",
+    },
+
+    {
+      "<leader>tO",
+      function()
+        require("neotest").open({ enter = true })
+      end,
+      desc = "[T]est - Show individual [O]utput",
     },
 
     {
