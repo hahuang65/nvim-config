@@ -1,87 +1,95 @@
+local function keymap(modes, lhs, rhs, opts)
+  if not opts then
+    opts = {}
+  end
+  opts.unique = true
+  vim.keymap.set(modes, lhs, rhs, opts)
+end
+
 -- Better than defaults
-vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines without moving cursor to the end" })
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll half-page without moving cursor" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll half-page without moving cursor" })
-vim.keymap.set("n", "n", "nzzzv", { desc = "Go to next search result without moving cursort" })
-vim.keymap.set("n", "N", "Nzzzv", { desc = "Go to next search result without moving cursort" })
-vim.keymap.set("v", ">", ">gv", { desc = "Re-highlight after indenting" })
-vim.keymap.set("v", "<", "<gv", { desc = "Re-highlight after indenting" })
+keymap("n", "J", "mzJ`z", { desc = "Join lines without moving cursor to the end" })
+keymap("n", "<C-d>", "<C-d>zz", { desc = "Scroll half-page without moving cursor" })
+keymap("n", "<C-u>", "<C-u>zz", { desc = "Scroll half-page without moving cursor" })
+keymap("n", "n", "nzzzv", { desc = "Go to next search result without moving cursort" })
+keymap("n", "N", "Nzzzv", { desc = "Go to next search result without moving cursort" })
+keymap("v", ">", ">gv", { desc = "Re-highlight after indenting" })
+keymap("v", "<", "<gv", { desc = "Re-highlight after indenting" })
 
 -- Editing Improvements
-vim.keymap.set("x", "<leader>p", '"_dP', { desc = "Paste without clobbering default register" })
-vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without clobbering default register" })
-vim.keymap.set("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
-vim.keymap.set("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
+keymap("x", "<leader>p", '"_dP', { desc = "Paste without clobbering default register" })
+keymap({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without clobbering default register" })
+keymap("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+keymap("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
 -- Folds
-vim.keymap.set({ "n", "v" }, "<Tab>", "za", { desc = "Toggle folds" })
-vim.keymap.set({ "n", "v" }, "zz", "zf", { desc = "Define fold" })
+keymap({ "n", "v" }, "<Tab>", "za", { desc = "Toggle folds" })
+keymap({ "n", "v" }, "zz", "zf", { desc = "Define fold" })
 
 -- Copy/Paste
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
-vim.keymap.set({ "n" }, "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })
-vim.keymap.set("x", "<leader>P", require("util").paste, { desc = "Create [P]aste in paste.sr.ht" })
+keymap({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
+keymap({ "n" }, "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })
+keymap("x", "<leader>P", require("util").paste, { desc = "Create [P]aste in paste.sr.ht" })
 
 -- Quickfix
-vim.keymap.set("n", "<leader>q", require("util").toggle_quickfix, { desc = "Toggle [q]uickfix list" })
-vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix entry" })
-vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix entry" })
+keymap("n", "<leader>q", require("util").toggle_quickfix, { desc = "Toggle [q]uickfix list" })
+keymap("n", "]q", ":cnext<CR>", { desc = "Next quickfix entry" })
+keymap("n", "[q", ":cprev<CR>", { desc = "Previous quickfix entry" })
 
 -- Window movement
-vim.keymap.set("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })
-vim.keymap.set("n", "<C-M-j>", "<C-w>j", { desc = "Switch to window below" })
-vim.keymap.set("n", "<C-M-k>", "<C-w>k", { desc = "Switch to window above" })
-vim.keymap.set("n", "<C-M-l>", "<C-w>l", { desc = "Switch to window right" })
-vim.keymap.set("n", "<C-M-q>", ":bd<CR>", { desc = "Close buffer" })
+keymap("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })
+keymap("n", "<C-M-j>", "<C-w>j", { desc = "Switch to window below" })
+keymap("n", "<C-M-k>", "<C-w>k", { desc = "Switch to window above" })
+keymap("n", "<C-M-l>", "<C-w>l", { desc = "Switch to window right" })
+keymap("n", "<C-M-q>", ":bd<CR>", { desc = "Close buffer" })
 
 -- Terminal
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Go to normal mode" })
-vim.keymap.set("t", "<C-M-h>", "<C-\\><C-n><C-w>h", { desc = "Switch to window left" })
-vim.keymap.set("t", "<C-M-j>", "<C-\\><C-n><C-w>j", { desc = "Switch to window below" })
-vim.keymap.set("t", "<C-M-k>", "<C-\\><C-n><C-w>k", { desc = "Switch to window above" })
-vim.keymap.set("t", "<C-M-l>", "<C-\\><C-n><C-w>l", { desc = "Switch to window right" })
+keymap("t", "<Esc>", "<C-\\><C-n>", { desc = "Go to normal mode" })
+keymap("t", "<C-M-h>", "<C-\\><C-n><C-w>h", { desc = "Switch to window left" })
+keymap("t", "<C-M-j>", "<C-\\><C-n><C-w>j", { desc = "Switch to window below" })
+keymap("t", "<C-M-k>", "<C-\\><C-n><C-w>k", { desc = "Switch to window above" })
+keymap("t", "<C-M-l>", "<C-\\><C-n><C-w>l", { desc = "Switch to window right" })
 
-vim.keymap.set("n", "<M-[>", ":Terminal Console<CR>", { desc = "Open console terminal" })
-vim.keymap.set("t", "<M-[>", "<C-\\><C-n>:Terminal Console<CR>", { desc = "Open console terminal" })
-vim.keymap.set("n", "<M-{>", ":Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
-vim.keymap.set("t", "<M-{>", "<C-\\><C-n>:Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
+keymap("n", "<M-[>", ":Terminal Console<CR>", { desc = "Open console terminal" })
+keymap("t", "<M-[>", "<C-\\><C-n>:Terminal Console<CR>", { desc = "Open console terminal" })
+keymap("n", "<M-{>", ":Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
+keymap("t", "<M-{>", "<C-\\><C-n>:Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
 
-vim.keymap.set("n", "<M-]>", ":Terminal Server<CR>", { desc = "Open server terminal" })
-vim.keymap.set("t", "<M-]>", "<C-\\><C-n>:Terminal Server<CR>", { desc = "Open server terminal" })
-vim.keymap.set("n", "<M-}>", ":Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
-vim.keymap.set("t", "<M-}>", "<C-\\><C-n>:Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
+keymap("n", "<M-]>", ":Terminal Server<CR>", { desc = "Open server terminal" })
+keymap("t", "<M-]>", "<C-\\><C-n>:Terminal Server<CR>", { desc = "Open server terminal" })
+keymap("n", "<M-}>", ":Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
+keymap("t", "<M-}>", "<C-\\><C-n>:Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
 
-vim.keymap.set("n", "<M-`>", ":Terminal Terminal<CR>", { desc = "Open terminal" })
-vim.keymap.set("t", "<M-`>", "<C-\\><C-n>:Terminal Terminal<CR>", { desc = "Open terminal (vertical)" })
-vim.keymap.set("n", "<M-~>", ":Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
-vim.keymap.set("t", "<M-~>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
+keymap("n", "<M-`>", ":Terminal Terminal<CR>", { desc = "Open terminal" })
+keymap("t", "<M-`>", "<C-\\><C-n>:Terminal Terminal<CR>", { desc = "Open terminal (vertical)" })
+keymap("n", "<M-~>", ":Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
+keymap("t", "<M-~>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
 
 -- Project quick-access
-vim.keymap.set("n", "<leader><leader>", require("finders").project_files, { desc = "Search Project/Files" })
-vim.keymap.set("n", "<leader>ed", require("finders").dotfiles, { desc = "[E]dit [D]otfiles" })
-vim.keymap.set("n", "<leader>ep", require("finders").projects, { desc = "[E]dit [P]rojects" })
-vim.keymap.set("n", "<leader>ev", require("finders").config, { desc = "[E]dit Neo[v]im Config" })
+keymap("n", "<leader><leader>", require("finders").project_files, { desc = "Search Project/Files" })
+keymap("n", "<leader>ed", require("finders").dotfiles, { desc = "[E]dit [D]otfiles" })
+keymap("n", "<leader>ep", require("finders").projects, { desc = "[E]dit [P]rojects" })
+keymap("n", "<leader>ev", require("finders").config, { desc = "[E]dit Neo[v]im Config" })
 
 -- Diagnostics
-vim.keymap.set("n", "[d", function()
+keymap("n", "[d", function()
   vim.diagnostic.goto_prev({ float = false })
 end, { desc = "Previous Diagnostic" })
 
-vim.keymap.set("n", "]d", function()
+keymap("n", "]d", function()
   vim.diagnostic.goto_next({ float = false })
 end, { desc = "Next Diagnostic" })
 
-vim.keymap.set("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
+keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
 
 -- Refactoring
-vim.keymap.set("x", "<leader>xf", ":Refactor extract ")
-vim.keymap.set("x", "<leader>xF", ":Refactor extract_to_file ")
+keymap("x", "<leader>xf", ":Refactor extract ")
+keymap("x", "<leader>xF", ":Refactor extract_to_file ")
 
-vim.keymap.set("x", "<leader>xv", ":Refactor extract_var ")
+keymap("x", "<leader>xv", ":Refactor extract_var ")
 
-vim.keymap.set({ "n", "x" }, "<leader>iv", ":Refactor inline_var")
+keymap({ "n", "x" }, "<leader>iv", ":Refactor inline_var")
 
-vim.keymap.set("n", "<leader>if", ":Refactor inline_func")
+keymap("n", "<leader>if", ":Refactor inline_func")
 
-vim.keymap.set("n", "<leader>xb", ":Refactor extract_block")
-vim.keymap.set("n", "<leader>xB", ":Refactor extract_block_to_file")
+keymap("n", "<leader>xb", ":Refactor extract_block")
+keymap("n", "<leader>xB", ":Refactor extract_block_to_file")
