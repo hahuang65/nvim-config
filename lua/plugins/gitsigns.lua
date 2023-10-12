@@ -4,8 +4,7 @@ local signs = {}
 for name, config in pairs(require("signs").signs) do
   if vim.startswith(name, "GitSigns") then
     local texthl = require("signs").opt(name, "texthl") or name
-    signs[name] =
-    { hl = texthl, text = config.icon, numhl = texthl .. "Nr", linehl = texthl .. "Ln" }
+    signs[name] = { hl = texthl, text = config.icon, numhl = texthl .. "Nr", linehl = texthl .. "Ln" }
   end
 end
 
@@ -16,9 +15,10 @@ return {
   },
   opts = {
     signs = signs,
+    _extmark_signs = false,
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-    numhl = false,     -- Toggle with `:Gitsigns toggle_numhl`
-    linehl = false,    -- Toggle with `:Gitsigns toggle_linehl`
+    numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+    linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
     word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
     watch_gitdir = {
       interval = 1000,
