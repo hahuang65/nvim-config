@@ -63,26 +63,6 @@ local function filename()
   end
 end
 
-local function format_just_edited()
-  local start_row, start_col, end_row, end_col
-
-  vim.cmd.norm("`[v`]")
-  _, start_row, start_col, _ = unpack(vim.fn.getpos("v"))
-  _, end_row, end_col, _ = unpack(vim.fn.getpos("."))
-
-  -- exit visual mode
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
-
-  -- format range, this isn't strictly needed, as one could just `vim.lsp.buf.format()` before
-  -- exiting visual mode, but this documents some useful tricks on getting positions in a buffer.
-  vim.lsp.buf.format({
-    range = {
-      ["end"] = { end_row, end_col - 1 },
-      ["start"] = { start_row, start_col - 1 },
-    },
-  })
-end
-
 local function has_value(table, value)
   for _, v in ipairs(table) do
     if value == v then
