@@ -2,12 +2,15 @@
 
 return {
   "lukas-reineke/indent-blankline.nvim",
+  main = "ibl",
   opts = {
-    use_treesitter = true,
-    filetype_exclude = { "help", "lazy", "mason" },
-    buftype_exclude = { "terminal" },
-    space_char_blankline = " ",
-    show_current_context = true,
-    show_current_context_start = true,
+    scope = {
+      enabled = true,
+      show_start = true
+    },
+    exclude = {
+      filetypes = { "help", "lazy", "mason" },
+      buftypes = { "terminal" }
+    },
   },
 }
