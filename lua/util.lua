@@ -91,13 +91,27 @@ local function camel_case(word)
   return word:gsub("_", "")
 end
 
+local function dir_has_file(dir, file)
+  return require("lspconfig").util.search_ancestors(dir, function(path)
+    local abs_path = require("lspconfig").util.path.join(path, file)
+    if require("lspconfig").util.path.is_file(abs_path) then
+      return true
+    end
+  end)
+end
+
+local function cwd_has_file(file)
+  return dir_has_file(vim.uv.cwd(), file)
+end
+
 return {
   camel_case = camel_case,
   file_contents_match = file_contents_match,
   filename = filename,
   filetype_icon = filetype_icon,
-  format_just_edited = format_just_edited,
   has_value = has_value,
   paste = paste,
   toggle_quickfix = toggle_quickfix,
+  dir_has_file = dir_has_file,
+  cwd_has_file = cwd_has_file,
 }

@@ -85,21 +85,15 @@ return {
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(new_config, dir)
-        require("lspconfig").util.search_ancestors(dir, function(path)
-          local pipfile = require("lspconfig").util.path.join(path, "Pipfile")
-          local poetry_lock = require("lspconfig").util.path.join(path, "poetry.lock")
-          if require("lspconfig").util.path.is_file(poetry_lock) then
-            vim.notify_once("Running `pyright` with `poetry`")
-            new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
-            return true -- Must return true to tell `search_ancestors` to stop iterating.
-          elseif require("lspconfig").util.path.is_file(pipfile) then
-            vim.notify_once("Running `pyright` with `pipenv`")
-            new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
-            return true -- Must return true to tell `search_ancestors` to stop iterating.
-          else
-            vim.notify_once("Running `pyright` without a virtualenv")
-          end
-        end)
+        if require("util").dir_has_file(dir, "poetry.lock") then
+          vim.notify_once("Running `pyright` with `poetry`")
+          new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
+        elseif require("util").dir_has_file(dir, "Pipfile") then
+          vim.notify_once("Running `pyright` with `pipenv`")
+          new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
+        else
+          vim.notify_once("Running `pyright` without a virtualenv")
+        end
       end,
     })
 
@@ -116,20 +110,17 @@ return {
         },
       },
       on_new_config = function(new_config, dir)
-        require("lspconfig").util.search_ancestors(dir, function(path)
-          local gemfile = require("lspconfig").util.path.join(path, "Gemfile")
-          if require("lspconfig").util.path.is_file(gemfile) then
-            if require("util").file_contents_match(gemfile, "solargraph") then
-              vim.notify_once("Running `solargraph` with bundler")
-              new_config.cmd = { "bundle", "exec", "solargraph", "stdio" }
-              return true -- Must return true to tell `search_ancestors` to stop iterating.
-            else
-              vim.notify_once("`solargraph` not found in Gemfile")
-            end
+        if require("util").dir_has_file(dir, "Gemfile") then
+          local gemfile = require("lspconfig").util.path.join(dir, "Gemfile")
+          if require("util").file_contents_match(gemfile, "solargraph") then
+            vim.notify_once("Running `solargraph` with bundler")
+            new_config.cmd = { "bundle", "exec", "solargraph", "stdio" }
           else
-            vim.notify_once("Running `solargraph` without bundler")
+            vim.notify_once("`solargraph` not found in Gemfile")
           end
-        end)
+        else
+          vim.notify_once("Running `solargraph` without bundler")
+        end
       end,
     })
   end,
