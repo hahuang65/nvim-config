@@ -1,11 +1,9 @@
 -- https://github.com/neovim/nvim-lspconfig
--- https://github.com/jose-elias-alvarez/null-ls.nvim
 
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
-    "jose-elias-alvarez/null-ls.nvim",
   },
   config = function()
     vim.diagnostic.config({
@@ -106,7 +104,7 @@ return {
       capabilities = capabilities,
       settings = {
         solargraph = {
-          diagnostics = false, -- Handled by rubocop in null-ls
+          diagnostics = false, -- Handled by rubocop in nvim-lint
         },
       },
       on_new_config = function(new_config, dir)
