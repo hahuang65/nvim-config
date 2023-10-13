@@ -27,7 +27,7 @@ return {
     lua = { "stylua" },
     markdown = { "markdownlint", "prettierd" },
     python = { "isort", "autopep8", "autoflake", "black" },
-    ruby = { "rufo", "rubocop" },
+    ruby = { "rubyfmt" },
     sh = { "shfmt", "shellcheck" },
     typescript = { "prettierd" },
     vue = { "prettierd" },
