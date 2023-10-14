@@ -62,15 +62,6 @@ return {
       { "--config-path", vim.fn.expand("$HOME/.stylua.toml") }
     )
 
-    require("conform").formatters.rubyfmt = {
-      meta = {
-        url = "https://github.com/fables-tales/rubyfmt",
-        description = "Ruby Autoformatter! (Written in Rust)",
-      },
-      command = "rubyfmt",
-      exit_codes = { 0, 1 },
-    }
-
     require("conform").setup(opts)
 
     -- Create functions to enable/disable formatting temporarily
