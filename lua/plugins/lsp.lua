@@ -102,11 +102,11 @@ return {
     require("lspconfig").solargraph.setup({
       on_attach = on_attach,
       capabilities = capabilities,
-      settings = {
-        solargraph = {
-          diagnostics = false, -- Handled by rubocop in nvim-lint
-        },
-      },
+      -- settings = {
+      --   solargraph = {
+      --     diagnostics = false, -- Handled by rubocop in nvim-lint
+      --   },
+      -- },
       on_new_config = function(new_config, dir)
         if require("util").dir_has_file(dir, "Gemfile") then
           local gemfile = require("lspconfig").util.path.join(dir, "Gemfile")
