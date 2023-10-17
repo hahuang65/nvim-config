@@ -44,7 +44,7 @@ return {
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(require("tools").language_servers) do
-      local skip = { "lua_ls", "pyright", "ruby-lsp", "solargraph" }
+      local skip = { "lua_ls", "pyright", "ruby_ls", "solargraph" }
       if not require("util").has_value(skip, lsp) then
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
