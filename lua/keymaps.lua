@@ -51,18 +51,18 @@ keymap("t", "<C-M-l>", "<C-\\><C-n><C-w>l", { desc = "Switch to window right" })
 
 keymap("n", "<M-[>", ":Terminal Console<CR>", { desc = "Open console terminal" })
 keymap("t", "<M-[>", "<C-\\><C-n>:Terminal Console<CR>", { desc = "Open console terminal" })
-keymap("n", "<M-{>", ":Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
-keymap("t", "<M-{>", "<C-\\><C-n>:Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
+keymap("n", "<C-M-[>", ":Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
+keymap("t", "<C-M-[>", "<C-\\><C-n>:Vterminal Console<CR>", { desc = "Open console terminal (vertical)" })
 
 keymap("n", "<M-]>", ":Terminal Server<CR>", { desc = "Open server terminal" })
 keymap("t", "<M-]>", "<C-\\><C-n>:Terminal Server<CR>", { desc = "Open server terminal" })
-keymap("n", "<M-}>", ":Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
-keymap("t", "<M-}>", "<C-\\><C-n>:Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
+keymap("n", "<C-M-]>", ":Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
+keymap("t", "<C-M-]>", "<C-\\><C-n>:Vterminal Server<CR>", { desc = "Open server terminal (vertical)" })
 
 keymap("n", "<M-`>", ":Terminal Terminal<CR>", { desc = "Open terminal" })
 keymap("t", "<M-`>", "<C-\\><C-n>:Terminal Terminal<CR>", { desc = "Open terminal (vertical)" })
-keymap("n", "<M-~>", ":Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
-keymap("t", "<M-~>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
+keymap("n", "<C-M-`>", ":Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
+keymap("t", "<C-M-`>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
 
 -- Project quick-access
 keymap("n", "<leader><leader>", require("finders").project_files, { desc = "Search Project/Files" })
