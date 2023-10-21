@@ -1,8 +1,5 @@
 local opt = vim.opt
 
--- GUI
-opt.guifont = "Iosevka:h13"
-
 -- Editing
 opt.backspace = { "indent", "eol", "start" } -- Allows backspace to delete indents, EOLs, and past the start position of entering insert mode
 opt.formatoptions = opt.formatoptions + "j" -- Join lines smartly
