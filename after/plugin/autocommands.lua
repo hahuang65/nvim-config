@@ -89,7 +89,6 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "WinLeave" }, {
   pattern = { "*" },
   callback = function()
     local filetype_exclude = {
-      "fugitive",
       "help",
       "lazy",
       "lspinfo",
@@ -120,7 +119,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "WinEnter" }, {
   pattern = { "*" },
   callback = function()
     local filetype_exclude = {
-      "fugitive",
       "help",
       "lazy",
       "lspinfo",

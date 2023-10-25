@@ -23,16 +23,14 @@ local function show_fugitive()
       " wincmd H  " Open Git window in vertical split
       " vertical resize 31
       " setlocal winfixwidth
-      setlocal nonumber
-      setlocal norelativenumber
       ]])
   else
-    vim.notify("Git is either in a detached state, or not initialized", vim.log.levels.WARN)
+    vim.notify("Git is either in a detached state, or not initialized. Use :Git to force open", vim.log.levels.WARN)
   end
 end
 
 local function toggle_fugitive()
-  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then       -- Regular git repositories
+  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then -- Regular git repositories
     vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git//$') ]])
   elseif vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git/*//$")) ~= 0 then -- Nested git repositories
     vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git/*//$') ]])
