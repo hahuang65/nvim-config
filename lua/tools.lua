@@ -44,7 +44,7 @@ return {
     lua = { "selene" },
     markdown = { "markdownlint" },
     python = { "mypy_venv", "ruff" },
-    -- ruby = { "rubocop" },
+    ruby = { "rubocop" },
     sh = { "shellcheck" },
     sql = { "sqlfluff" },
     terraform = { "tflint" },
