@@ -27,7 +27,7 @@ return {
     json = { "fixjson", "prettierd", "jq" },
     lua = { "stylua" },
     markdown = { "markdownlint", "prettierd" },
-    python = { "isort", "autopep8", "autoflake", "black" },
+    python = { "autoflake", "ruff_fix", "ruff_format" },
     ruby = { "rubyfmt" },
     sh = { "shfmt", "shellcheck" },
     typescript = { "prettierd" },
@@ -56,6 +56,8 @@ return {
   },
   install_blacklist = {
     "gofmt",
+    "ruff_fix", -- Subcommand of ruff
+    "ruff_format", -- Subcommand of ruff
     -- not real formatters, but pseudo-formatters from conform.nvim
     "trim_whitespace",
     "trim_newlines",
