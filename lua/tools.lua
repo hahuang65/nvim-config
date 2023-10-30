@@ -5,6 +5,7 @@ return {
     "gopls",
     "html",
     "jsonls",
+    "kotlin_language_server",
     "lua_ls",
     "marksman",
     "pyright",
@@ -25,6 +26,7 @@ return {
     html = { "htmlbeautifier", "prettierd" },
     javascript = { "prettierd" },
     json = { "fixjson", "prettierd", "jq" },
+    kotlin = { "ktlint" },
     lua = { "stylua" },
     markdown = { "markdownlint", "prettierd" },
     python = { "autoflake", "ruff_fix", "ruff_format" },
@@ -53,6 +55,7 @@ return {
   debuggers = {
     "debugpy",
     "delve",
+    "kotlin-debug-adapter",
   },
   install_blacklist = {
     "gofmt",
