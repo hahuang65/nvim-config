@@ -14,6 +14,7 @@ return {
     require("nvim-treesitter.configs").setup({
       ensure_installed = {
         "bash",
+        "cooklang",
         "css",
         "dockerfile",
         "git_config",
