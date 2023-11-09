@@ -3,37 +3,35 @@ local s = ls.s
 local i = ls.i
 local t = ls.text_node
 
+local help = t({
+  "## help: print this help message",
+  ".PHONY: help",
+  "help:",
+  "\t@echo 'Usage:'",
+  "\t@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'",
+  "",
+  "",
+})
+
+local confirm = t({
+  ".PHONY: confirm",
+  "confirm:",
+  "\t@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]",
+  "",
+  "",
+})
+
 return {
   s("help", {
-    t({
-      "## help: print this help message",
-      ".PHONY: help",
-      "help:",
-      "\t@echo 'Usage:'",
-      "\t@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'",
-      "",
-      "",
-    }),
+    help,
   }),
   s("confirm", {
-    t({
-      ".PHONY: confirm",
-      "confirm:",
-      "\t@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]",
-    }),
+    confirm,
   }),
   s("golang", {
+    help,
+    confirm,
     t({
-      "## help: print this help message",
-      ".PHONY: help",
-      "help:",
-      "\t@echo 'Usage:'",
-      "\t@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'",
-      "",
-      ".PHONY: confirm",
-      "confirm:",
-      "\t@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]",
-      "",
       "## setup: bootstrap all dependencies for the project",
       ".PHONY: setup",
       "setup:",
