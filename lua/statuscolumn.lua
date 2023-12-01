@@ -5,7 +5,7 @@ local signs = require("signs").signs
 local function render_sign(name)
   local sign = vim.fn.sign_getdefined(name)[1]
   if sign ~= nil then
-    return table.concat({ "%#", sign.texthl, "#", sign.text:gsub("%s+", ""), "%*" })
+    return table.concat({ "%#", sign.texthl, "#", sign.text, "%*" })
   end
 end
 

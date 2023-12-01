@@ -5,6 +5,7 @@ vim.api.nvim_create_augroup("active_window", { clear = true })
 vim.api.nvim_create_augroup("autoreload", { clear = true })
 vim.api.nvim_create_augroup("cleanup", { clear = true })
 vim.api.nvim_create_augroup("folds", { clear = true })
+vim.api.nvim_create_augroup("neotest", { clear = true })
 vim.api.nvim_create_augroup("nvim_config", { clear = true })
 vim.api.nvim_create_augroup("telescope", { clear = true })
 vim.api.nvim_create_augroup("terminal", { clear = true })
@@ -185,3 +186,17 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "Cur
     vim.opt_local.winbar = filename
   end,
 })
+
+for _, ft in ipairs({ "output", "attach", "summary" }) do
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "neotest-" .. ft,
+    group = "neotest",
+    callback = function(opts)
+      vim.keymap.set("n", "q", function()
+        pcall(vim.api.nvim_win_close, 0, true)
+      end, {
+        buffer = opts.buf,
+      })
+    end,
+  })
+end

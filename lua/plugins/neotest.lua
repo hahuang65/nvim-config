@@ -44,7 +44,7 @@ return {
     },
 
     {
-      "<leader>to",
+      "<leader>tO",
       function()
         require("neotest").output_panel.toggle()
       end,
@@ -52,9 +52,9 @@ return {
     },
 
     {
-      "<leader>tO",
+      "<leader>to",
       function()
-        require("neotest").open({ enter = true })
+        require("neotest").output.open({ enter = true })
       end,
       desc = "[T]est - Show individual [O]utput",
     },
@@ -107,6 +107,12 @@ return {
   },
   config = function()
     require("neotest").setup({
+      floating = {
+        border = "rounded",
+        max_height = 0.75,
+        max_width = 0.9,
+        options = {},
+      },
       adapters = {
         require("neotest-python")({
           dap = { justMyCode = false },
