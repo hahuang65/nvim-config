@@ -95,6 +95,14 @@ return {
       end,
     })
 
+    require("lspconfig").ruby_ls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+      on_new_config = function(cfg)
+        cfg.cmd = { vim.fn.expand("$HOME/.asdf/shims/ruby-lsp") }
+      end,
+    })
+
     -- Setup solargraph separately, as mason ends up installing it to a central location,
     -- which does not guarantee the same set of gems as a project. This makes it better to
     -- install solargraph, rubocop, rubocop-rails, rubocop-performance, rubocop-rspec, standardrb
