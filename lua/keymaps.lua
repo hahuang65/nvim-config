@@ -35,6 +35,10 @@ keymap("n", "<leader>q", require("util").toggle_quickfix, { desc = "Toggle [q]ui
 keymap("n", "]q", ":cnext<CR>", { desc = "Next quickfix entry" })
 keymap("n", "[q", ":cprev<CR>", { desc = "Previous quickfix entry" })
 
+-- Macros
+keymap("n", "Q", "@qj")
+keymap("x", "Q", ":norm @q<CR>")
+
 -- Window movement
 keymap("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })
 keymap("n", "<C-M-j>", "<C-w>j", { desc = "Switch to window below" })
