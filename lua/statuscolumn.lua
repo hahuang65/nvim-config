@@ -142,13 +142,13 @@ _G.statuscolumn = function()
   local str_table = {}
 
   local order = {
+    "gitsigns",
     "diagnostics",
     "neotest",
     "debugger",
     "sep",
     "num",
     "space",
-    "gitsigns",
   }
 
   for _, val in ipairs(order) do
@@ -162,13 +162,13 @@ _G.inactive_statuscolumn = function()
   local str_table = {}
 
   local order = {
+    "gitsigns",
     "diagnostics",
     "neotest",
     "debugger",
     "sep",
     "absnum",
     "space",
-    "gitsigns",
   }
 
   for _, val in ipairs(order) do
