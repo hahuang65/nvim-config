@@ -22,7 +22,7 @@ return {
   formatters = {
     bash = { "shfmt", "shellcheck" },
     css = { "prettierd" },
-    go = { "gofmt", "goimports" },
+    go = { "gofumpt", "goimports-reviser" },
     html = { "htmlbeautifier", "prettierd" },
     javascript = { "prettierd" },
     json = { "fixjson", "prettierd", "jq" },
