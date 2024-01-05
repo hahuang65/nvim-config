@@ -37,7 +37,8 @@ keymap("n", "[q", ":cprev<CR>", { desc = "Previous quickfix entry" })
 
 -- Macros
 keymap("n", "Q", "@qj")
-keymap("x", "Q", ":norm @q<CR>")
+-- Deprecated due to https://github.com/neovim/neovim/pull/26495/commits/f26cc480f5a11cca44256b87684e401c00e87408
+-- keymap("x", "Q", ":norm @q<CR>")
 
 -- Window movement
 keymap("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })

@@ -38,6 +38,7 @@ return {
         "terraform",
         "typescript",
         "vim",
+        "vimdoc",
         "yaml",
       },
       highlight = {
