@@ -8,6 +8,10 @@ secrets:
   - ac689c78-6425-43a3-b152-41116ad5aca4
   - 5f32a031-c12a-47dd-aa57-5545b970b0ba
   - 94b29f51-75e7-4ee3-b276-5c727e5640e3
+triggers:
+  - action: email
+    condition: failure
+    to: hao@hwrd.me
 tasks:
   - mirror: |
       set +x
