@@ -32,6 +32,7 @@ return {
         "make",
         "markdown",
         "python",
+        "query",
         "ruby",
         "sql",
         "svelte",
