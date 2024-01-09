@@ -3,15 +3,26 @@ vim.g.mapleader = " "
 vim.cmd([[ syntax enable ]])
 vim.cmd([[ filetype plugin on ]])
 
+-- https://nanotipsforvim.prose.sh/using-pcall-to-make-your-config-more-stable
+local function safeRequire(module)
+  local success, loadedModule = pcall(require, module)
+
+  if success then
+    return loadedModule
+  end
+
+  vim.notify("Error loading " .. module)
+end
+
 -- Built-ins
-require("netrw")
-require("options")
+safeRequire("netrw")
+safeRequire("options")
 
 -- Custom
-require("neovide")
-require("statuscolumn")
-require("terminal")
-require("keymaps")
+safeRequire("neovide")
+safeRequire("statuscolumn")
+safeRequire("terminal")
+safeRequire("keymaps")
 
 -- https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
