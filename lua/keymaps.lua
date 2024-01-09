@@ -10,8 +10,8 @@ end
 keymap("n", "J", "mzJ`z", { desc = "Join lines without moving cursor to the end" })
 keymap("n", "<C-d>", "<C-d>zz", { desc = "Scroll half-page without moving cursor" })
 keymap("n", "<C-u>", "<C-u>zz", { desc = "Scroll half-page without moving cursor" })
-keymap("n", "n", "nzzzv", { desc = "Go to next search result without moving cursort" })
-keymap("n", "N", "Nzzzv", { desc = "Go to next search result without moving cursort" })
+keymap("n", "n", "nzzzv", { desc = "Go to next search result without moving cursor" })
+keymap("n", "N", "Nzzzv", { desc = "Go to next search result without moving cursor" })
 keymap("v", ">", ">gv", { desc = "Re-highlight after indenting" })
 keymap("v", "<", "<gv", { desc = "Re-highlight after indenting" })
 
