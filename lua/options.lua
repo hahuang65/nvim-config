@@ -55,6 +55,7 @@ opt.inccommand = "nosplit" -- Show changes of a command as you type
 opt.ignorecase = true -- Ignore casing during search, must be set to complement `smartcase`
 opt.infercase = true -- `smartcase` for completion results
 opt.smartcase = true -- Case sensitivity based on searched text
+opt.foldclose = "all" -- Re-close folds when navigating out of them
 
 -- Scrolling
 opt.scrolloff = 20 -- Start scrolling the window before the top/bottom margins
