@@ -25,18 +25,28 @@ ToggleTerminal = function(name, split)
   local bufnr = terminals[name]
   if bufnr and api.nvim_buf_is_valid(bufnr) then -- Buffer is available
     local winnr = fn.bufwinid(bufnr)
-    if winnr == -1 then                          -- Window is hidden
+    if winnr == -1 then -- Window is hidden
       attach_terminal(bufnr, split)
-    elseif fn.win_getid() == winnr then          -- Window is visible and focused
+    elseif fn.win_getid() == winnr then -- Window is visible and focused
       api.nvim_win_hide(winnr)
-    elseif api.nvim_win_is_valid(winnr) then     -- Window is visible but not focused
+    elseif api.nvim_win_is_valid(winnr) then -- Window is visible but not focused
       fn.win_gotoid(winnr)
       cmd("startinsert")
     end
   elseif bufnr then -- Buffer was deleted at some point
     terminals[name] = create_terminal(name, split)
-  else              -- No such terminal yet, no buffer number
+  else -- No such terminal yet, no buffer number
     create_terminal(name, split)
+  end
+end
+
+SyncTerminalWorkDir = function()
+  local chan = vim.api.nvim_get_option_value("channel", { buf = 0 })
+  if chan == 0 then
+    vim.notify_once("Not in a terminal buffer. Aborting.", vim.log.levels.ERROR)
+  else
+    vim.api.nvim_chan_send(chan, "cd " .. vim.uv.cwd() .. "\n")
+    vim.cmd("startinsert")
   end
 end
 

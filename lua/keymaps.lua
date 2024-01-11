@@ -69,6 +69,10 @@ keymap("t", "<M-`>", "<C-\\><C-n>:Terminal Terminal<CR>", { desc = "Open termina
 keymap("n", "<M-~>", ":Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
 keymap("t", "<M-~>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
 
+keymap("n", "<leader>cd", function()
+  SyncTerminalWorkDir()
+end, { desc = "Change the terminal directory to the current Neovim working directory" })
+
 -- Project quick-access
 keymap("n", "<leader><leader>", require("finders").project_files, { desc = "Search Project/Files" })
 keymap("n", "<leader>ed", require("finders").dotfiles, { desc = "[E]dit [D]otfiles" })
