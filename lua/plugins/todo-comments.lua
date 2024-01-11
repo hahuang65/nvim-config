@@ -2,7 +2,7 @@
 
 return {
   "folke/todo-comments.nvim",
-  lazy = false,
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "catppuccin/nvim",

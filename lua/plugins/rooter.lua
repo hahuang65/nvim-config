@@ -2,5 +2,6 @@
 --
 return {
   "notjedi/nvim-rooter.lua",
+  event = { "BufReadPre", "BufNewFile" },
   opts = {},
 }

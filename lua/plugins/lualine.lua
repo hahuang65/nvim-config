@@ -1,6 +1,7 @@
 -- https://github.com/hoob3rt/lualine.nvim
 return {
   "nvim-lualine/lualine.nvim",
+  event = "VeryLazy",
   dependencies = { "kyazdani42/nvim-web-devicons" },
   config = function()
     local lualine = require("lualine")

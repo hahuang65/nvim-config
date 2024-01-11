@@ -1,8 +1,9 @@
 -- This file includes any plugins that don't require any setup or dependencies.
 -- Any other plugins will have their own file in lua/plugins/
 return {
-  "tpope/vim-repeat",
-  "tpope/vim-surround",
-  "romainl/vim-cool",
-  "wakatime/vim-wakatime",
+  { "tpope/vim-repeat", event = { "BufReadPre", "BufNewFile" } },
+  { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
+  { "romainl/vim-cool" },
+  event = { "BufReadPre", "BufNewFile" },
+  { "wakatime/vim-wakatime", event = "VeryLazy" },
 }

@@ -2,7 +2,6 @@
 
 return {
   "anuvyklack/fold-preview.nvim",
-  event = "VeryLazy",
   keys = {
     {
       "Z",

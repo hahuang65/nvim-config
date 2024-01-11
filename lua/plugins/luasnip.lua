@@ -5,6 +5,7 @@
 
 return {
   "L3MON4D3/LuaSnip",
+  event = "InsertEnter",
   keys = {
     {
       "<C-k>",
@@ -22,8 +23,8 @@ return {
       "<C-j>",
       function()
         local ls = require("luasnip")
-        if ls.jumpable( -1) then
-          ls.jump( -1)
+        if ls.jumpable(-1) then
+          ls.jump(-1)
         end
       end,
       mode = { "i", "s" },

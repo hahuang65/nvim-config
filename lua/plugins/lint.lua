@@ -2,6 +2,7 @@
 
 return {
   "mfussenegger/nvim-lint",
+  event = { "BufReadPre", "BufNewFile" },
   config = function()
     -- Custom linters
     require("lint").linters.mypy_venv = function()
