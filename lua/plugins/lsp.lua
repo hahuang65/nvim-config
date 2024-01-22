@@ -7,6 +7,10 @@ return {
     "hrsh7th/cmp-nvim-lsp",
   },
   config = function()
+    -- Add shims to the $PATH, if they're not already there
+    local shims_dir = require("common").shims_dir
+    vim.env.PATH = vim.fn.expand(shims_dir) .. ":" .. vim.env.PATH
+
     vim.diagnostic.config({
       update_in_insert = false,
       severity_sort = true,
@@ -58,8 +62,6 @@ return {
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
-
-    local shims_dir = require("common").shims_dir
 
     require("lspconfig").lua_ls.setup({
       on_attach = on_attach,
