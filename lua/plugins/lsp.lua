@@ -59,6 +59,8 @@ return {
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
 
+    local shims_dir = require("common").shims_dir
+
     require("lspconfig").lua_ls.setup({
       on_attach = on_attach,
       capabilities = capabilities,
@@ -100,7 +102,7 @@ return {
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(cfg)
-        cfg.cmd = { vim.fn.expand("$HOME/.asdf/shims/ruby-lsp") }
+        cfg.cmd = { vim.fn.expand(shims_dir .. "ruby-lsp") }
       end,
     })
 
