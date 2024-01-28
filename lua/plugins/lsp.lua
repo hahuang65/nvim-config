@@ -75,7 +75,7 @@ return {
             path = runtime_path,
           },
           workspace = {
-            library = vim.api.nvim_get_runtime_file("", true),
+            library = vim.env.VIMRUNTIME,
             checkThirdParty = false,
           },
           -- Do not send telemetry data containing a randomized but unique identifier
