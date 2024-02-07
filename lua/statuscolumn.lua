@@ -44,24 +44,32 @@ local function diagnostics_for_line(bufnr, lnum)
   return diagnostic_signs
 end
 
+local function debuggers_for_line(bufnr, lnum)
+  return filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")
+end
+
+local function neotests_for_line(bufnr, lnum)
+  return placed_signs_for_group(bufnr, lnum, "neotest-status")
+end
+
+local function gitsigns_for_line(bufnr, lnum)
+  return placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+end
+
 local function debug_line()
   local bufnr = vim.api.nvim_get_current_buf()
   local _, lnum, _, _ = unpack(vim.fn.getpos("."))
-  local debugger_signs = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")
   print("Debugger Signs")
-  print(vim.inspect(debugger_signs))
+  print(vim.inspect(debuggers_for_line(bufnr, lnum)))
 
-  local diagnostic_signs = diagnostics_for_line(bufnr, lnum)
   print("Diagnostic Signs")
-  print(vim.inspect(diagnostic_signs))
+  print(vim.inspect(diagnostics_for_line(bufnr, lnum)))
 
-  local neotest_signs = placed_signs_for_group(bufnr, lnum, "neotest-status")
   print("Neotest Signs")
-  print(vim.inspect(neotest_signs))
+  print(vim.inspect(neotests_for_line(bufnr, lnum)))
 
-  local gitsign_signs = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")
   print("Gitsign Signs")
-  print(vim.inspect(gitsign_signs))
+  print(vim.inspect(gitsigns_for_line(bufnr, lnum)))
 end
 
 local function first_key_by_partial_match(table, match)
@@ -79,7 +87,7 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
     return " "
   end
 
-  local gitsign = placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")[1]
+  local gitsign = gitsigns_for_line(bufnr, lnum)[1]
   if gitsign ~= nil then
     local name = first_key_by_partial_match(signs, gitsign["name"])
     if name then
@@ -111,7 +119,7 @@ _G.statuscolumn_neotest = function(bufnr, lnum, virtnum)
     return ""
   end
 
-  local neotest_sign = placed_signs_for_group(bufnr, lnum, "neotest-status")[1]
+  local neotest_sign = neotests_for_line(bufnr, lnum)[1]
   if neotest_sign ~= nil then
     local name = require("util").camel_case(neotest_sign["name"])
     return render_sign(name)
@@ -125,7 +133,7 @@ _G.statuscolumn_debugger = function(bufnr, lnum, virtnum)
     return " "
   end
 
-  local debugger_sign = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")[1]
+  local debugger_sign = debuggers_for_line(bufnr, lnum)[1]
   if debugger_sign ~= nil then
     return render_sign(debugger_sign["name"])
   else
