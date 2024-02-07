@@ -36,6 +36,14 @@ local function filter_by_prefix(tbl, prefix)
   return matches
 end
 
+local function diagnostics_for_line(bufnr, lnum)
+  local diagnostic_signs = vim.diagnostic.get(bufnr, { lnum = lnum - 1 })
+  table.sort(diagnostic_signs, function(a, b)
+    return a.severity < b.severity
+  end)
+  return diagnostic_signs
+end
+
 local function debug_line()
   local bufnr = vim.api.nvim_get_current_buf()
   local _, lnum, _, _ = unpack(vim.fn.getpos("."))
@@ -43,7 +51,7 @@ local function debug_line()
   print("Debugger Signs")
   print(vim.inspect(debugger_signs))
 
-  local diagnostic_signs = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "DiagnosticSign")
+  local diagnostic_signs = diagnostics_for_line(bufnr, lnum)
   print("Diagnostic Signs")
   print(vim.inspect(diagnostic_signs))
 
@@ -89,9 +97,10 @@ _G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
     return ""
   end
 
-  local diag_sign = filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "DiagnosticSign")[1]
+  local diag_sign = diagnostics_for_line(bufnr, lnum)[1]
   if diag_sign ~= nil then
-    return render_sign(diag_sign["name"])
+    local severities = { "Error", "Warn", "Info", "Hint" }
+    return render_sign("DiagnosticSign" .. severities[diag_sign.severity])
   else
     return ""
   end
