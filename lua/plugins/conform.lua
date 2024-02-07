@@ -64,6 +64,10 @@ return {
       require("conform.formatters.stylua"),
       { "--config-path", vim.fn.expand("$HOME/.stylua.toml") }
     )
+    util.add_formatter_args(
+      require("conform.formatters.yamlfmt"),
+      { "-conf", vim.fn.expand("$HOME/.yamlfmt.yml") }
+    )
 
     require("conform").setup(opts)
 
