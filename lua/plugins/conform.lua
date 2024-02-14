@@ -64,10 +64,29 @@ return {
       require("conform.formatters.stylua"),
       { "--config-path", vim.fn.expand("$HOME/.stylua.toml") }
     )
-    util.add_formatter_args(
-      require("conform.formatters.yamlfmt"),
-      { "-conf", vim.fn.expand("$HOME/.yamlfmt.yml") }
-    )
+    util.add_formatter_args(require("conform.formatters.yamlfmt"), { "-conf", vim.fn.expand("$HOME/.yamlfmt.yml") })
+    require("conform").formatters.gci = {
+      inherit = false,
+      command = "gci",
+      args = {
+        "write",
+        "--custom-order",
+        "--section",
+        "standard",
+        "--section",
+        "default",
+        "--section",
+        "Prefix(github.com/hahuang65,github.com/bitsmithy,git.sr.ht/~hwrd)",
+        "--section",
+        "blank",
+        "--section",
+        "dot",
+        "--section",
+        "alias",
+        "$FILENAME",
+      },
+      stdin = false,
+    }
 
     require("conform").setup(opts)
 

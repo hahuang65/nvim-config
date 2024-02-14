@@ -21,7 +21,7 @@ return {
   formatters = {
     bash = { "shfmt", "shellcheck" },
     css = { "prettierd" },
-    go = { "gofumpt", "goimports-reviser" },
+    go = { "gofumpt", "goimports", "gci" }, -- important that gci comes AFTER goimports so that imports are added THEN sorted.
     html = { "htmlbeautifier", "prettierd" },
     javascript = { "prettierd" },
     json = { "fixjson", "prettierd", "jq" },
