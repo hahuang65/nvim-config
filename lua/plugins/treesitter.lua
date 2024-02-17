@@ -14,9 +14,9 @@ return {
     require("nvim-treesitter.configs").setup({
       ensure_installed = {
         "bash",
-        "coffeescript",
         "cooklang",
         "css",
+        "csv",
         "dockerfile",
         "git_config",
         "git_rebase",
@@ -36,11 +36,16 @@ return {
         "query",
         "ruby",
         "sql",
+        "ssh_config",
         "svelte",
         "terraform",
+        "toml",
         "typescript",
+        "udev",
         "vim",
         "vimdoc",
+        "vue",
+        "xml",
         "yaml",
       },
       highlight = {
