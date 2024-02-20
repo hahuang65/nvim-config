@@ -43,14 +43,20 @@ return {
       -- See `:help K` for why this keymap
       map("K", vim.lsp.buf.hover, "Hover Documentation")
       map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+
+      if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        vim.notify("LSP supports inlay hints")
+        vim.g.inlay_hints_visible = true
+        vim.lsp.inlay_hint.enable(bufnr, true)
+      end
     end
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(require("tools").language_servers) do
-      local skip = { "lua_ls", "pyright", "solargraph" }
-      if not require("util").has_value(skip, lsp) then
+      local custom = { "gopls", "lua_ls", "pyright", "solargraph" }
+      if not require("util").has_value(custom, lsp) then
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
           capabilities = capabilities,
@@ -62,6 +68,20 @@ return {
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
+
+    require("lspconfig").gopls.setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+      settings = {
+        gopls = {
+          ["ui.inlayhint.hints"] = {
+            compositeLiteralFields = true,
+            constantValues = true,
+            parameterNames = true,
+          },
+        },
+      },
+    })
 
     require("lspconfig").lua_ls.setup({
       on_attach = on_attach,
@@ -77,6 +97,9 @@ return {
           workspace = {
             library = vim.env.VIMRUNTIME,
             checkThirdParty = false,
+          },
+          hint = {
+            enable = true,
           },
           -- Do not send telemetry data containing a randomized but unique identifier
           telemetry = { enable = false },
