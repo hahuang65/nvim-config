@@ -55,7 +55,7 @@ return {
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(require("tools").language_servers) do
-      local custom = { "gopls", "lua_ls", "pyright", "solargraph" }
+      local custom = { "gopls", "lua_ls", "basedpyright", "solargraph" }
       if not require("util").has_value(custom, lsp) then
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
@@ -110,18 +110,18 @@ return {
       },
     })
 
-    require("lspconfig").pyright.setup({
+    require("lspconfig").basedpyright.setup({
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(new_config, dir)
         if require("util").dir_has_file(dir, "poetry.lock") then
-          vim.notify_once("Running `pyright` with `poetry`")
-          new_config.cmd = { "poetry", "run", "pyright-langserver", "--stdio" }
+          vim.notify_once("Running `basedpyright` with `poetry`")
+          new_config.cmd = { "poetry", "run", "basedpyright-langserver", "--stdio" }
         elseif require("util").dir_has_file(dir, "Pipfile") then
-          vim.notify_once("Running `pyright` with `pipenv`")
-          new_config.cmd = { "pipenv", "run", "pyright-langserver", "--stdio" }
+          vim.notify_once("Running `basedpyright` with `pipenv`")
+          new_config.cmd = { "pipenv", "run", "basedpyright-langserver", "--stdio" }
         else
-          vim.notify_once("Running `pyright` without a virtualenv")
+          vim.notify_once("Running `basedpyright` without a virtualenv")
         end
       end,
     })

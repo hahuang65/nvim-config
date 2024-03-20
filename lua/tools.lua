@@ -1,5 +1,6 @@
 return {
   language_servers = {
+    "basedpyright",
     "bashls",
     "dockerls",
     "gopls",
@@ -7,7 +8,6 @@ return {
     "jsonls",
     "lua_ls",
     "marksman",
-    "pyright",
     "ruby_ls",
     "solargraph",
     "sqlls",
