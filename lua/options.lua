@@ -67,7 +67,7 @@ opt.splitbelow = true -- Split to the bottom instead of the top
 opt.splitright = true -- Split to the right instead of left
 
 -- Completion
-opt.completeopt = { "menu", "menuone", "noselect" } -- Show completion even when only 1 result, but do not auto-select first result
+opt.completeopt = { "menu", "menuone", "noinsert" } -- Show completion even when only 1 result, but do not auto-select first result
 opt.shortmess = opt.shortmess + "cI" -- Skip completion pop-up messages
 
 -- Undo
