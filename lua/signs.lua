@@ -27,6 +27,17 @@ local signs = {
   NeotestSkipped = { icon = " " },
 }
 
+local border = {
+  "╭",
+  "─",
+  "╮",
+  "│",
+  "╯",
+  "─",
+  "╰",
+  "│",
+}
+
 local function opt(sign, property)
   local override = signs[sign][property]
   if override == nil or override == "" then
@@ -45,5 +56,6 @@ end
 
 return {
   signs = signs,
+  border = border,
   opt = opt,
 }

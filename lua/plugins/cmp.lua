@@ -63,6 +63,7 @@ return {
 
       sources = {
         { name = "nvim_lsp" },
+        { name = "otter" },
         { name = "luasnip" },
         { name = "orgmode" },
         { name = "nvim_lua" },

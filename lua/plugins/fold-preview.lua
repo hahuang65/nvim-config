@@ -16,16 +16,7 @@ return {
     require("fold-preview").setup({
       auto = false,
       default_keybindings = false,
-      border = {
-        "╭",
-        "─",
-        "╮",
-        "│",
-        "╯",
-        "─",
-        "╰",
-        "│",
-      },
+      border = require("signs").border,
     })
   end,
 }
