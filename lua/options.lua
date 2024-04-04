@@ -92,4 +92,6 @@ opt.fillchars = {
 opt.statuscolumn = [[%!v:lua.statuscolumn()]]
 
 -- Disable Perl provider
-vim.g["loaded_perl_provider"] = 0
+vim.g.loaded_perl_provider = 0
+-- Use mise Python
+vim.g.python3_host_prog = vim.fn.expand(require("common").shims_dir) .. "/python3"

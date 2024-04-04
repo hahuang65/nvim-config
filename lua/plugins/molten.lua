@@ -14,6 +14,7 @@ return {
     vim.g.molten_auto_open_output = false -- Doesn't work with wezterm.nvim
     vim.g.molten_wrap_output = true
     vim.g.molten_virt_text_output = true
+    vim.g.molten_virt_lines_off_by_1 = true
   end,
   keys = {
     {
