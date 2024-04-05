@@ -18,21 +18,6 @@ return {
   end,
   keys = {
     {
-      "<leader>ni",
-      function()
-        local venv = "python3"
-        local venv_info = vim.system({ "poetry", "env", "info" }, { text = false }):wait()
-
-        if venv_info.code == 0 then
-          venv = string.match(vim.uv.cwd(), "/.+/(.+)")
-        end
-
-        vim.fn.system({ "poetry", "run", "python3", "-m", "ipykernel", "install", "--user", "--name", venv })
-        vim.cmd(("MoltenInit %s"):format(venv))
-      end,
-      desc = "Notebook - Initialize",
-    },
-    {
       "<leader>no",
       "<CMD>noautocmd MoltenEnterOutput<CR>",
       desc = "Notebook - Open output window",
