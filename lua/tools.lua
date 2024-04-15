@@ -8,7 +8,7 @@ return {
     "jsonls",
     "lua_ls",
     "marksman",
-    "ruby_ls",
+    "ruby_lsp",
     "solargraph",
     "sqlls",
     "svelte",
@@ -67,7 +67,7 @@ return {
   renames = {
     golangcilint = "golangci-lint",
     mypy_venv = "mypy",
-    ruby_ls = "ruby-lsp",
+    ruby_lsp = "ruby_ls",
     sql_formatter = "sql-formatter",
   },
 }

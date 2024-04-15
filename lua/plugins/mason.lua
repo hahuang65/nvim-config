@@ -15,8 +15,17 @@ return {
         "github:hahuang65/mason-registry",
       },
     })
+
+    local language_servers = vim.tbl_flatten(vim.tbl_values(require("tools").language_servers))
+    for i, ls in ipairs(language_servers) do
+      for k, v in pairs(require("tools").renames) do
+        if ls == k then
+          language_servers[i] = v
+        end
+      end
+    end
     require("mason-lspconfig").setup({
-      ensure_installed = require("tools").language_servers,
+      ensure_installed = language_servers,
     })
 
     local tools = {}

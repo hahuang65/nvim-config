@@ -55,7 +55,7 @@ return {
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(require("tools").language_servers) do
-      local custom = { "gopls", "lua_ls", "basedpyright", "solargraph" }
+      local custom = { "gopls", "lua_ls", "basedpyright", "ruby_lsp", "solargraph" }
       if not require("util").has_value(custom, lsp) then
         require("lspconfig")[lsp].setup({
           on_attach = on_attach,
@@ -117,48 +117,18 @@ return {
         if require("util").dir_has_file(dir, "poetry.lock") then
           vim.notify_once("Running `basedpyright` with `poetry`")
           new_config.cmd = { "poetry", "run", "basedpyright-langserver", "--stdio" }
-        elseif require("util").dir_has_file(dir, "Pipfile") then
-          vim.notify_once("Running `basedpyright` with `pipenv`")
-          new_config.cmd = { "pipenv", "run", "basedpyright-langserver", "--stdio" }
         else
           vim.notify_once("Running `basedpyright` without a virtualenv")
         end
       end,
     })
 
-    require("lspconfig").ruby_ls.setup({
+    require("lspconfig").ruby_lsp.setup({
       on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(cfg)
         cfg.cmd = { vim.fn.expand(shims_dir .. "ruby-lsp") }
       end,
     })
-
-    -- Setup solargraph separately, as mason ends up installing it to a central location,
-    -- which does not guarantee the same set of gems as a project. This makes it better to
-    -- install solargraph, rubocop, rubocop-rails, rubocop-performance, rubocop-rspec, standardrb
-    -- in the project.
-    --   require("lspconfig").solargraph.setup({
-    --     on_attach = on_attach,
-    --     capabilities = capabilities,
-    --     settings = {
-    --       solargraph = {
-    --         diagnostics = false, -- Handled by rubocop in nvim-lint
-    --       },
-    --     },
-    --     on_new_config = function(new_config, dir)
-    --       if require("util").dir_has_file(dir, "Gemfile") then
-    --         local gemfile = require("lspconfig").util.path.join(dir, "Gemfile")
-    --         if require("util").file_contents_match(gemfile, "solargraph") then
-    --           vim.notify_once("Running `solargraph` with bundler")
-    --           new_config.cmd = { "bundle", "exec", "solargraph", "stdio" }
-    --         else
-    --           vim.notify_once("`solargraph` not found in Gemfile")
-    --         end
-    --       else
-    --         vim.notify_once("Running `solargraph` without bundler")
-    --       end
-    --     end,
-    --   })
   end,
 }
