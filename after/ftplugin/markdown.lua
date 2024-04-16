@@ -7,7 +7,7 @@ if vim.fn.expand("%:e") == "ipynb" then
       venv = string.match(vim.uv.cwd(), "/.+/(.+)")
     end
 
-    vim.fn.system({ "poetry", "run", "python3", "-m", "ipykernel", "install", "--user", "--name", venv })
+    vim.system({ "poetry", "run", "python3", "-m", "ipykernel", "install", "--user", "--name", venv }):wait()
     vim.cmd(("MoltenInit %s"):format(venv))
   else
     vim.notify("Molten is not installed")
