@@ -67,7 +67,6 @@ return {
   renames = {
     golangcilint = "golangci-lint",
     mypy_venv = "mypy",
-    ruby_lsp = "ruby_ls",
     sql_formatter = "sql-formatter",
   },
 }
