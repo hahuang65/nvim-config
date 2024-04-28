@@ -22,6 +22,7 @@ return {
     bash = { "shfmt", "shellcheck" },
     css = { "prettierd" },
     go = { "gofumpt", "goimports", "gci" }, -- important that gci comes AFTER goimports so that imports are added THEN sorted.
+    hcl = { "packer_fmt" },
     html = { "htmlbeautifier", "prettierd" },
     javascript = { "prettierd" },
     json = { "fixjson", "prettierd", "jq" },
