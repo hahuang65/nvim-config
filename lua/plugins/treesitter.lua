@@ -25,6 +25,7 @@ return {
         "go",
         "gomod",
         "gosum",
+        "hcl",
         "html",
         "javascript",
         "jq",

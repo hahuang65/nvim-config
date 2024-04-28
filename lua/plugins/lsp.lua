@@ -47,7 +47,7 @@ return {
       if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
         vim.notify("LSP supports inlay hints")
         vim.g.inlay_hints_visible = true
-        vim.lsp.inlay_hint.enable(bufnr, true)
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
       end
     end
 
