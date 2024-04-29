@@ -80,14 +80,6 @@ keymap("n", "<leader>ep", require("finders").projects, { desc = "[E]dit [P]rojec
 keymap("n", "<leader>ev", require("finders").config, { desc = "[E]dit Neo[v]im Config" })
 
 -- Diagnostics
-keymap("n", "[d", function()
-  vim.diagnostic.goto_prev({ float = false })
-end, { desc = "Previous Diagnostic" })
-
-keymap("n", "]d", function()
-  vim.diagnostic.goto_next({ float = false })
-end, { desc = "Next Diagnostic" })
-
 keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
 
 -- Refactoring
