@@ -58,6 +58,7 @@ return {
   },
   install_blacklist = {
     "gofmt",
+    "packer_fmt", -- Subcommand of packer
     "ruff_fix", -- Subcommand of ruff
     "ruff_format", -- Subcommand of ruff
     -- not real formatters, but pseudo-formatters from conform.nvim
