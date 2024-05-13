@@ -51,7 +51,7 @@ opt.wrapmargin = 0 -- Disable linebreaking by window borders
 
 -- Search
 opt.incsearch = true -- Search-as-you-type
-opt.inccommand = "nosplit" -- Show changes of a command as you type
+opt.inccommand = "split" -- Show changes of a command as you type
 opt.ignorecase = true -- Ignore casing during search, must be set to complement `smartcase`
 opt.infercase = true -- `smartcase` for completion results
 opt.smartcase = true -- Case sensitivity based on searched text

@@ -46,6 +46,10 @@ keymap("n", "<C-M-j>", "<C-w>j", { desc = "Switch to window below" })
 keymap("n", "<C-M-k>", "<C-w>k", { desc = "Switch to window above" })
 keymap("n", "<C-M-l>", "<C-w>l", { desc = "Switch to window right" })
 keymap("n", "<C-M-q>", ":bd<CR>", { desc = "Close buffer" })
+keymap("n", "<M-,>", "<C-w>5<", { desc = "Resize window right" })
+keymap("n", "<M-.>", "<C-w>5>", { desc = "Resize window left" })
+keymap("n", "<M-/>", "<C-w>+", { desc = "Resize window down" })
+keymap("n", "<M-'>", "<C-w>-", { desc = "Resize window up" })
 
 -- Terminal
 keymap("t", "<Esc>", "<C-\\><C-n>", { desc = "Go to normal mode" })
