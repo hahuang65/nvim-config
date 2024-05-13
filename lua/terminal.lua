@@ -19,7 +19,7 @@ local function attach_terminal(bufnr, split)
   api.nvim_win_set_buf(winnr, bufnr)
 end
 
-ToggleTerminal = function(name, split)
+local function toggle(name, split)
   split = split or ""
 
   local bufnr = terminals[name]
@@ -40,7 +40,7 @@ ToggleTerminal = function(name, split)
   end
 end
 
-SyncTerminalWorkDir = function()
+local function sync_work_dir()
   local chan = vim.api.nvim_get_option_value("channel", { buf = 0 })
   if chan == 0 then
     vim.notify_once("Not in a terminal buffer. Aborting.", vim.log.levels.ERROR)
@@ -50,5 +50,10 @@ SyncTerminalWorkDir = function()
   end
 end
 
-cmd("command -nargs=1 Terminal lua ToggleTerminal(<f-args>)")
-cmd("command -nargs=1 Vterminal lua ToggleTerminal(<f-args>, 'v')")
+cmd("command -nargs=1 Terminal lua require('terminal').toggle(<f-args>)")
+cmd("command -nargs=1 Vterminal lua require('terminal').toggle(<f-args>, 'v')")
+
+return {
+  sync_work_dir = sync_work_dir,
+  toggle = toggle,
+}

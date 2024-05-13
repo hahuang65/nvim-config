@@ -74,7 +74,7 @@ keymap("n", "<M-~>", ":Vterminal Terminal<CR>", { desc = "Open terminal (vertica
 keymap("t", "<M-~>", "<C-\\><C-n>:Vterminal Terminal<CR>", { desc = "Open terminal (vertical)" })
 
 keymap("n", "<leader>cd", function()
-  SyncTerminalWorkDir()
+  require("terminal").sync_work_dir()
 end, { desc = "Change the terminal directory to the current Neovim working directory" })
 
 -- Project quick-access
