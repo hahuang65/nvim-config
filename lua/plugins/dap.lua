@@ -41,6 +41,14 @@ return {
       desc = "Debug - Step Into",
     },
     {
+      "<F5>",
+      function()
+        require("dap").step_back()
+      end,
+      mode = { "n", "i" },
+      desc = "Debug - Step Out",
+    },
+    {
       "<F6>",
       function()
         require("dap").step_out()
@@ -84,11 +92,11 @@ return {
     },
 
     {
-      "<leader>dl",
+      "<leader>d?",
       function()
-        require("dap").run_last()
+        require("dapui").eval(nil, { enter = true })
       end,
-      desc = "[D]ebug - Run [L]ast",
+      desc = "[D]ebug - evaluate current line and show in float",
     },
   },
   config = function()
@@ -158,100 +166,24 @@ return {
     })
 
     local dap, dapui = require("dap"), require("dapui")
-    dap.listeners.after.event_initialized["dapui_config"] = function()
+    dap.listeners.before.attach.dapui_config = function()
       dapui.open()
     end
-    dap.listeners.before.event_exited["dapui_config"] = function(_, body)
-      if body["exitCode"] == 0 then
-        dapui.close()
-      end
+    dap.listeners.before.launch.dapui_config = function()
+      dapui.open()
     end
+    dap.listeners.before.event_terminated.dapui_config = function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited.dapui_config = function()
+      dapui.close()
+    end
+
+    local shims_dir = require("common").shims_dir
 
     require("dap-go").setup()
 
     require("dap-ruby").setup()
-    dap.configurations.ruby = {
-      {
-        type = "ruby",
-        name = "debug rspec line",
-        bundle = "bundle",
-        request = "attach",
-        command = "rspec",
-        script = "${file}",
-        port = 38698,
-        server = "127.0.0.1",
-        options = {
-          source_filetype = "ruby",
-        },
-        localfs = true,
-        waiting = 1000,
-        current_line = true,
-      },
-      {
-        type = "ruby",
-        name = "debug rspec file",
-        bundle = "bundle",
-        request = "attach",
-        command = "rspec",
-        script = "${file}",
-        port = 38698,
-        server = "127.0.0.1",
-        options = {
-          source_filetype = "ruby",
-        },
-        localfs = true,
-        waiting = 1000,
-      },
-      {
-        -- This doesn't fully work, as it seems to ignore breakpoints,
-        -- as well as not being connected to the correct datastores?
-        type = "ruby",
-        name = "debug rails server",
-        bundle = "bundle",
-        request = "attach",
-        command = "rails",
-        script = "server",
-        port = 38698,
-        server = "127.0.0.1",
-        options = {
-          source_filetype = "ruby",
-        },
-        localfs = true,
-        waiting = 1000,
-      },
-      {
-        type = "ruby",
-        name = "debug file",
-        bundle = "",
-        request = "attach",
-        command = "ruby",
-        script = "${file}",
-        port = 38698,
-        server = "127.0.0.1",
-        options = {
-          source_filetype = "ruby",
-        },
-        localfs = true,
-        waiting = 1000,
-      },
-      {
-        type = "ruby",
-        name = "debug rspec suite",
-        bundle = "bundle",
-        request = "attach",
-        command = "rspec",
-        script = "./spec",
-        port = 38698,
-        server = "127.0.0.1",
-        options = {
-          source_filetype = "ruby",
-        },
-        localfs = true,
-        waiting = 1000,
-      },
-    }
-
-    local shims_dir = require("common").shims_dir
 
     require("dap-python").resolve_python = function()
       local venv_dir = vim.fn.system({ "poetry", "env", "info", "--path" }):gsub("\n", "")
@@ -259,5 +191,18 @@ return {
     end
     require("dap-python").setup(shims_dir .. "python")
     require("dap-python").test_runner = "pytest"
+
+    table.insert(require("dap").configurations.python, {
+      name = "Pytest: Current File",
+      type = "python",
+      request = "launch",
+      module = "pytest",
+      args = {
+        "${file}",
+        "-sv",
+        "--log-cli-level=INFO",
+      },
+      console = "integratedTerminal",
+    })
   end,
 }
