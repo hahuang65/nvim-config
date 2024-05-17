@@ -47,12 +47,38 @@ local function opt(sign, property)
   end
 end
 
+local text_config = {}
+local texthl_config = {}
+local linehl_config = {}
+local numhl_config = {}
+
 for name, opts in pairs(signs) do
-  vim.fn.sign_define(
-    name,
-    { text = opts.icon, texthl = opt(name, "texthl") or name, linehl = opt(name, "linehl"), numhl = opt(name, "numhl") }
-  )
+  local text = opts.icon
+  local texthl = opt(name, "texthl") or name
+  local linehl = opt(name, "linehl")
+  local numhl = opt(name, "numhl")
+
+  if vim.startswith(name, "DiagnosticSign") then
+    -- Use vim.diagnostic.config if it's a DiagnosticSign
+    -- Currently the deprecation won't chirp if there exists a key with `DiagnosticSign*` in vim.diagnostic.config.signs.text
+    -- View with := vim.diagnostic.config()
+    text_config[name] = text
+    texthl_config[name] = texthl
+    linehl_config[name] = linehl
+    numhl_config[name] = numhl
+  end
+
+  vim.fn.sign_define(name, {
+    text = text,
+    texthl = texthl,
+    linehl = linehl,
+    numhl = numhl,
+  })
 end
+
+vim.diagnostic.config({
+  signs = { text = text_config, linehl = linehl_config, numhl = numhl_config, texthl = texthl_config },
+})
 
 return {
   signs = signs,

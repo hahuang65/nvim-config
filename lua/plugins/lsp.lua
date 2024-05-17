@@ -15,7 +15,7 @@ return {
       update_in_insert = false,
       severity_sort = true,
       virtual_text = false, -- Since we're using lsp_lines
-      signs = true,
+      -- signs are set up in signs.lua
       virtual_lines = { only_current_line = true },
     })
 
