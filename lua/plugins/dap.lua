@@ -180,10 +180,48 @@ return {
     end
 
     local shims_dir = require("common").shims_dir
+    local function extend_config(base, config)
+      return vim.tbl_extend("force", base, config)
+    end
 
     require("dap-go").setup()
 
     require("dap-ruby").setup()
+    -- Don't use built-in dap-ruby configurations
+    local ruby_base = {
+      type = "ruby",
+      request = "attach",
+      options = { source_filetype = "ruby" },
+      error_on_failure = true,
+      localfs = true,
+      waiting = 1000,
+      random_port = true,
+    }
+    require("dap").configurations.ruby = {
+      extend_config(ruby_base, {
+        name = "RSpec: Current Line",
+        command = "bundle",
+        args = { "exec", "rspec" },
+        current_line = true,
+      }),
+      extend_config(ruby_base, {
+        name = "RSpec: Current File",
+        command = "bundle",
+        args = { "exec", "rspec" },
+        current_file = true,
+      }),
+      extend_config(ruby_base, {
+        name = "Rails: Server",
+        command = "bundle",
+        args = { "exec", "rails", "server" },
+      }),
+      extend_config(ruby_base, {
+        name = "Ruby: Current File",
+        command = "bundle",
+        args = { "exec", "rails", "runner" },
+        current_file = true,
+      }),
+    }
 
     require("dap-python").resolve_python = function()
       local venv_dir = vim.fn.system({ "poetry", "env", "info", "--path" }):gsub("\n", "")
@@ -192,17 +230,20 @@ return {
     require("dap-python").setup(shims_dir .. "python")
     require("dap-python").test_runner = "pytest"
 
-    table.insert(require("dap").configurations.python, {
-      name = "Pytest: Current File",
-      type = "python",
-      request = "launch",
-      module = "pytest",
-      args = {
-        "${file}",
-        "-sv",
-        "--log-cli-level=INFO",
+    -- Don't use built-in dap-python configurations
+    require("dap").configurations.python = {
+      {
+        name = "Pytest: Current File",
+        type = "python",
+        request = "launch",
+        module = "pytest",
+        args = {
+          "${file}",
+          "-sv",
+          "--log-cli-level=INFO",
+        },
+        console = "integratedTerminal",
       },
-      console = "integratedTerminal",
-    })
+    }
   end,
 }
