@@ -43,20 +43,20 @@ return {
         }),
         ["<C-n>"] = function(fallback)
           if cmp.visible() then
-            cmp.select_next_item()
+            cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
         end,
         ["<C-p>"] = function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item()
+            cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
           else
             fallback()
           end
         end,
         ["<C-y>"] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
+          behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         }),
       },
