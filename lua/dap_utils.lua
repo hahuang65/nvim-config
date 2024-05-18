@@ -13,7 +13,7 @@ local ruby_base = {
 }
 
 local function ruby_dap_config(config)
-  extend_config(ruby_base, config)
+  return extend_config(ruby_base, config)
 end
 
 local ruby_test_line = ruby_dap_config({
