@@ -1,4 +1,4 @@
-function source_file()
+local function source_file()
   vim.cmd("source %")
   vim.notify("Loaded " .. vim.fn.expand("%"))
 end
