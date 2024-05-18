@@ -16,8 +16,8 @@ keymap("v", ">", ">gv", { desc = "Re-highlight after indenting" })
 keymap("v", "<", "<gv", { desc = "Re-highlight after indenting" })
 
 -- Editing Improvements
-keymap("x", "<leader>p", '"_dP', { desc = "Paste without clobbering default register" })
-keymap({ "n", "v" }, "<leader>d", '"_d', { desc = "Delete without clobbering default register" })
+keymap("x", "<M-p>", '"_dP', { desc = "Paste without clobbering default register" })
+keymap({ "n", "v" }, "<M-d>", '"_d', { desc = "Delete without clobbering default register" })
 keymap("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
 keymap("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 

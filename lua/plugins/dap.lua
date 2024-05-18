@@ -98,6 +98,14 @@ return {
       end,
       desc = "[D]ebug - evaluate current line and show in float",
     },
+
+    {
+      "<leader>dd",
+      function()
+        require("dapui").toggle()
+      end,
+      desc = "[D]ebug - toggle UI",
+    },
   },
   config = function()
     require("nvim-dap-virtual-text").setup({
