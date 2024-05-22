@@ -5,7 +5,7 @@ return {
   name = "catppuccin",
   config = function()
     local catppuccin = require("catppuccin")
-    vim.g.catppuccin_flavour = "mocha"
+    vim.g.catppuccin_flavour = require("common").catppuccin_palette
 
     catppuccin.setup({
       compile = {

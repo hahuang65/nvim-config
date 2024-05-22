@@ -23,7 +23,7 @@ end
 local function filetype_icon(filename, extension)
   local ok, devicons = pcall(require, "nvim-web-devicons")
   if not ok then
-    vim.notify("No icon plugin found. Please install 'kyazdani42/nvim-web-devicons'", vim.log.levels.WARN)
+    vim.notify("No icon plugin found. Please install 'nvim-tree/nvim-web-devicons'", vim.log.levels.WARN)
     return ""
   end
   local icon = devicons.get_icon(filename, extension) or ""
