@@ -1,5 +1,6 @@
-local function debug_test()
-  require("dap-go").debug_test()
-end
-
-vim.keymap.set("n", "<leader>td", debug_test, { buffer = 0, desc = "[T]est - Run test with [d]ebugging" })
+-- Not needed with fredrikaverpil/neotest-golang, as that just uses neotest's `dap` strategy to debug tests
+-- local function debug_test()
+--   require("dap-go").debug_test()
+-- end
+--
+-- vim.keymap.set("n", "<leader>td", debug_test, { buffer = 0, desc = "[T]est - Run test with [d]ebugging" })
