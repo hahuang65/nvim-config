@@ -8,7 +8,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-neotest/neotest-python",
-    "nvim-neotest/neotest-go",
+    "fredrikaverpil/neotest-golang",
     "olimorris/neotest-rspec",
   },
   keys = {
@@ -118,11 +118,7 @@ return {
         require("neotest-python")({
           dap = { justMyCode = false },
         }),
-        require("neotest-go")({
-          experimental = {
-            test_table = true,
-          },
-        }),
+        require("neotest-golang"),
         require("neotest-rspec"),
       },
     })
