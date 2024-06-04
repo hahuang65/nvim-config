@@ -10,6 +10,10 @@ end
 keymap("n", "J", "mzJ`z", { desc = "Join lines without moving cursor to the end" })
 keymap("n", "<C-d>", "<C-d>zz", { desc = "Scroll half-page without moving cursor" })
 keymap("n", "<C-u>", "<C-u>zz", { desc = "Scroll half-page without moving cursor" })
+keymap("n", "<leader>so", function()
+  -- https://www.reddit.com/r/neovim/comments/1cytkbq/comment/l5d4rj3/
+  vim.opt.scrolloff = 999 - vim.o.scrolloff
+end, { desc = "Scroll lock" })
 keymap("n", "n", "nzzzv", { desc = "Go to next search result without moving cursor" })
 keymap("n", "N", "Nzzzv", { desc = "Go to next search result without moving cursor" })
 keymap("v", ">", ">gv", { desc = "Re-highlight after indenting" })
