@@ -16,7 +16,6 @@ return {
   },
   opts = {
     signs = signs,
-    _extmark_signs = false,
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
     numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
     linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
