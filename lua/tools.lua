@@ -38,7 +38,8 @@ return {
     ["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
   },
   linters = {
-    bash = { "shellcheck" },
+    -- shellcheck is included in bashls
+    -- bash = { "shellcheck" },
     docker = { "hadolint" },
     git = { "gitlint" },
     go = { "golangcilint" },
