@@ -1,7 +1,7 @@
--- use{ 'anuvyklack/pretty-fold.nvim',
+-- https://github.com/bbjornstad/pretty-fold.nvim
 
 return {
-  "anuvyklack/pretty-fold.nvim",
+  "bbjornstad/pretty-fold.nvim", -- https://github.com/anuvyklack/pretty-fold.nvim/issues/39
   event = "VeryLazy",
   config = function()
     require("pretty-fold").setup()

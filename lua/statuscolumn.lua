@@ -9,6 +9,35 @@ local function render_sign(name)
   end
 end
 
+local function extmarks_for_prefix(bufnr, lnum, namespace_prefix)
+  local ns_ids = {}
+  local namespaces = vim.api.nvim_get_namespaces()
+
+  for k, v in pairs(namespaces) do
+    if vim.startswith(k, namespace_prefix) then
+      table.insert(ns_ids, v)
+    end
+  end
+
+  local extmarks = {}
+
+  for _, ns_id in pairs(ns_ids) do
+    local line_extmarks = vim.api.nvim_buf_get_extmarks(
+      bufnr,
+      ns_id,
+      { lnum - 1, 0 },
+      { lnum - 1, -1 },
+      { details = true }
+    )
+    for _, extmark in pairs(line_extmarks) do
+      local details = extmark[4]
+      table.insert(extmarks, details["sign_hl_group"])
+    end
+  end
+
+  return extmarks
+end
+
 local function placed_signs_for_group(bufnr, lnum, group)
   local ret = {}
   local placed = vim.fn.sign_getplaced(bufnr, {
@@ -53,7 +82,7 @@ local function neotests_for_line(bufnr, lnum)
 end
 
 local function gitsigns_for_line(bufnr, lnum)
-  return placed_signs_for_group(bufnr, lnum, "gitsigns_vimfn_signs_")
+  return extmarks_for_prefix(bufnr, lnum, "gitsigns")
 end
 
 local function debug_line()
@@ -87,17 +116,17 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
     return " "
   end
 
-  local gitsign = gitsigns_for_line(bufnr, lnum)[1]
-  if gitsign ~= nil then
-    local name = first_key_by_partial_match(signs, gitsign["name"])
+  for _, sign in pairs(gitsigns_for_line(bufnr, lnum)) do
+    local name = first_key_by_partial_match(signs, sign)
+
     if name then
       return render_sign(name)
     else
-      vim.notify("Could not find sign for " .. gitsign["name"])
+      vim.notify("Could not find sign for " .. sign)
     end
-  else
-    return " "
   end
+
+  return " "
 end
 
 _G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
