@@ -1,3 +1,4 @@
+---
 image: alpine/edge
 packages:
   - curl
@@ -7,7 +8,7 @@ packages:
 secrets:
   - ac689c78-6425-43a3-b152-41116ad5aca4
   - 5f32a031-c12a-47dd-aa57-5545b970b0ba
-  - 94b29f51-75e7-4ee3-b276-5c727e5640e3
+  - 7b1437bc-0945-47f7-b112-2852008f4510
 triggers:
   - action: email
     condition: failure
@@ -52,7 +53,6 @@ tasks:
 
       echo "Pushing repository, as mirror, to git@github.com:${GH_REPO}"
       git remote add github --mirror=push "git@github.com:${GH_REPO}"
-      GH_KEY=$(ssh-keyscan -H github.com 2> /dev/null)
-      echo $GH_KEY >> ~/.ssh/known_hosts
+      ssh-keyscan github.com 2>/dev/null | grep -v \# >> ~/.ssh/known_hosts
       git push github --mirror
       echo "Done."
