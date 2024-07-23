@@ -122,7 +122,7 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
     if name then
       return render_sign(name)
     else
-      vim.notify("Could not find sign for " .. sign)
+      vim.print("Could not find sign for " .. sign)
     end
   end
 

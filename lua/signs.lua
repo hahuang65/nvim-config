@@ -21,6 +21,7 @@ local signs = {
   GitSignsDelete = { icon = "_", texthl = "GitSignsDelete" },
   GitSignsStagedAdd = { icon = gitsign_bar, texthl = "GitSignsAdd" },
   GitSignsStagedChange = { icon = gitsign_bar, texthl = "GitSignsChange" },
+  GitSignsStagedDelete = { icon = "_", texthl = "GitSignsDelete" },
   GitSignsTopdelete = { icon = "‾", texthl = "GitSignsDelete" },
   GitSignsUntracked = { icon = "┆", texthl = "GitSignsAdd" },
   NeotestFailed = { icon = " " },
