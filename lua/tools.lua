@@ -31,6 +31,7 @@ return {
     python = { "autoflake", "ruff_fix", "ruff_format" },
     ruby = { "rubyfmt" },
     sh = { "shfmt", "shellcheck" },
+    terraform = { "terraform_fmt" },
     toml = { "taplo" },
     typescript = { "prettierd" },
     vue = { "prettierd" },
@@ -62,6 +63,7 @@ return {
     "packer_fmt", -- Subcommand of packer
     "ruff_fix", -- Subcommand of ruff
     "ruff_format", -- Subcommand of ruff
+    "terraform_fmt", -- Subcommand of terraform
     -- not real formatters, but pseudo-formatters from conform.nvim
     "trim_whitespace",
     "trim_newlines",
