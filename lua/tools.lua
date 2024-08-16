@@ -28,6 +28,7 @@ return {
     json = { "fixjson", "prettierd", "jq" },
     lua = { "stylua" },
     markdown = { "markdownlint", "prettierd" },
+    nix = { "nixpkgs_fmt" },
     python = { "autoflake", "ruff_fix", "ruff_format" },
     ruby = { "rubyfmt" },
     sh = { "shfmt", "shellcheck" },
@@ -72,6 +73,7 @@ return {
   renames = {
     golangcilint = "golangci-lint",
     mypy_venv = "mypy",
+    nixpkgs_fmt = "nixpkgs-fmt",
     sql_formatter = "sql-formatter",
   },
 }

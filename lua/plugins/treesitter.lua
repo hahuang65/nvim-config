@@ -33,6 +33,7 @@ return {
         "lua",
         "make",
         "markdown",
+        "nix",
         "python",
         "query",
         "ruby",
