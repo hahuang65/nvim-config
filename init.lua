@@ -1,8 +1,5 @@
 vim.g.mapleader = " "
 
-vim.cmd([[ syntax enable ]])
-vim.cmd([[ filetype plugin on ]])
-
 -- https://nanotipsforvim.prose.sh/using-pcall-to-make-your-config-more-stable
 local function safeRequire(module)
   local success, loadedModule = pcall(require, module)
@@ -42,4 +39,7 @@ vim.env.PATH = vim.fn.expand(require("common").shims_dir) .. ":" .. vim.env.PATH
 
 -- This will load plugins specified in lua/plugins/init.lua
 -- as well as merge in any other lua/plugins/*.lua files
-return require("lazy").setup("plugins")
+require("lazy").setup("plugins")
+
+vim.cmd([[ syntax enable ]])
+vim.cmd([[ filetype plugin on ]])
