@@ -7,7 +7,7 @@ return {
     { "<leader>gB", ":Git repo view --web<CR>", desc = "[G]it - Open in [b]rowser" },
     { "<leader>gc", ":GV!<CR>", desc = "[G]it [c]ommits (Buffer)" },
     { "<leader>gC", ":GV<CR>", desc = "[G]it [C]ommits (Project)" },
-    { "<leader>gg", require("git").toggle_fugitive, desc = "Toggle Fugitive" },
+    { "<C-M-g>", require("git").toggle_fugitive, desc = "Toggle Fugitive" },
     { "<leader>gl", ":Git log<CR>", desc = "[G]it [L]og" },
     { "<leader>gN", require("git").new_branch, desc = "[G]it [N]ew Branch" },
     { "<leader>gO", ":Git pr view --web<CR>", desc = "[G]it - [O]pen PR in browser" },
