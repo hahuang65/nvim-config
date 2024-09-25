@@ -3,7 +3,7 @@
 return {
   { "tpope/vim-repeat", event = { "BufReadPre", "BufNewFile" } },
   { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
-  { "romainl/vim-cool" },
-  event = { "BufReadPre", "BufNewFile" },
+  { "romainl/vim-cool", event = { "BufReadPre", "BufNewFile" } },
   { "wakatime/vim-wakatime", event = "VeryLazy" },
+  { "direnv/direnv.vim" },
 }
