@@ -7,8 +7,7 @@ return {
     "nvim-lua/plenary.nvim",
     {
       "nvim-telescope/telescope-fzf-native.nvim",
-      build =
-      "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+      build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
     },
   },
   keys = {
@@ -72,42 +71,36 @@ return {
   config = function()
     local actions = require("telescope.actions")
     require("telescope").setup({
-      defaults = {
+
+      defaults = vim.tbl_extend("force", require("telescope.themes").get_ivy(), {
         layout_config = {
-          horizontal = { preview_width = 0.67 },
+          horizontal = { preview_width = 0.5 },
+        },
+        path_display = {
+          truncate = 2,
         },
         mappings = {
+          i = {
+            ["<esc>"] = actions.close,
+            ["<C-g>"] = actions.close,
+          },
           n = {
             ["<C-g>"] = actions.close,
-            ["<C-q>"] = actions.delete_buffer,
-          },
-          i = {
-            ["<C-g>"] = actions.close,
-            ["<C-q>"] = actions.delete_buffer,
           },
         },
-        extensions = {
-          fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = true,  -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                             -- the default case_mode is "smart_case"
-          }
+      }),
+      extensions = {
+        fzf = {
+          fuzzy = true, -- false will only do exact matching
+          override_generic_sorter = true, -- override the generic sorter
+          override_file_sorter = true, -- override the file sorter
+          case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+          -- the default case_mode is "smart_case"
         },
       },
     })
 
     -- Enable telescope fzf native, if installed
     pcall(require("telescope").load_extension, "fzf")
-
-    -- Temporay workaround for bug: https://github.com/nvim-telescope/telescope.nvim/issues/2027#issuecomment-1510001730
-    vim.api.nvim_create_autocmd("WinLeave", {
-      callback = function()
-        if vim.bo.ft == "TelescopePrompt" and vim.fn.mode() == "i" then
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "i", false)
-        end
-      end,
-    })
   end,
 }
