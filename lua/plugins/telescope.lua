@@ -12,6 +12,34 @@ return {
   },
   keys = {
     {
+      "<leader><leader>",
+      function()
+        require("finders").project_files()
+      end,
+      desc = "Search Project/Files",
+    },
+    {
+      "<leader>ed",
+      function()
+        require("finders").dotfiles()
+      end,
+      desc = "[E]dit [D]otfiles",
+    },
+    {
+      "<leader>ep",
+      function()
+        require("finders").projects()
+      end,
+      desc = "[E]dit [P]rojects",
+    },
+    {
+      "<leader>ev",
+      function()
+        require("finders").config()
+      end,
+      desc = "[E]dit Neo[v]im Config",
+    },
+    {
       "<leader>sb",
       function()
         require("telescope.builtin").buffers()

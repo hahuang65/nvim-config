@@ -81,12 +81,6 @@ keymap("n", "<leader>cd", function()
   require("terminal").sync_work_dir()
 end, { desc = "Change the terminal directory to the current Neovim working directory" })
 
--- Project quick-access
-keymap("n", "<leader><leader>", require("finders").project_files, { desc = "Search Project/Files" })
-keymap("n", "<leader>ed", require("finders").dotfiles, { desc = "[E]dit [D]otfiles" })
-keymap("n", "<leader>ep", require("finders").projects, { desc = "[E]dit [P]rojects" })
-keymap("n", "<leader>ev", require("finders").config, { desc = "[E]dit Neo[v]im Config" })
-
 -- Diagnostics
 keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
 
