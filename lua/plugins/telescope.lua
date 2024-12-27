@@ -49,7 +49,7 @@ return {
     {
       "<leader>?",
       function()
-        require("telescope.builtin").live_grep()
+        require("finders").ripgrep()
       end,
       desc = "Search current file",
     },
