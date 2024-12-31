@@ -20,21 +20,21 @@ return {
   },
   formatters = {
     bash = { "shfmt", "shellcheck" },
-    css = { "prettierd" },
+    css = { "biome" },
     go = { "gofumpt", "goimports", "gci" }, -- important that gci comes AFTER goimports so that imports are added THEN sorted.
     hcl = { "packer_fmt" },
     html = { "htmlbeautifier", "prettierd" },
-    javascript = { "prettierd" },
-    json = { "fixjson", "prettierd", "jq" },
+    javascript = { "biome" },
+    json = { "fixjson", "biome", "jq" },
     lua = { "stylua" },
     markdown = { "markdownlint", "prettierd" },
     nix = { "nixpkgs_fmt" },
-    python = { "autoflake", "ruff_fix", "ruff_format" },
+    python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
     ruby = { "rubyfmt" },
     sh = { "shfmt", "shellcheck" },
     terraform = { "terraform_fmt" },
     toml = { "taplo" },
-    typescript = { "prettierd" },
+    typescript = { "biome" },
     vue = { "prettierd" },
     yaml = { "prettierd", "yamlfmt" },
     ["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
@@ -42,9 +42,11 @@ return {
   linters = {
     -- shellcheck is included in bashls
     -- bash = { "shellcheck" },
+    css = { "biome" },
     docker = { "hadolint" },
     git = { "gitlint" },
     go = { "golangcilint" },
+    javascript = { "biome" },
     json = { "jsonlint" },
     lua = { "selene" },
     markdown = { "markdownlint" },
@@ -53,6 +55,7 @@ return {
     sh = { "shellcheck" },
     sql = { "sqlfluff" },
     terraform = { "tflint" },
+    typescript = { "biome" },
     yaml = { "yamllint" },
   },
   debuggers = {
@@ -64,6 +67,7 @@ return {
     "packer_fmt", -- Subcommand of packer
     "ruff_fix", -- Subcommand of ruff
     "ruff_format", -- Subcommand of ruff
+    "ruff_organize_imports", -- Subcommand of ruff
     "terraform_fmt", -- Subcommand of terraform
     -- not real formatters, but pseudo-formatters from conform.nvim
     "trim_whitespace",
