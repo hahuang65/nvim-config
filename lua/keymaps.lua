@@ -83,6 +83,12 @@ end, { desc = "Change the terminal directory to the current Neovim working direc
 
 -- Diagnostics
 keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
+keymap("n", "]e", function()
+  vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Jump to the next diagnostic error in the current buffer" })
+keymap("n", "[e", function()
+  vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Jump to the previous diagnostic error in the current buffer" })
 
 -- Refactoring
 keymap("x", "<leader>xf", ":Refactor extract ")
