@@ -40,9 +40,10 @@ return {
       map("g]", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
       map("g}", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
-      -- See `:help K` for why this keymap
-      map("K", vim.lsp.buf.hover, "Hover Documentation")
-      map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+      -- -- See `:help K` for why this keymap
+      -- Replaced functionality with hover.nvim
+      -- map("K", vim.lsp.buf.hover, "Hover Documentation")
+      -- map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
       if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
         vim.notify("LSP supports inlay hints")

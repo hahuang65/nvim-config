@@ -82,7 +82,8 @@ keymap("n", "<leader>cd", function()
 end, { desc = "Change the terminal directory to the current Neovim working directory" })
 
 -- Diagnostics
-keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
+-- Replaced with hover.nvim
+-- keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
 keymap("n", "]e", function()
   vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
 end, { desc = "Jump to the next diagnostic error in the current buffer" })
