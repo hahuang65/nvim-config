@@ -2,7 +2,7 @@
 
 return {
   "ray-x/lsp_signature.nvim",
-  event = "VeryLazy",
+  event = "InsertEnter",
   opts = {
     debug = false, -- set to true to enable debug logging
     log_path = "/tmp/lsp_signature.log", -- debug log path
@@ -42,4 +42,7 @@ return {
     select_signature_key = nil, -- cycle to next signature, e.g. '<M-n>' function overloading
     move_cursor_key = nil, -- imap, use nvim_set_current_win to move cursor between current win and floating
   },
+  config = function(_, opts)
+    require("lsp_signature").setup(opts)
+  end,
 }
