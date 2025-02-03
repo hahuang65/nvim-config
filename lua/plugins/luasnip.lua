@@ -45,12 +45,6 @@ return {
     },
 
     {
-      "<leader>sr",
-      [[<cmd>source $HOME/.dotfiles/nvim/lua/snippets.lua<CR>]],
-      desc = "[S]nippets - Reload",
-    },
-
-    {
       "<leader>se",
       require("snippets").edit_current_file_type,
       desc = "[S]nippets - [E]dit current filetype)",
