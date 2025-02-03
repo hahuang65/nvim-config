@@ -18,8 +18,8 @@ return {
     { "<leader>gT", ":Git retrunk<CR>", desc = "[G]it - Rebase Against [t]runk branch" },
     { "<leader>gs", ":Git sync<CR>", desc = "[G]it Sync" },
     { "<leader>gS", ":Git shove<CR>", desc = "[G]it Shove" },
-    { "<leader>g[", ":diffget //2 | :diffupdate<CR>", desc = "Conflict Select (Left)" },
-    { "<leader>g]", ":diffget //3 | :diffupdate<CR>", desc = "Conflict Select (Right)" },
+    { "x[", ":diffget //2 | :diffupdate<CR>", desc = "Conflict Select (Left)" },
+    { "x]", ":diffget //3 | :diffupdate<CR>", desc = "Conflict Select (Right)" },
     {
       "<leader>g?",
       require("git").commits_for_lines,

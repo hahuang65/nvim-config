@@ -40,11 +40,11 @@ return {
     mappings = {
       --- @class AvanteConflictMappings
       diff = {
-        ours = "co",
-        theirs = "ct",
-        all_theirs = "ca",
-        both = "cb",
-        cursor = "cc",
+        ours = "x[",
+        theirs = "x]",
+        all_theirs = "x}",
+        both = "xb",
+        cursor = "xc",
         next = "]x",
         prev = "[x",
       },
