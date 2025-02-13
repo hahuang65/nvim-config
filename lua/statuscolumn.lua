@@ -2,10 +2,14 @@
 
 local signs = require("signs").signs
 
+local function render_text(text, hl)
+  return table.concat({ "%#", hl, "#", text, "%*" })
+end
+
 local function render_sign(name)
   local sign = vim.fn.sign_getdefined(name)[1]
   if sign ~= nil then
-    return table.concat({ "%#", sign.texthl, "#", sign.text, "%*" })
+    return render_text(sign.text, sign.texthl)
   end
 end
 
@@ -73,6 +77,16 @@ local function diagnostics_for_line(bufnr, lnum)
   return diagnostic_signs
 end
 
+local function diagnostics_hl(bufnr, lnum)
+  local diag_sign = diagnostics_for_line(bufnr, lnum)[1]
+  if diag_sign ~= nil then
+    local severities = { "Error", "Warn", "Info", "Hint" }
+    return "DiagnosticSign" .. severities[diag_sign.severity]
+  else
+    return nil
+  end
+end
+
 local function debuggers_for_line(bufnr, lnum)
   return filter_by_prefix(placed_signs_for_group(bufnr, lnum, "*"), "Dap")
 end
@@ -113,7 +127,7 @@ end
 
 _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
   if virtnum < 0 then
-    return " "
+    return ""
   end
 
   for _, sign in pairs(gitsigns_for_line(bufnr, lnum)) do
@@ -126,7 +140,7 @@ _G.statuscolumn_gitsigns = function(bufnr, lnum, virtnum)
     end
   end
 
-  return " "
+  return ""
 end
 
 _G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
@@ -134,13 +148,27 @@ _G.statuscolumn_diagnostics = function(bufnr, lnum, virtnum)
     return ""
   end
 
-  local diag_sign = diagnostics_for_line(bufnr, lnum)[1]
-  if diag_sign ~= nil then
-    local severities = { "Error", "Warn", "Info", "Hint" }
-    return render_sign("DiagnosticSign" .. severities[diag_sign.severity])
+  local diag_hl = diagnostics_hl(bufnr, lnum)
+  if diag_hl ~= nil then
+    return render_sign(diag_hl)
   else
     return ""
   end
+end
+
+_G.statuscolumn_num_with_hl = function(bufnr, lnum, virtnum, relnum)
+  if virtnum < 0 then
+    return ""
+  end
+
+  local hl = diagnostics_hl(bufnr, lnum) or "LineNr"
+
+  local num = lnum
+  if relnum ~= "" then
+    num = relnum
+  end
+
+  return render_text(num, hl)
 end
 
 _G.statuscolumn_neotest = function(bufnr, lnum, virtnum)
@@ -159,7 +187,7 @@ end
 
 _G.statuscolumn_debugger = function(bufnr, lnum, virtnum)
   if virtnum < 0 then
-    return " "
+    return ""
   end
 
   local debugger_sign = debuggers_for_line(bufnr, lnum)[1]
@@ -177,8 +205,10 @@ local statuscolumn_parts = {
   ["fold"] = "%C",
   ["gitsigns"] = "%{%v:lua.statuscolumn_gitsigns(bufnr(),v:lnum,v:virtnum)%}",
   ["neotest"] = "%{%v:lua.statuscolumn_neotest(bufnr(),v:lnum,v:virtnum)%}",
-  ["num"] = '%{v:virtnum<0?"":v:relnum?v:relnum:v:lnum}',
-  ["absnum"] = '%{v:virtnum<0?"":v:lnum}',
+  ["num"] = "%{%v:lua.statuscolumn_num_with_hl(bufnr(),v:lnum,v:virtnum,v:relnum?v:relnum:'')%}",
+  -- ["num"] = '%{v:virtnum<0?"":v:relnum?v:relnum:v:lnum}',
+  ["absnum"] = "%{%v:lua.statuscolumn_num_with_hl(bufnr(),v:lnum,v:virtnum,'')%}",
+  -- ["absnum"] = '%{v:virtnum<0?"":v:lnum}',
   ["sep"] = "%=",
   ["signcol"] = "%s",
   ["space"] = " ",
@@ -189,7 +219,7 @@ _G.statuscolumn = function()
 
   local order = {
     "gitsigns",
-    "diagnostics",
+    -- "diagnostics", -- We are coloring line numbers based on most severe diagnostic, we don't need icons, but uncomment if icons are desired.
     "neotest",
     "debugger",
     "sep",
@@ -209,7 +239,7 @@ _G.inactive_statuscolumn = function()
 
   local order = {
     "gitsigns",
-    "diagnostics",
+    -- "diagnostics", -- We are coloring line numbers based on most severe diagnostic, we don't need icons, but uncomment if icons are desired.
     "neotest",
     "debugger",
     "sep",
