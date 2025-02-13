@@ -25,7 +25,6 @@ opt.lazyredraw = true -- Don't redraw for macros and commands that aren't manual
 opt.number = true -- Show line numbers
 opt.relativenumber = true -- Show relative line numbers
 opt.showmatch = true -- Briefly flash a matching bracket/parenthesis when cursor moves onto one
-opt.signcolumn = "auto:2" -- Automatically size the `signcolumn`, max being the number
 opt.mouse = "" -- Disable mouse
 
 -- Per-Project
@@ -90,6 +89,7 @@ opt.fillchars = {
 
 -- Statuscolumn
 opt.statuscolumn = [[%!v:lua.statuscolumn()]]
+opt.signcolumn = "no" -- Disable, as we build our own statuscolumn. Setting this will reserve space that the normal statuscolumn would use.
 
 -- Disable Perl provider
 vim.g.loaded_perl_provider = 0
