@@ -95,3 +95,6 @@ opt.signcolumn = "no" -- Disable, as we build our own statuscolumn. Setting this
 vim.g.loaded_perl_provider = 0
 -- Use mise Python
 vim.g.python3_host_prog = vim.fn.expand(require("common").shims_dir) .. "/python3"
+
+-- Disable ftplugin mappings
+vim.g.no_plugin_maps = 1

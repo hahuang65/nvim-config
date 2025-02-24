@@ -6,16 +6,6 @@ local function new_branch()
   end)
 end
 
-local function change_branch()
-  local branches = vim.fn.systemlist("git branches | grep --invert-match '^* '")
-
-  vim.ui.select(branches, { prompt = "Select Branch:" }, function(branch)
-    if branch then
-      vim.cmd([[Git change ]] .. branch)
-    end
-  end)
-end
-
 local function show_fugitive()
   if vim.fn.FugitiveHead() ~= "" then
     vim.cmd([[
@@ -47,7 +37,6 @@ end
 
 return {
   new_branch = new_branch,
-  change_branch = change_branch,
   toggle_fugitive = toggle_fugitive,
   commits_for_lines = commits_for_lines,
 }
