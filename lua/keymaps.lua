@@ -6,6 +6,12 @@ local function keymap(modes, lhs, rhs, opts)
   vim.keymap.set(modes, lhs, rhs, opts)
 end
 
+-- Unmap defaults
+-- Unmap these `gr*` as I use `gr` in LSP/Snacks mappings and they cause it to delay
+vim.keymap.del("n", "grn")
+vim.keymap.del("n", "grr")
+vim.keymap.del("n", "gri")
+
 -- Better than defaults
 keymap("n", "J", "mzJ`z", { desc = "Join lines without moving cursor to the end" })
 keymap("n", "<C-d>", "<C-d>zz", { desc = "Scroll half-page without moving cursor" })
@@ -25,10 +31,6 @@ keymap({ "n", "v" }, "<M-d>", '"_d', { desc = "Delete without clobbering default
 keymap("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
 keymap("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
--- Folds
-keymap({ "n", "v" }, "<Tab>", "za", { desc = "Toggle folds" })
-keymap({ "n", "v" }, "zz", "zf", { desc = "Define fold" })
-
 -- Copy/Paste
 keymap({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
 keymap({ "n" }, "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })
@@ -36,8 +38,6 @@ keymap("x", "<leader>P", require("util").paste, { desc = "Create [P]aste in past
 
 -- Quickfix
 keymap("n", "<leader>q", require("util").toggle_quickfix, { desc = "Toggle [q]uickfix list" })
-keymap("n", "]q", ":cnext<CR>", { desc = "Next quickfix entry" })
-keymap("n", "[q", ":cprev<CR>", { desc = "Previous quickfix entry" })
 
 -- Macros
 keymap("n", "Q", "@qj")

@@ -15,7 +15,6 @@ opt.fileformats = { "unix", "dos", "mac" }
 
 -- Timings
 opt.timeoutlen = 500 -- Shorter interval between mapped sequence keypresses, too short breaks comment.nvim's operator pending bindings: https://github.com/numToStr/Comment.nvim/issues/134
-opt.ttimeoutlen = -1 -- Use `timeoutlen` for keycode sequences
 opt.updatetime = 50 -- Faster interval between `CursorHold` events
 
 -- Interface

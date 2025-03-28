@@ -14,9 +14,8 @@ return {
     vim.diagnostic.config({
       update_in_insert = false,
       severity_sort = true,
-      virtual_text = false, -- Since we're using lsp_lines
       -- signs are set up in signs.lua
-      virtual_lines = { only_current_line = true },
+      virtual_lines = { current_line = true },
     })
 
     --  This function gets run when an LSP connects to a particular buffer.
