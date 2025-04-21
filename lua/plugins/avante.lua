@@ -12,6 +12,7 @@ return {
       model = "claude-3-7-sonnet-latest",
       temperature = 0,
       max_tokens = 4096,
+      disable_tools = true,
     },
     ---Specify the special dual_boost mode
     ---1. enabled: Whether to enable dual_boost mode. Default to false.
