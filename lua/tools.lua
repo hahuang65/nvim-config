@@ -42,11 +42,11 @@ return {
   linters = {
     -- shellcheck is included in bashls
     -- bash = { "shellcheck" },
-    css = { "biome" },
+    css = { "biomejs" },
     docker = { "hadolint" },
     git = { "gitlint" },
     go = { "golangcilint" },
-    javascript = { "biome" },
+    javascript = { "biomejs" },
     json = { "jsonlint" },
     lua = { "selene" },
     markdown = { "markdownlint" },
@@ -55,7 +55,7 @@ return {
     sh = { "shellcheck" },
     sql = { "sqlfluff" },
     terraform = { "tflint" },
-    typescript = { "biome" },
+    typescript = { "biomejs" },
     yaml = { "yamllint" },
   },
   debuggers = {
@@ -63,6 +63,7 @@ return {
     "delve",
   },
   install_blacklist = {
+    "biomejs", -- This is what nvim-lint calls it. We install `biome`
     "gofmt",
     "packer_fmt", -- Subcommand of packer
     "ruff_fix", -- Subcommand of ruff
