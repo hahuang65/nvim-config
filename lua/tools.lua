@@ -17,6 +17,7 @@ return {
     "ts_ls",
     "vimls",
     "vuels",
+    "zls",
   },
   formatters = {
     bash = { "shfmt", "shellcheck" },
@@ -37,6 +38,7 @@ return {
     typescript = { "biome" },
     vue = { "prettierd" },
     yaml = { "prettierd", "yamlfmt" },
+    zig = { "zigfmt" },
     ["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
   },
   linters = {
@@ -70,6 +72,7 @@ return {
     "ruff_format", -- Subcommand of ruff
     "ruff_organize_imports", -- Subcommand of ruff
     "terraform_fmt", -- Subcommand of terraform
+    "zigfmt", -- Part of Zig
     -- not real formatters, but pseudo-formatters from conform.nvim
     "trim_whitespace",
     "trim_newlines",
