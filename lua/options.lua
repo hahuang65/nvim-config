@@ -97,3 +97,4 @@ vim.g.python3_host_prog = vim.fn.expand(require("common").shims_dir) .. "/python
 
 -- Disable ftplugin mappings
 vim.g.no_plugin_maps = 1
+vim.lsp.set_log_level("error")
