@@ -3,6 +3,7 @@
 return {
   "olimorris/codecompanion.nvim",
   dependencies = {
+    "j-hui/fidget.nvim",
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "ravitemer/codecompanion-history.nvim",
@@ -26,11 +27,6 @@ return {
         },
         inline = {
           adapter = "anthropic",
-        },
-      },
-      display = {
-        chat = {
-          show_settings = true,
         },
       },
       extensions = {
@@ -59,6 +55,7 @@ return {
         },
       },
     })
+    require("plugins.codecompanion.spinner"):init()
 
     vim.keymap.set({ "n", "v" }, "<leader>a", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
     vim.keymap.set({ "n", "v" }, "<leader>A", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })

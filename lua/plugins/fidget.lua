@@ -1,12 +1,9 @@
 -- https://github.com/j-hui/fidget.nvim
 return {
   "j-hui/fidget.nvim",
-  tag = "legacy",
-  event = "LspAttach",
   opts = {
-    text = {
-      spinner = "dots",
-      done = "✓",
+    notification = {
+      override_vim_notify = true, -- Automatically override vim.notify() with Fidget
     },
   },
 }
