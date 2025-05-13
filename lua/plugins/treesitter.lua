@@ -36,6 +36,7 @@ return {
         "nix",
         "python",
         "query",
+        "regex",
         "ruby",
         "sql",
         "ssh_config",
