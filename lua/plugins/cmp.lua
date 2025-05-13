@@ -119,6 +119,7 @@ return {
 
       sources = {
         { name = "nvim_lsp" },
+        { name = "codecompanion" },
         { name = "otter" },
         { name = "luasnip" },
         { name = "orgmode" },
