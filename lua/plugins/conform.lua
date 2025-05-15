@@ -90,6 +90,12 @@ return {
 
     require("conform").setup(opts)
 
+    vim.keymap.set("n", "<leader>TF", function()
+      local new_state = not vim.b.disable_autoformat
+      vim.notify("Autoformat: " .. tostring(not new_state))
+      vim.b.disable_autoformat = new_state
+    end, { desc = "[T]oggle Auto[f]ormatting" })
+
     -- Create functions to enable/disable formatting temporarily
     vim.api.nvim_create_user_command("FormatDisable", function(args)
       if args.bang then

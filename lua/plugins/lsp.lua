@@ -18,39 +18,69 @@ return {
       virtual_lines = { current_line = true },
     })
 
-    --  This function gets run when an LSP connects to a particular buffer.
-    local on_attach = function(client, bufnr)
-      local map = function(keys, func, desc)
-        if desc then
-          desc = "LSP - " .. desc
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("lsp_buffer", { clear = true }),
+      callback = function(event)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if not client then
+          return
         end
 
-        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-      end
+        local bufnr = event.buf
+        local map = function(mode, l, r, opts)
+          opts = opts or {}
+          opts.silent = true
+          opts.buffer = bufnr
 
-      map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-      map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+          if opts.desc then
+            opts.desc = "LSP - " .. opts.desc
+          end
 
-      -- Using snacks for these
-      -- map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-      -- map("gD", vim.lsp.buf.declaration, "[G]oto d[E]claration")
-      -- map("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-      -- map("gr", vim.lsp.buf.references, "[G]oto [R]eferences")
-      -- map("gy", vim.lsp.buf.type_definition, "[G]oto t[Y]pe definition")
-      -- map("g]", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-      -- map("g}", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+          vim.keymap.set(mode, l, r, opts)
+        end
 
-      -- -- See `:help K` for why this keymap
-      -- Replaced functionality with hover.nvim
-      -- map("K", vim.lsp.buf.hover, "Hover Documentation")
-      -- map("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+        map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "[R]e[n]ame" })
+        map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
+        -- Using snacks for these
+        -- map("n", "gd", vim.lsp.buf.definition, { desc = "[G]oto [D]efinition" })
+        -- map("n", "gD", vim.lsp.buf.declaration, { desc = "[G]oto d[E]claration" })
+        -- map("n", "gi", vim.lsp.buf.implementation, { desc = "[G]oto [I]mplementation" })
+        -- map("n", "gr", vim.lsp.buf.references, { desc = "[G]oto [R]eferences" })
+        -- map("n", "gy", vim.lsp.buf.type_definition, { desc = "[G]oto t[Y]pe definition" })
+        -- map("n", "g]", require("telescope.builtin").lsp_document_symbols, { desc = "[D]ocument [S]ymbols" })
+        -- map("n", "g}", require("telescope.builtin").lsp_dynamic_workspace_symbols, { desc = "[W]orkspace [S]ymbols" })
 
-      if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-        vim.notify("LSP supports inlay hints")
-        vim.g.inlay_hints_visible = true
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-      end
-    end
+        -- -- See `:help K` for why this keymap
+        -- Replaced functionality with hover.nvim
+        -- map("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+        -- map("n","<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Documentation" })
+
+        -- Inlay hints
+        if client.server_capabilities.inlayHintProvider then
+          vim.notify_once(client.name .. " supports inlay hints")
+          map("n", "<leader>TI", function()
+            local new_state = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+            vim.notify("Inlay hinting: " .. tostring(new_state))
+            vim.lsp.inlay_hint.enable(new_state, { bufnr = bufnr })
+          end, { desc = "[T]oggle [I]nlay Hints" })
+
+          map("n", "<leader>TD", function()
+            if vim.diagnostic.config().virtual_lines then
+              vim.diagnostic.config({ virtual_lines = false })
+              vim.notify("Virtual Diagnostics: False")
+            else
+              vim.diagnostic.config({ virtual_lines = { current_line = true } })
+              vim.notify("Virtual Diagnostics: True")
+            end
+          end, { desc = "[T]oggle Virtual Line [D]iagnostics" })
+
+          if vim.lsp.inlay_hint then
+            vim.g.inlay_hints_visible = true
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+        end
+      end,
+    })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
@@ -59,7 +89,6 @@ return {
       local custom = { "gopls", "lua_ls", "basedpyright", "ruby_lsp", "solargraph" }
       if not require("util").has_value(custom, lsp) then
         require("lspconfig")[lsp].setup({
-          on_attach = on_attach,
           capabilities = capabilities,
         })
       end
@@ -71,7 +100,6 @@ return {
     table.insert(runtime_path, "lua/?/init.lua")
 
     require("lspconfig").gopls.setup({
-      on_attach = on_attach,
       capabilities = capabilities,
       settings = {
         gopls = {
@@ -88,7 +116,6 @@ return {
     })
 
     require("lspconfig").lua_ls.setup({
-      on_attach = on_attach,
       capabilities = capabilities,
       settings = {
         Lua = {
@@ -112,7 +139,6 @@ return {
     })
 
     require("lspconfig").basedpyright.setup({
-      on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(new_config, dir)
         if require("util").dir_has_file(dir, "poetry.lock") then
@@ -125,7 +151,6 @@ return {
     })
 
     require("lspconfig").ruby_lsp.setup({
-      on_attach = on_attach,
       capabilities = capabilities,
       on_new_config = function(cfg)
         cfg.cmd = { vim.fn.expand(shims_dir .. "ruby-lsp") }

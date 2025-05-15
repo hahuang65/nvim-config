@@ -92,12 +92,16 @@ local function camel_case(word)
 end
 
 local function dir_has_file(dir, file)
-  return require("lspconfig").util.search_ancestors(dir, function(path)
-    local abs_path = require("lspconfig").util.path.join(path, file)
-    if require("lspconfig").util.path.is_file(abs_path) then
-      return true
-    end
-  end)
+  -- Construct the full path to the file
+  local file_path = vim.fs.joinpath(dir, file)
+
+  -- Check if the file exists
+  local stat = vim.uv.fs_stat(file_path)
+  if stat and stat.type == "file" then
+    return true
+  else
+    return false
+  end
 end
 
 local function cwd_has_file(file)
