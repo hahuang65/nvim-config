@@ -176,6 +176,7 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "Cur
       "NvimTree",
       "packer",
       "qf",
+      "terminal",
     }
 
     local filename = util.filename()
