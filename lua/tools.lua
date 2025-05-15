@@ -9,7 +9,6 @@ return {
     "lua_ls",
     "marksman",
     "ruby_lsp",
-    "solargraph",
     "sqlls",
     "svelte",
     "taplo",
