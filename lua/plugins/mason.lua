@@ -24,6 +24,11 @@ return {
         end
       end
     end
+
+    language_servers = vim.tbl_filter(function(tool)
+      return not vim.tbl_contains(require("tools").install_blacklist, tool)
+    end, language_servers)
+
     require("mason-lspconfig").setup({
       ensure_installed = language_servers,
     })

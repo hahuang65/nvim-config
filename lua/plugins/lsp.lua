@@ -86,11 +86,9 @@ return {
     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
     for _, lsp in ipairs(require("tools").language_servers) do
-      local custom = { "gopls", "lua_ls", "basedpyright", "ruby_lsp", "solargraph" }
+      local custom = { "basedpyright", "gopls", "lua_ls", "ruby_lsp", "ty" }
       if not require("util").has_value(custom, lsp) then
-        require("lspconfig")[lsp].setup({
-          capabilities = capabilities,
-        })
+        vim.lsp.enable(lsp)
       end
     end
 
@@ -98,6 +96,18 @@ return {
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua")
+
+    require("lspconfig").basedpyright.setup({
+      capabilities = capabilities,
+      on_new_config = function(new_config, dir)
+        if require("util").dir_has_file(dir, "poetry.lock") then
+          vim.notify_once("Running `basedpyright` with `poetry`")
+          new_config.cmd = { "poetry", "run", "basedpyright-langserver", "--stdio" }
+        else
+          vim.notify_once("Running `basedpyright` without a virtualenv")
+        end
+      end,
+    })
 
     require("lspconfig").gopls.setup({
       capabilities = capabilities,
@@ -138,22 +148,66 @@ return {
       },
     })
 
-    require("lspconfig").basedpyright.setup({
-      capabilities = capabilities,
-      on_new_config = function(new_config, dir)
-        if require("util").dir_has_file(dir, "poetry.lock") then
-          vim.notify_once("Running `basedpyright` with `poetry`")
-          new_config.cmd = { "poetry", "run", "basedpyright-langserver", "--stdio" }
-        else
-          vim.notify_once("Running `basedpyright` without a virtualenv")
-        end
-      end,
-    })
-
     require("lspconfig").ruby_lsp.setup({
       capabilities = capabilities,
       on_new_config = function(cfg)
         cfg.cmd = { vim.fn.expand(shims_dir .. "ruby-lsp") }
+      end,
+    })
+
+    -- Function to set up the ty language server
+    local function start_ty()
+      -- Find the root directory for the project
+      local root_files = {
+        "pyproject.toml",
+        "setup.py",
+        "setup.cfg",
+        "requirements.txt",
+        "Pipfile",
+        ".git",
+        "poetry.lock",
+      }
+
+      local root_dir = vim.fs.dirname(vim.fs.find(root_files, {
+        upward = true,
+        stop = vim.uv.os_homedir(),
+      })[1] or ".")
+
+      -- Determine the command based on whether poetry.lock exists
+      local cmd
+      if require("util").dir_has_file(root_dir, "poetry.lock") then
+        vim.notify_once("Running `ty` with `poetry`")
+        cmd = { "poetry", "run", "uvx", "ty", "server" }
+      else
+        vim.notify_once("Running `ty` without a virtualenv")
+        cmd = { "uvx", "ty", "server" }
+      end
+
+      -- Start the LSP server
+      vim.lsp.start({
+        name = "ty",
+        cmd = cmd,
+        root_dir = root_dir,
+        -- Include your existing capabilities
+        capabilities = capabilities,
+        -- Add any additional settings
+        settings = {
+          ty = {
+            experimental = {
+              completions = {
+                enable = true,
+              },
+            },
+          },
+        },
+      })
+    end
+
+    -- Set up autocommand to start the server when opening Python files
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "python" },
+      callback = function()
+        start_ty()
       end,
     })
   end,

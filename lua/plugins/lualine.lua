@@ -238,18 +238,13 @@ return {
     ins_left({
       -- Lsp server name .
       function()
-        local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-        local clients = vim.lsp.get_clients()
-        if next(clients) == nil then
-          return ""
-        end
+        local running_lsps = {}
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
         for _, client in ipairs(clients) do
-          local filetypes = client.config.filetypes
-          if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-            return client.name
-          end
+          table.insert(running_lsps, client.name)
         end
-        return ""
+        table.sort(running_lsps)
+        return table.concat(running_lsps, ", ")
       end,
       icon = " ",
       color = { fg = colors.yellow, gui = "bold" },

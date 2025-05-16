@@ -18,6 +18,7 @@ return {
     "terraformls",
     "tflint",
     "ts_ls",
+    "ty",
     "vimls",
     "vuels",
     "zls",
@@ -74,6 +75,7 @@ return {
     "ruff_format", -- Subcommand of ruff
     "ruff_organize_imports", -- Subcommand of ruff
     "terraform_fmt", -- Subcommand of terraform
+    "ty", -- Not in mason yet, run using `uvx`
     "zigfmt", -- Part of Zig
     -- not real formatters, but pseudo-formatters from conform.nvim
     "trim_whitespace",
