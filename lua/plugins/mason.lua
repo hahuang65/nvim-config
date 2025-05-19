@@ -31,6 +31,7 @@ return {
 
     require("mason-lspconfig").setup({
       ensure_installed = language_servers,
+      automatic_enable = false,
     })
 
     local tools = {}
