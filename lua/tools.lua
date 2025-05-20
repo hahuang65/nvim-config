@@ -11,7 +11,6 @@ return {
     "marksman",
     "rubocop",
     "ruby_lsp",
-    "ruff",
     "sqlls",
     "svelte",
     "taplo",

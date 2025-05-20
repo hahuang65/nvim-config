@@ -16,6 +16,9 @@ return {
       severity_sort = true,
       -- signs are set up in signs.lua
       virtual_lines = { current_line = true },
+      float = {
+        source = "always",
+      },
     })
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -99,6 +102,15 @@ return {
 
     require("lspconfig").basedpyright.setup({
       capabilities = capabilities,
+      settings = {
+        basedpyright = {
+          disableOrganizeImports = true, -- using ruff
+          analysis = {
+            ignore = { "*" }, -- using ruff
+            typeCheckingMode = "off", -- using ty/mypy
+          },
+        },
+      },
       on_new_config = function(new_config, dir)
         if require("util").dir_has_file(dir, "poetry.lock") then
           vim.notify_once("Running `basedpyright` with `poetry`")
