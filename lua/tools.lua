@@ -54,7 +54,7 @@ return {
     json = { "jsonlint" },
     lua = { "selene" },
     markdown = { "markdownlint" },
-    python = { "mypy_venv", "ruff" },
+    python = { "ruff" },
     ruby = { "rubocop" },
     sh = { "shellcheck" },
     sql = { "sqlfluff" },
@@ -83,7 +83,6 @@ return {
   },
   renames = {
     golangcilint = "golangci-lint",
-    mypy_venv = "mypy",
     nixpkgs_fmt = "nixpkgs-fmt",
     sql_formatter = "sql-formatter",
   },

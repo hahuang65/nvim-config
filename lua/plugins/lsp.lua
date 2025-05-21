@@ -107,7 +107,7 @@ return {
           disableOrganizeImports = true, -- using ruff
           analysis = {
             ignore = { "*" }, -- using ruff
-            typeCheckingMode = "off", -- using ty/mypy
+            typeCheckingMode = "off", -- using ty
           },
         },
       },
