@@ -115,6 +115,9 @@ return {
         if require("util").dir_has_file(dir, "poetry.lock") then
           vim.notify_once("Running `basedpyright` with `poetry`")
           new_config.cmd = { "poetry", "run", "basedpyright-langserver", "--stdio" }
+        elseif require("util").dir_has_file(dir, "uv.lock") then
+          vim.notify_once("Running `basedpyright` with `uv`")
+          new_config.cmd = { "uv", "run", "basedpyright-langserver", "--stdio" }
         else
           vim.notify_once("Running `basedpyright` without a virtualenv")
         end
@@ -190,6 +193,9 @@ return {
       if require("util").dir_has_file(root_dir, "poetry.lock") then
         vim.notify_once("Running `ty` with `poetry`")
         cmd = { "poetry", "run", "uvx", "ty", "server" }
+      elseif require("util").dir_has_file(root_dir, "uv.lock") then
+        vim.notify_once("Running `ty` with `uv`")
+        cmd = { "uv", "run", "uvx", "ty", "server" }
       else
         vim.notify_once("Running `ty` without a virtualenv")
         cmd = { "uvx", "ty", "server" }
