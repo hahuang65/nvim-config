@@ -11,6 +11,22 @@ return {
   config = function()
     require("codecompanion").setup({
       adapters = {
+        devstral = function()
+          return require("codecompanion.adapters").extend("ollama", {
+            name = "devstral",
+            schema = {
+              model = {
+                default = "devstral:latest",
+              },
+              num_ctx = {
+                default = 16384,
+              },
+              num_predict = {
+                default = -1,
+              },
+            },
+          })
+        end,
         anthropic = function()
           return require("codecompanion.adapters").extend("anthropic", {
             schema = {
@@ -23,10 +39,10 @@ return {
       },
       strategies = {
         chat = {
-          adapter = "anthropic",
+          adapter = "devstral",
         },
         inline = {
-          adapter = "anthropic",
+          adapter = "devstral",
         },
       },
       extensions = {
@@ -37,9 +53,12 @@ return {
             keymap = "gh",
             -- Automatically generate titles for new chats
             auto_generate_title = true,
-            ---On exiting and entering neovim, loads the last chat on opening chat
-            continue_last_chat = true,
-            ---When chat is cleared with `gx` delete the chat from history
+            -- Auto-delete after 60 days
+            expiration_days = 60,
+            -- On exiting and entering neovim, don't load the previous chat
+            -- I want to be more explicit about opening the correct chat context each time I use AI
+            continue_last_chat = false,
+            -- When chat is cleared with `gx` delete the chat from history
             delete_on_clearing_chat = true,
             -- Picker interface ("telescope" or "snacks" or "default")
             picker = "snacks",
