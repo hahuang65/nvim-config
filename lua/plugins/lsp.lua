@@ -4,7 +4,7 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
+    "saghen/blink.cmp",
   },
   config = function()
     -- Add shims to the $PATH, if they're not already there
@@ -86,19 +86,14 @@ return {
     })
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+    capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
     for _, lsp in ipairs(require("tools").language_servers) do
-      local custom = { "basedpyright", "gopls", "lua_ls", "ruby_lsp", "ty" }
+      local custom = { "basedpyright", "gopls", "ruby_lsp", "ty" }
       if not require("util").has_value(custom, lsp) then
         vim.lsp.enable(lsp)
       end
     end
-
-    -- Make runtime files discoverable to the server
-    local runtime_path = vim.split(package.path, ";")
-    table.insert(runtime_path, "lua/?.lua")
-    table.insert(runtime_path, "lua/?/init.lua")
 
     require("lspconfig").basedpyright.setup({
       capabilities = capabilities,
@@ -108,6 +103,12 @@ return {
           analysis = {
             ignore = { "*" }, -- using ruff
             typeCheckingMode = "off", -- using ty
+            inlayHints = {
+              variableTypes = false, -- conflicts with ty
+              callArgumentNames = false, -- conflicts with ty
+              functionReturnTypes = true,
+              genericTypes = false, -- conflicts with ty
+            },
           },
         },
       },
@@ -136,29 +137,6 @@ return {
             parameterNames = true,
             rangeVariableTypes = true,
           },
-        },
-      },
-    })
-
-    require("lspconfig").lua_ls.setup({
-      capabilities = capabilities,
-      settings = {
-        Lua = {
-          runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT)
-            version = "LuaJIT",
-            -- Setup your lua path
-            path = runtime_path,
-          },
-          workspace = {
-            library = vim.env.VIMRUNTIME,
-            checkThirdParty = false,
-          },
-          hint = {
-            enable = true,
-          },
-          -- Do not send telemetry data containing a randomized but unique identifier
-          telemetry = { enable = false },
         },
       },
     })
