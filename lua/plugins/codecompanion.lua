@@ -11,6 +11,9 @@ return {
   config = function()
     require("codecompanion").setup({
       adapters = {
+        opts = {
+          show_defaults = false, -- Only show my configured adapters when choosing adapters
+        },
         devstral = function()
           return require("codecompanion.adapters").extend("ollama", {
             name = "devstral",
