@@ -6,7 +6,6 @@
 return {
   "L3MON4D3/LuaSnip",
   event = "InsertEnter",
-  tag = "v2.*",
   build = "make install_jsregexp",
   keys = {
     {
