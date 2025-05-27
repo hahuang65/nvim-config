@@ -170,13 +170,13 @@ return {
       local cmd
       if require("util").dir_has_file(root_dir, "poetry.lock") then
         vim.notify_once("Running `ty` with `poetry`")
-        cmd = { "poetry", "run", "uvx", "ty", "server" }
+        cmd = { "poetry", "run", "ty", "server" }
       elseif require("util").dir_has_file(root_dir, "uv.lock") then
         vim.notify_once("Running `ty` with `uv`")
-        cmd = { "uv", "run", "uvx", "ty", "server" }
+        cmd = { "uv", "run", "ty", "server" }
       else
         vim.notify_once("Running `ty` without a virtualenv")
-        cmd = { "uvx", "ty", "server" }
+        cmd = { "ty", "server" }
       end
 
       -- Start the LSP server
