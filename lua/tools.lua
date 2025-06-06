@@ -8,6 +8,7 @@ return {
     "jsonls",
     "lua_ls",
     "marksman",
+    "postgres_lsp",
     "pyrefly",
     "rubocop",
     "ruby_lsp",
