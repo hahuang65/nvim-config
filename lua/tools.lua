@@ -18,7 +18,7 @@ return {
     "terraformls",
     "tflint",
     "ts_ls",
-    "ty",
+    -- "ty",
     "vimls",
     "vuels",
     "zls",
