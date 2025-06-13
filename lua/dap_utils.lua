@@ -16,14 +16,7 @@ local function ruby_dap_config(config)
   return extend_config(ruby_base, config)
 end
 
-local ruby_test_line = ruby_dap_config({
-  name = "RSpec: Current Line",
-  command = "bundle",
-  args = { "exec", "rspec" },
-  current_line = true,
-})
-
-local ruby_test_file = ruby_dap_config({
+local rspec_file = ruby_dap_config({
   name = "RSpec: Current File",
   command = "bundle",
   args = { "exec", "rspec" },
@@ -57,8 +50,7 @@ local pytest_file = {
 }
 
 return {
-  ruby_test_line = ruby_test_line,
-  ruby_test_file = ruby_test_file,
+  rspec_file = rspec_file,
   rails_server = rails_server,
   ruby_file = ruby_file,
   pytest_file = pytest_file,

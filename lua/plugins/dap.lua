@@ -195,8 +195,7 @@ return {
     require("dap-ruby").setup()
     require("dap").configurations.ruby = {
       -- Don't use built-in dap-ruby configurations
-      utils.ruby_test_line,
-      utils.ruby_test_file,
+      utils.rspec_file,
       utils.rails_server,
       utils.ruby_file,
     }
@@ -210,7 +209,7 @@ return {
 
     require("dap").configurations.python = {
       -- Don't use built-in dap-python configurations
-      utils.python_test_file,
+      utils.pytest_file,
     }
   end,
 }
