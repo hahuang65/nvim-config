@@ -201,8 +201,24 @@ return {
     }
 
     require("dap-python").resolve_python = function()
-      local venv_dir = vim.fn.system({ "poetry", "env", "info", "--path" }):gsub("\n", "")
-      return venv_dir .. "/bin/python"
+      -- Try poetry first
+      if vim.fn.executable("poetry") == 1 then
+        local venv_dir = vim.fn.system({ "poetry", "env", "info", "--path" }):gsub("\n", "")
+        if vim.v.shell_error == 0 and venv_dir ~= "" then
+          return venv_dir .. "/bin/python"
+        end
+      end
+
+      -- Try uv - check for .venv directory (uv's default location)
+      if vim.fn.executable("uv") == 1 then
+        local venv_path = vim.fn.finddir(".venv", ".;")
+        if venv_path ~= "" then
+          return vim.fn.fnamemodify(venv_path, ":p") .. "bin/python"
+        end
+      end
+
+      -- Fall back to system python
+      return "python"
     end
     require("dap-python").setup(shims_dir .. "python")
     require("dap-python").test_runner = "pytest"
