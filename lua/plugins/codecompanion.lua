@@ -14,22 +14,6 @@ return {
         opts = {
           show_defaults = false, -- Only show my configured adapters when choosing adapters
         },
-        devstral = function()
-          return require("codecompanion.adapters").extend("ollama", {
-            name = "devstral",
-            schema = {
-              model = {
-                default = "devstral:latest",
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
         anthropic = function()
           return require("codecompanion.adapters").extend("anthropic", {
             schema = {
@@ -42,10 +26,10 @@ return {
       },
       strategies = {
         chat = {
-          adapter = "devstral",
+          adapter = "anthropic",
         },
         inline = {
-          adapter = "devstral",
+          adapter = "anthropic",
         },
       },
       extensions = {
