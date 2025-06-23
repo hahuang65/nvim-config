@@ -16,7 +16,8 @@ return {
       update_in_insert = false,
       severity_sort = true,
       -- signs are set up in signs.lua
-      virtual_lines = { current_line = true },
+      virtual_text = false,
+      virtual_lines = false, -- { current_line = true },
       float = {
         source = "always",
       },
