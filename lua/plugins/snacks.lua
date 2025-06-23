@@ -83,10 +83,8 @@ return {
       function()
         Snacks.picker.projects({
           dev = {
-            "~/Documents/Projects",
-            "~/Documents/Projects/a5",
-            "~/Documents/Projects/bitsmithy",
-            "~/Documents/Projects/photopool",
+            "~/Projects",
+            "~/Projects/a5",
           },
         })
       end,
