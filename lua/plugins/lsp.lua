@@ -110,7 +110,7 @@ return {
 
     local tools = require("tools")
     for _, lsp in ipairs(tools.language_servers) do
-      local custom = { "pyrefly", "ruby_lsp", "ty" }
+      local custom = { "basedpyright", "pyrefly", "ruby_lsp", "ty" }
       if not util.has_value(custom, lsp) then
         vim.lsp.enable(lsp)
       end
@@ -125,6 +125,14 @@ return {
 
     -- Function to set up the ty language server
     local function start_pytool(name, cmd, settings)
+      local function uv_script_python()
+        local script = vim.api.nvim_buf_get_name(0)
+        local result = vim.system({ "uv", "python", "find", "--script", script }, { text = true }):wait()
+        if result.code == 0 then
+          return vim.fn.trim(result.stdout)
+        end
+      end
+
       if util.has_value(tools.language_servers, name) then
         -- Find the root directory for the project
         local root_files = {
@@ -140,10 +148,15 @@ return {
         local root_dir = vim.fs.dirname(vim.fs.find(root_files, {
           upward = true,
           stop = vim.uv.os_homedir(),
-        })[1] or ".")
+        })[1])
 
-        -- Determine the command based on whether poetry.lock exists
-        if util.dir_has_file(root_dir, "poetry.lock") then
+        local python = uv_script_python()
+        if python then
+          -- https://www.reddit.com/r/neovim/comments/1lbcjin/pythonuv_script_inline_dependency_with_neovim_lsp/
+          vim.notify_once("Running `" .. name .. "` as uv script")
+          settings.python = vim.tbl_deep_extend("force", settings.python or {}, { pythonPath = python })
+          -- Detect the Python package manager being used, if any
+        elseif util.dir_has_file(root_dir, "poetry.lock") then
           vim.notify_once("Running `" .. name .. "` with `poetry`")
           cmd = vim.list_extend({ "poetry", "run" }, cmd)
         elseif util.dir_has_file(root_dir, "uv.lock") then
@@ -161,9 +174,7 @@ return {
           -- Include your existing capabilities
           capabilities = capabilities,
           -- Add any additional settings
-          settings = {
-            [name] = settings,
-          },
+          settings = settings,
         })
       end
     end
@@ -172,10 +183,36 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = { "python" },
       callback = function()
+        start_pytool("basedpyright", { "basedpyright-langserver", "--stdio" }, {
+          basedpyright = {
+            disableOrganizeImports = true, -- using ruff
+            analysis = {
+              ignore = { "*" }, -- using ruff
+            },
+          },
+        })
+        -- vim.lsp: Active Clients ~
+        -- - basedpyright (id: 1)
+        --   - Version: 1.29.5
+        --   - Root directory: nil
+        --   - Command: { "basedpyright-langserver", "--stdio" }
+        --   - Settings: {
+        --       basedpyright = {
+        --         analysis = {
+        --           autoSearchPaths = true,
+        --           diagnosticMode = "openFilesOnly",
+        --           useLibraryCodeForTypes = true
+        --         }
+        --       }
+        --     }
+        --   - Attached buffers: 1
+
         start_pytool("ty", { "ty", "server" }, {
-          experimental = {
-            completions = {
-              enable = true,
+          ty = {
+            experimental = {
+              completions = {
+                enable = true,
+              },
             },
           },
         })
