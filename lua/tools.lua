@@ -4,6 +4,7 @@ return {
     "bashls",
     "biome",
     "dockerls",
+    "fish_lsp",
     "gopls",
     "html",
     "jsonls",
@@ -27,6 +28,7 @@ return {
   formatters = {
     bash = { "shfmt", "shellcheck" },
     css = { "biome" },
+    fish = { "fish_indent" },
     go = { "gofumpt", "goimports", "gci" }, -- important that gci comes AFTER goimports so that imports are added THEN sorted.
     hcl = { "packer_fmt" },
     html = { "htmlbeautifier", "prettierd" },
@@ -70,6 +72,7 @@ return {
   },
   install_blacklist = {
     "biomejs", -- This is what nvim-lint calls it. We install `biome`
+    "fish_indent", -- included with a fish install
     "gofmt",
     "packer_fmt", -- Subcommand of packer
     "ruff_fix", -- Subcommand of ruff
