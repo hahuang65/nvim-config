@@ -191,28 +191,16 @@ return {
             },
           },
         })
-        -- vim.lsp: Active Clients ~
-        -- - basedpyright (id: 1)
-        --   - Version: 1.29.5
-        --   - Root directory: nil
-        --   - Command: { "basedpyright-langserver", "--stdio" }
-        --   - Settings: {
-        --       basedpyright = {
-        --         analysis = {
-        --           autoSearchPaths = true,
-        --           diagnosticMode = "openFilesOnly",
-        --           useLibraryCodeForTypes = true
-        --         }
-        --       }
-        --     }
-        --   - Attached buffers: 1
 
         start_pytool("ty", { "ty", "server" }, {
           ty = {
+            diagnosticMode = "workspace",
+            inlayHints = {
+              variableTypes = true,
+              callArgumentNames = true,
+            },
             experimental = {
-              completions = {
-                enable = true,
-              },
+              rename = true,
             },
           },
         })
