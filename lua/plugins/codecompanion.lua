@@ -10,19 +10,21 @@ return {
   },
   config = function()
     require("codecompanion").setup({
-      adapters = {
-        opts = {
-          show_defaults = false, -- Only show my configured adapters when choosing adapters
-        },
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            schema = {
-              model = {
-                default = "claude-sonnet-4-20250514",
+      http = {
+        adapters = {
+          opts = {
+            show_defaults = false, -- Only show my configured adapters when choosing adapters
+          },
+          anthropic = function()
+            return require("codecompanion.adapters").extend("anthropic", {
+              schema = {
+                model = {
+                  default = "claude-sonnet-4-20250514",
+                },
               },
-            },
-          })
-        end,
+            })
+          end,
+        },
       },
       strategies = {
         chat = {
