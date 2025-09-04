@@ -11,8 +11,6 @@ return {
     "jsonls",
     "marksman",
     "postgres_lsp",
-    -- "pyrefly",
-    "rubocop",
     "ruby_lsp",
     "sqlls",
     "svelte",
