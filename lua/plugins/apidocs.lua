@@ -5,11 +5,11 @@ return {
   "emmanueltouzery/apidocs.nvim",
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
-    "nvim-telescope/telescope.nvim", -- or, 'folke/snacks.nvim'
+    "folke/snacks.nvim",
   },
   cmd = { "ApidocsSearch", "ApidocsInstall", "ApidocsOpen", "ApidocsSelect", "ApidocsUninstall" },
   config = function()
-    require("apidocs").setup({ picker = "telescope" })
+    require("apidocs").setup({ picker = "snacks" })
     require("apidocs").ensure_install({
       -- May need to go to ~/.local/share/nvim/apidocs-data
       -- and run `find . -maxdepth 1 -name '*.html' -print0 | xargs -0 -P 8 -I param sh -c "elinks -config-dir .. -dump 'param' > 'param'.md && rm 'param'"`
@@ -37,6 +37,6 @@ return {
     })
   end,
   keys = {
-    { "<leader>D", "<cmd>ApidocsOpen<cr>", desc = "Search Docs" },
+    { "<C-d>", "<cmd>ApidocsOpen<cr>", desc = "Search Docs" },
   },
 }
