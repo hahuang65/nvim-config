@@ -37,6 +37,6 @@ return {
     })
   end,
   keys = {
-    { "<C-d>", "<cmd>ApidocsOpen<cr>", desc = "Search Docs" },
+    { "<leader>d", "<cmd>ApidocsOpen<cr>", desc = "Search Docs" },
   },
 }
