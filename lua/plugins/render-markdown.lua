@@ -2,7 +2,7 @@
 
 return {
   "MeanderingProgrammer/render-markdown.nvim", -- Make Markdown buffers look beautiful
-  ft = { "codecompanion", "markdown", "quarto" },
+  ft = { "markdown", "quarto" },
   opts = {
     render_modes = true, -- Render in ALL modes
     sign = {

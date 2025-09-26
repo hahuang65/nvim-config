@@ -56,7 +56,7 @@ return {
 
     snippets = { preset = "luasnip" },
     sources = {
-      default = { "lsp", "codecompanion", "lazydev", "path", "snippets", "buffer" },
+      default = { "lsp", "lazydev", "path", "snippets", "buffer" },
       providers = {
         lazydev = {
           name = "LazyDev",
