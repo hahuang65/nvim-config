@@ -12,7 +12,7 @@ return {
     { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume conversation with Claude" },
     { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue latest conversation with Claude" },
     { "<leader>aM", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-    { "<C-.>", "<cmd>ClaudeCodeAdd %<cr>", mode = { "n", "x" }, desc = "Send current buffer to Claude" },
+    { "<C-.>", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "Send current buffer to Claude" },
     { "<C-.>", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send selection to Claude" },
     {
       "<C-.>",
