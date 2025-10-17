@@ -135,20 +135,14 @@ return {
 
       if util.has_value(tools.language_servers, name) then
         -- Find the root directory for the project
-        local root_files = {
+        local root_dir = util.find_project_root({
           "pyproject.toml",
           "setup.py",
           "setup.cfg",
           "requirements.txt",
           "Pipfile",
-          ".git",
           "poetry.lock",
-        }
-
-        local root_dir = vim.fs.dirname(vim.fs.find(root_files, {
-          upward = true,
-          stop = vim.uv.os_homedir(),
-        })[1])
+        })
 
         local python = uv_script_python()
         if python then

@@ -108,6 +108,19 @@ local function cwd_has_file(file)
   return dir_has_file(vim.uv.cwd(), file)
 end
 
+local function find_project_root(root_files)
+  -- Automatically add .git to root_files if it's not already there
+  if not has_value(root_files, ".git") then
+    root_files = vim.list_extend({}, root_files)
+    table.insert(root_files, ".git")
+  end
+
+  return vim.fs.dirname(vim.fs.find(root_files, {
+    upward = true,
+    stop = vim.uv.os_homedir(),
+  })[1])
+end
+
 return {
   camel_case = camel_case,
   file_contents_match = file_contents_match,
@@ -118,4 +131,5 @@ return {
   toggle_quickfix = toggle_quickfix,
   dir_has_file = dir_has_file,
   cwd_has_file = cwd_has_file,
+  find_project_root = find_project_root,
 }
