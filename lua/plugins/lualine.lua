@@ -71,7 +71,7 @@ return {
         lualine_y = {},
         lualine_z = {},
       },
-      extensions = { "fugitive", "lazy", "nvim-dap-ui" },
+      extensions = { "lazy", "nvim-dap-ui" },
     }
 
     local function deep_copy(original)
@@ -274,7 +274,7 @@ return {
 
     ins_right_with_inactive({
       "diff",
-      symbols = { added = " ", modified = "柳 ", removed = " " },
+      symbols = { added = "+", modified = "~", removed = "-" },
       color_added = colors.green,
       color_modified = colors.orange,
       color_removed = colors.red,

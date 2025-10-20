@@ -169,7 +169,9 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost", "BufWritePost", "Cur
   callback = function()
     local filetype_exclude = {
       "dashboard",
-      "fugitive",
+      "Neogit",
+      "NeogitStatus",
+      "NeogitCommit",
       "gitcommit",
       "help",
       "lspinfo",

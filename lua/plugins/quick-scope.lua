@@ -6,7 +6,9 @@ return {
 
   config = function()
     vim.g.qs_filetype_blacklist = {
-      "fugitive",
+      "Neogit",
+      "NeogitStatus",
+      "NeogitCommit",
       "help",
       "lazy",
       "lspinfo",

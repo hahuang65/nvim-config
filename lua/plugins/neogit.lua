@@ -1,9 +1,14 @@
--- https://github.com/tpope/vim-fugitive
+-- https://github.com/NeogitOrg/neogit
 
 return {
-  "tpope/vim-fugitive",
+  "NeogitOrg/neogit",
+  dependencies = {
+    "nvim-lua/plenary.nvim", -- required
+    "sindrets/diffview.nvim", -- optional - Diff integration
+    "folke/snacks.nvim", -- optional
+  },
   keys = {
-    { "<C-M-g>", require("git").toggle_fugitive, desc = "Toggle Fugitive" },
+    { "<C-M-g>", require("git").toggle_neogit, desc = "Toggle Neogit" },
     { "<leader>gN", require("git").new_branch, desc = "[G]it [N]ew Branch" },
     { "<leader>gO", ":Git pr view --web<CR>", desc = "[G]it - [O]pen PR in browser" },
     { "<leader>gp", ":Git publish<CR>", desc = "[G]it [P]ublish" },
@@ -15,11 +20,18 @@ return {
     { "<leader>gS", ":Git shove<CR>", desc = "[G]it Shove" },
     { "x[", ":diffget //2 | :diffupdate<CR>", desc = "Conflict Select (Left)" },
     { "x]", ":diffget //3 | :diffupdate<CR>", desc = "Conflict Select (Right)" },
-    {
-      "<leader>g?",
-      require("git").commits_for_lines,
-      desc = "Show commits for selected lines",
-      mode = { "n", "v" },
-    },
   },
+  config = function()
+    require("neogit").setup({
+      -- Neogit configuration
+      integrations = {
+        diffview = true,
+        snacks = true,
+      },
+      -- Customize the Neogit interface
+      graph_style = "unicode",
+      -- Use single column layout (similar to fugitive)
+      kind = "replace",
+    })
+  end,
 }

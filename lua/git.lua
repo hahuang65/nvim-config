@@ -1,42 +1,60 @@
+local function strip_ansi_codes(str)
+  -- Remove ANSI escape codes (color codes, etc)
+  return str:gsub("\27%[[%d;]*m", "")
+end
+
+local function git_command(args)
+  local cmd = "git " .. args
+  local result = vim.fn.system(cmd)
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Git command failed: " .. strip_ansi_codes(result), vim.log.levels.ERROR)
+  else
+    if result and result ~= "" then
+      vim.notify(strip_ansi_codes(result), vim.log.levels.INFO)
+      require("neogit").dispatch_refresh()
+    end
+  end
+end
+
 local function new_branch()
   vim.ui.input({ prompt = "New Branch:" }, function(name)
     if name then
-      vim.cmd([[Git new ]] .. name)
+      git_command("new " .. vim.fn.shellescape(name))
     end
   end)
 end
 
-local function show_fugitive()
-  if vim.fn.FugitiveHead() ~= "" then
-    vim.cmd([[
-      Git
-      " wincmd H  " Open Git window in vertical split
-      " vertical resize 31
-      " setlocal winfixwidth
-      ]])
+local function neogit_is_open()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_valid(buf) then
+      local ft = vim.bo[buf].filetype
+      if ft:match("^Neogit") or ft:match("^NeogitStatus") then
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
+local function toggle_neogit()
+  local neogit = require("neogit")
+
+  if neogit_is_open() then
+    neogit.close()
   else
-    vim.notify("Git is either in a detached state, or not initialized. Use :Git to force open", vim.log.levels.WARN)
+    neogit.open({ kind = "auto" })
   end
 end
 
-local function toggle_fugitive()
-  if vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git//$")) ~= 0 then -- Regular git repositories
-    vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git//$') ]])
-  elseif vim.fn.buflisted(vim.fn.bufname("fugitive:///*/.git/*//$")) ~= 0 then -- Nested git repositories
-    vim.cmd([[ execute ":bdelete" bufname('fugitive:///*/.git/*//$') ]])
-  else
-    show_fugitive()
-  end
-end
-
-local function commits_for_lines()
-  local _, start_line, _, _ = unpack(vim.fn.getpos("v"))
-  local _, end_line, _, _ = unpack(vim.fn.getpos("."))
-  vim.cmd([[Git log -L ]] .. start_line .. "," .. end_line .. ":" .. vim.fn.expand("%"))
-end
+-- Create the :Git command
+vim.api.nvim_create_user_command("Git", function(opts)
+  git_command(opts.args)
+end, { nargs = "+", desc = "Execute git command" })
 
 return {
+  git_command = git_command,
   new_branch = new_branch,
-  toggle_fugitive = toggle_fugitive,
-  commits_for_lines = commits_for_lines,
+  toggle_neogit = toggle_neogit,
 }
