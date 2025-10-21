@@ -116,13 +116,6 @@ return {
       end
     end
 
-    require("lspconfig").ruby_lsp.setup({
-      capabilities = capabilities,
-      on_new_config = function(cfg)
-        cfg.cmd = { vim.fn.expand(shims_dir .. "ruby-lsp") }
-      end,
-    })
-
     -- Function to set up the ty language server
     local function start_pytool(name, cmd, settings)
       local function uv_script_python()
@@ -200,6 +193,20 @@ return {
         })
 
         start_pytool("pyrefly", { "pyrefly", "lsp" }, {})
+      end,
+    })
+
+    -- Set up autocommand to start the server when opening Ruby files
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "ruby",
+      callback = function()
+        local root_dir = vim.fs.dirname(vim.fs.find({ ".git", "Gemfile" }, { upward = true })[1])
+        vim.lsp.start({
+          name = "ruby_lsp",
+          cmd = { vim.fn.expand(shims_dir .. "ruby-lsp") },
+          root_dir = root_dir,
+          capabilities = capabilities,
+        })
       end,
     })
   end,
