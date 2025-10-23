@@ -10,7 +10,7 @@ return {
     local util = require("util")
     -- Add shims to the $PATH, if they're not already there
     local shims_dir = require("common").shims_dir
-    vim.env.PATH = vim.fn.expand(shims_dir) .. ":" .. vim.env.PATH
+    vim.env.PATH = vim.env.HOME .. ":" .. vim.fn.expand(shims_dir) .. ":" .. vim.env.PATH
 
     vim.diagnostic.config({
       update_in_insert = false,

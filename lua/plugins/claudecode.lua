@@ -4,9 +4,6 @@ return {
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
   config = true,
-  opts = {
-    terminal_cmd = "/opt/homebrew/bin/claude",
-  },
   keys = {
     { "<C-,>", "<cmd>ClaudeCodeFocus<cr>", mode = { "n", "x", "t" }, desc = "Focus Claude" },
     { "<leader>ar", "<cmd>ClaudeCode --resume<cr>", desc = "Resume conversation with Claude" },
