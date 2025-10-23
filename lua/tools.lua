@@ -70,8 +70,13 @@ return {
   },
   install_blacklist = {
     "biomejs", -- This is what nvim-lint calls it. We install `biome`
+    "delve", -- doesn't play nice with Mise shims
     "fish_indent", -- included with a fish install
-    "gofmt",
+    "gci", -- doesn't play nice with Mise shims
+    "gofmt", -- doesn't play nice with Mise shims
+    "gofumpt", -- doesn't play nice with Mise shims
+    "goimports", -- doesn't play nice with Mise shims
+    "gopls", -- doesn't play nice with Mise shims
     "packer_fmt", -- Subcommand of packer
     "ruff_fix", -- Subcommand of ruff
     "ruff_format", -- Subcommand of ruff
