@@ -7,6 +7,7 @@ return {
     "emmylua_ls",
     "fish_lsp",
     "gopls",
+    "herb_ls",
     "html",
     "jsonls",
     "marksman",
@@ -27,6 +28,7 @@ return {
   formatters = {
     bash = { "shfmt", "shellcheck" },
     css = { "biome" },
+    eruby = { "erb_format" },
     fish = { "fish_indent" },
     go = { "gofumpt", "goimports", "gci" }, -- important that gci comes AFTER goimports so that imports are added THEN sorted.
     hcl = { "packer_fmt" },
@@ -52,6 +54,7 @@ return {
     -- bash = { "shellcheck" },
     css = { "biomejs" },
     docker = { "hadolint" },
+    eruby = { "erb_lint" },
     git = { "gitlint" },
     go = { "golangcilint" },
     javascript = { "biomejs" },
@@ -91,6 +94,8 @@ return {
     "squeeze_blanks",
   },
   renames = {
+    erb_format = "erb-formatter",
+    erb_lint = "erb-lint",
     golangcilint = "golangci-lint",
     nixpkgs_fmt = "nixpkgs-fmt",
     sql_formatter = "sql-formatter",
