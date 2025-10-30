@@ -26,7 +26,8 @@ local function new_branch()
 end
 
 local function neogit_is_open()
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
     if vim.api.nvim_buf_is_valid(buf) then
       local ft = vim.bo[buf].filetype
       if ft:match("^Neogit") or ft:match("^NeogitStatus") then
