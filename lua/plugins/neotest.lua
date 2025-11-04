@@ -8,8 +8,9 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-neotest/neotest-python",
-    "fredrikaverpil/neotest-golang",
+    { "fredrikaverpil/neotest-golang", commit = "cac1039" }, -- Pin to before statement_list change, undo when nvim-treesitter is at 0.11
     "olimorris/neotest-rspec",
+    "zidhuss/neotest-minitest",
   },
   keys = {
     {
@@ -122,6 +123,7 @@ return {
           { dap_go_enabled = true },
         }),
         require("neotest-rspec"),
+        require("neotest-minitest"),
       },
     })
   end,
