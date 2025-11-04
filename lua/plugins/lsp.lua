@@ -60,6 +60,29 @@ return {
         -- map("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
         -- map("n","<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Documentation" })
 
+        -- CodeLens
+        if client:supports_method("textDocument/codeLens", bufnr) then
+          vim.lsp.codelens.refresh()
+          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            buffer = bufnr,
+            callback = vim.lsp.codelens.refresh,
+          })
+        end
+
+        -- Workspace diagnostics
+        if client:supports_method("workspace/diagnostic", bufnr) then
+          vim.notify_once(vim.inspect("Setting up workspace diagnostics for " .. client.name), vim.log.levels.WARN)
+          ---@type vim.lsp.WorkspaceDiagnosticsOpts
+          local opts = { client_id = client.id }
+          vim.lsp.buf.workspace_diagnostics(opts)
+        end
+
+        -- LSP-provided folding
+        if client:supports_method("textDocument/foldingRange", bufnr) then
+          vim.wo.foldmethod = "expr"
+          vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+        end
+
         -- Inlay hints
         if client.server_capabilities.inlayHintProvider then
           vim.notify_once(client.name .. " supports inlay hints")
