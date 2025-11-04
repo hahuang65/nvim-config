@@ -8,7 +8,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-neotest/neotest-python",
-    { "fredrikaverpil/neotest-golang", commit = "cac1039" }, -- Pin to before statement_list change, undo when nvim-treesitter is at 0.11
+    "fredrikaverpil/neotest-golang",
     "olimorris/neotest-rspec",
     "zidhuss/neotest-minitest",
   },
