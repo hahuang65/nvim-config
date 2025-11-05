@@ -47,13 +47,7 @@ local function install_and_start()
 
       -- Check if parser_name is available in parser configs
       local parser_configs = require("nvim-treesitter.parsers")
-      local parser_can_be_used = nil
-      if branch == "master" then
-        parser_can_be_used = parser_configs.list[parser_name]
-      elseif branch == "main" then
-        parser_can_be_used = parser_configs[parser_name]
-      end
-      if not parser_can_be_used then
+      if not parser_configs[parser_name] then
         -- vim.notify(
         --   "Parser config does not have parser " .. vim.inspect(parser_name) .. ", skipping",
         --   vim.log.levels.WARN,
@@ -66,11 +60,7 @@ local function install_and_start()
 
       -- If not installed, install parser synchronously
       if not parser_installed then
-        if branch == "master" then
-          vim.cmd("TSInstallSync " .. parser_name)
-        elseif branch == "main" then
-          require("nvim-treesitter").install({ parser_name }):wait(30000) -- main branch syntax
-        end
+        require("nvim-treesitter").install({ parser_name }):wait(30000)
         -- vim.notify("Installed parser: " .. parser_name, vim.log.levels.INFO, { title = "core/treesitter" })
       end
 
@@ -212,7 +202,7 @@ return {
     build = ":TSUpdate",
     dependencies = {
       "nvim-treesitter/nvim-treesitter-context",
-      { "nvim-treesitter/nvim-treesitter-textobjects", branch = "main" },
+      { "nvim-treesitter/nvim-treesitter-textobjects", branch = branch },
       "RRethy/nvim-treesitter-endwise",
     },
     config = function()
