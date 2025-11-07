@@ -70,12 +70,14 @@ return {
         end
 
         -- Workspace diagnostics
-        if client:supports_method("workspace/diagnostic", bufnr) then
-          vim.notify_once(vim.inspect("Setting up workspace diagnostics for " .. client.name), vim.log.levels.WARN)
-          ---@type vim.lsp.WorkspaceDiagnosticsOpts
-          local opts = { client_id = client.id }
-          vim.lsp.buf.workspace_diagnostics(opts)
-        end
+        -- Note: vim.lsp.buf.workspace_diagnostics() was added in Neovim after v0.11.5
+        -- Enable this when you upgrade to a nightly or future stable release
+        -- if client:supports_method("workspace/diagnostic", bufnr) then
+        --   vim.notify_once(vim.inspect("Setting up workspace diagnostics for " .. client.name), vim.log.levels.WARN)
+        --   ---@type vim.lsp.WorkspaceDiagnosticsOpts
+        --   local opts = { client_id = client.id }
+        --   vim.lsp.buf.workspace_diagnostics(opts)
+        -- end
 
         -- LSP-provided folding
         if client:supports_method("textDocument/foldingRange", bufnr) then
