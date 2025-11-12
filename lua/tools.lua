@@ -60,7 +60,7 @@ return {
     javascript = { "biomejs" },
     json = { "jsonlint" },
     lua = { "selene" },
-    markdown = { "rumdl" },
+    markdown = { "markdownlint" }, -- Switch to rumdl when nvim-lint implements it
     python = { "ruff" },
     ruby = { "rubocop" },
     sh = { "shellcheck" },
