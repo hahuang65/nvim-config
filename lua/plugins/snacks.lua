@@ -60,7 +60,11 @@ return {
     {
       "<leader>ed",
       function()
-        Snacks.picker.files({ dirs = { "$HOME/.dotfiles" } })
+        Snacks.picker.projects({
+          dev = {
+            "~/.dotfiles",
+          },
+        })
       end,
       desc = "Find Config File",
     },
@@ -83,8 +87,9 @@ return {
       function()
         Snacks.picker.projects({
           dev = {
-            "~/Projects",
-            "~/Projects/a5",
+            "$HOME/Projects",
+            "$HOME/Projects/a5",
+            "$HOME/Documents/Projects",
           },
         })
       end,
