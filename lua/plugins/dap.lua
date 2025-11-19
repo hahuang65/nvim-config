@@ -46,7 +46,7 @@ return {
         require("dap").step_back()
       end,
       mode = { "n", "i" },
-      desc = "Debug - Step Out",
+      desc = "Debug - Step Back",
     },
     {
       "<F6>",
