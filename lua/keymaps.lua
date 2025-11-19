@@ -103,3 +103,6 @@ keymap("n", "<leader>if", ":Refactor inline_func")
 
 keymap("n", "<leader>xb", ":Refactor extract_block")
 keymap("n", "<leader>xB", ":Refactor extract_block_to_file")
+
+-- Folding
+keymap("n", "<TAB>", "za", { desc = "Toggle fold under cursor" })

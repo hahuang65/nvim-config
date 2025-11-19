@@ -83,6 +83,7 @@ return {
         if client:supports_method("textDocument/foldingRange", bufnr) then
           vim.wo.foldmethod = "expr"
           vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+          vim.wo.foldlevel = 99
         end
 
         -- Inlay hints
