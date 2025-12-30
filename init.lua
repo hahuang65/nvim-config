@@ -14,6 +14,7 @@ end
 -- Built-ins
 safeRequire("netrw")
 safeRequire("options")
+safeRequire("filetype")
 
 -- Custom
 safeRequire("neovide")
