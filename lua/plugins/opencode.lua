@@ -38,12 +38,20 @@ return {
       return require("opencode").operator("@this ") .. "_"
     end, { expr = true, desc = "Add line to opencode" })
 
-    vim.keymap.set({ "n", "t" }, "<S-C-u>", function()
-      require("opencode").command("session.half.page.up")
-    end, { desc = "opencode half page up" })
+    -- Buffer-local scrolling keymaps for opencode terminal only
+    vim.api.nvim_create_autocmd("TermOpen", {
+      callback = function(args)
+        local bufname = vim.api.nvim_buf_get_name(args.buf)
+        if bufname:match("opencode") then
+          vim.keymap.set({ "n", "t" }, "<C-u>", function()
+            require("opencode").command("session.half.page.up")
+          end, { buffer = args.buf, desc = "opencode half page up" })
 
-    vim.keymap.set({ "n", "t" }, "<S-C-d>", function()
-      require("opencode").command("session.half.page.down")
-    end, { desc = "opencode half page down" })
+          vim.keymap.set({ "n", "t" }, "<C-d>", function()
+            require("opencode").command("session.half.page.down")
+          end, { buffer = args.buf, desc = "opencode half page down" })
+        end
+      end,
+    })
   end,
 }
