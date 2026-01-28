@@ -167,8 +167,19 @@ return {
         if python then
           -- https://www.reddit.com/r/neovim/comments/1lbcjin/pythonuv_script_inline_dependency_with_neovim_lsp/
           vim.notify_once("Running `" .. name .. "` as uv script")
-          settings.python = vim.tbl_deep_extend("force", settings.python or {}, { pythonPath = python })
-          -- Detect the Python package manager being used, if any
+
+          if name == "ty" then
+            settings.ty = settings.ty or {}
+            settings.ty.configuration = vim.tbl_deep_extend(
+              "force",
+              settings.ty.configuration or {},
+              { environment = { python = python } }
+            )
+          else
+            settings.python = vim.tbl_deep_extend("force", settings.python or {}, { pythonPath = python })
+          end
+
+        -- Detect the Python package manager being used, if any
         elseif util.dir_has_file(root_dir, "poetry.lock") then
           vim.notify_once("Running `" .. name .. "` with `poetry`")
           cmd = vim.list_extend({ "poetry", "run" }, cmd)
