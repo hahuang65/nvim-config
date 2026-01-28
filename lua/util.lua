@@ -54,7 +54,7 @@ local function filename()
       return name .. readonly
     end
 
-    if vim.bo.modifiable then
+    if vim.bo.modifiable and vim.bo.buftype ~= "terminal" then
       if vim.bo.modified then
         return name .. " " .. ""
       end
