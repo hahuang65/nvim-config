@@ -106,3 +106,14 @@ keymap("n", "<leader>xB", ":Refactor extract_block_to_file")
 
 -- Folding
 keymap("n", "<TAB>", "za", { desc = "Toggle fold under cursor" })
+
+-- AI Backend (opencode / claude)
+-- Default to opencode; toggle with <leader>at.
+-- Each plugin file registers/unregisters its own keymaps via the User AiBackendChanged event.
+vim.g.ai_backend = vim.g.ai_backend or "claude"
+
+keymap("n", "<leader>at", function()
+  vim.g.ai_backend = vim.g.ai_backend == "opencode" and "claude" or "opencode"
+  vim.api.nvim_exec_autocmds("User", { pattern = "AiBackendChanged" })
+  vim.notify("AI backend: " .. vim.g.ai_backend, vim.log.levels.INFO)
+end, { desc = "Toggle AI backend (OpenCode/Claude Code)" })
