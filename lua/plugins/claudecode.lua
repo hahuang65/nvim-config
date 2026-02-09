@@ -6,6 +6,9 @@ return {
   config = function()
     require("claudecode").setup({
       focus_after_send = true,
+      diff_opts = {
+        keep_terminal_focus = true, -- Keeps focus in terminal after diff opens
+      },
     })
 
     local maps = {
@@ -34,6 +37,24 @@ return {
     if vim.g.ai_backend == "claude" then
       set_keymaps()
     end
+
+    -- Buffer-local scrolling keymaps for claude terminal only
+    vim.api.nvim_create_autocmd("TermOpen", {
+      callback = function(args)
+        local bufname = vim.api.nvim_buf_get_name(args.buf)
+        if bufname:match("claude") then
+          vim.keymap.set({ "n", "t" }, "<C-u>", "<C-\\><C-n><C-u>", {
+            buffer = args.buf,
+            desc = "Claude half page up",
+          })
+
+          vim.keymap.set({ "n", "t" }, "<C-d>", "<C-\\><C-n><C-d>", {
+            buffer = args.buf,
+            desc = "Claude half page down",
+          })
+        end
+      end,
+    })
 
     vim.api.nvim_create_autocmd("User", {
       pattern = "AiBackendChanged",
