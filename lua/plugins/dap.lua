@@ -196,9 +196,13 @@ return {
     require("dap").configurations.ruby = {
       -- Don't use built-in dap-ruby configurations
       utils.rspec_file,
-      utils.rails_server,
+      utils.local_server,
       utils.ruby_file,
     }
+
+    if string.match(vim.fn.getcwd(), ".+/a5/crm") then
+      table.insert(require("dap").configurations.ruby, 3, utils.stage_server)
+    end
 
     require("dap-python").resolve_python = function()
       -- Try poetry first

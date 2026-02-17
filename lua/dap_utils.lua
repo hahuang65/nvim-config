@@ -23,10 +23,16 @@ local rspec_file = ruby_dap_config({
   current_file = true,
 })
 
-local rails_server = ruby_dap_config({
-  name = "Rails: Server",
+local local_server = ruby_dap_config({
+  name = "Rails: Local",
   command = "bundle",
   args = { "exec", "rails", "server" },
+})
+
+local stage_server = ruby_dap_config({
+  name = "Rails: Stage",
+  command = "rails-with-env",
+  args = { "stage", "server" },
 })
 
 local ruby_file = ruby_dap_config({
@@ -51,7 +57,8 @@ local pytest_file = {
 
 return {
   rspec_file = rspec_file,
-  rails_server = rails_server,
+  local_server = local_server,
+  stage_server = stage_server,
   ruby_file = ruby_file,
   pytest_file = pytest_file,
 }
