@@ -2,6 +2,11 @@
 
 return {
   "lewis6991/hover.nvim",
+  keys = {
+    { "K", function() require("hover").hover() end, desc = "hover.nvim" },
+    { "<C-p>", function() require("hover").hover_switch("previous") end, desc = "hover.nvim (previous source)" },
+    { "<C-n>", function() require("hover").hover_switch("next") end, desc = "hover.nvim (next source)" },
+  },
   config = function()
     require("hover").setup({
       init = function()
@@ -24,14 +29,5 @@ return {
       preview_window = false,
       title = true,
     })
-
-    -- Setup keymaps
-    vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
-    vim.keymap.set("n", "<C-p>", function()
-      require("hover").hover_switch("previous")
-    end, { desc = "hover.nvim (previous source)" })
-    vim.keymap.set("n", "<C-n>", function()
-      require("hover").hover_switch("next")
-    end, { desc = "hover.nvim (next source)" })
   end,
 }

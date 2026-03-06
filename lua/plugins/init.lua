@@ -4,5 +4,5 @@ return {
   { "tpope/vim-repeat", event = { "BufReadPre", "BufNewFile" } },
   { "tpope/vim-surround", event = { "BufReadPre", "BufNewFile" } },
   { "romainl/vim-cool", event = { "BufReadPre", "BufNewFile" } },
-  { "direnv/direnv.vim" },
+  { "direnv/direnv.vim", event = "VeryLazy" },
 }

@@ -3,6 +3,8 @@
 return {
   "catppuccin/nvim",
   name = "catppuccin",
+  lazy = false,
+  priority = 1000,
   config = function()
     local catppuccin = require("catppuccin")
     vim.g.catppuccin_flavour = require("common").catppuccin_palette
@@ -26,6 +28,7 @@ return {
         strings = {},
         variables = {},
       },
+      default_integrations = false,
       integrations = {
         blink_cmp = true,
         dap = {
@@ -57,9 +60,9 @@ return {
         },
         notify = true,
         octo = true,
+        snacks = true,
         treesitter = true,
         treesitter_context = true,
-        telescope = true,
       },
     })
 

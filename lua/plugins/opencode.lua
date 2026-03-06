@@ -2,6 +2,7 @@
 
 return {
   "NickvanDyke/opencode.nvim",
+  event = "VeryLazy",
   dependencies = {
     ---@module 'snacks'
     { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },

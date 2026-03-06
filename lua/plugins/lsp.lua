@@ -7,6 +7,7 @@ return {
     "saghen/blink.cmp",
   },
   config = function()
+    vim.lsp.set_log_level("error")
     local util = require("util")
     -- Add shims to the $PATH, if they're not already there
     local shims_dir = require("common").shims_dir

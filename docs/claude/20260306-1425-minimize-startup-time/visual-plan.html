@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neovim Startup Optimization Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #faf8f5;
+    --bg-elevated: #ffffff;
+    --bg-recessed: #f0ede8;
+    --text: #2c2a26;
+    --text-muted: #6b6760;
+    --text-dim: #9b9690;
+    --accent-gold: #b8860b;
+    --accent-gold-light: #daa52033;
+    --accent-sage: #4a7c59;
+    --accent-sage-light: #4a7c5922;
+    --accent-rose: #c4524a;
+    --accent-rose-light: #c4524a1a;
+    --accent-amber: #c77d2e;
+    --accent-amber-light: #c77d2e1a;
+    --border: #d8d4ce;
+    --border-light: #e8e4de;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.10);
+    --radius: 8px;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Source Sans 3', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1816;
+      --bg-elevated: #242220;
+      --bg-recessed: #141210;
+      --text: #e8e4de;
+      --text-muted: #a09a90;
+      --text-dim: #706a60;
+      --accent-gold: #daa520;
+      --accent-gold-light: #daa52033;
+      --accent-sage: #6aac79;
+      --accent-sage-light: #6aac7922;
+      --accent-rose: #e06860;
+      --accent-rose-light: #e068601a;
+      --accent-amber: #e0a050;
+      --accent-amber-light: #e0a0501a;
+      --border: #3a3630;
+      --border-light: #2e2a26;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Header */
+  .header {
+    padding: 3rem 0 2rem;
+    border-bottom: 2px solid var(--accent-gold);
+    margin-bottom: 3rem;
+  }
+  .header-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+  }
+  .header h1 {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .header .subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+  .header .kpi-row {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .kpi {
+    display: flex;
+    flex-direction: column;
+  }
+  .kpi-value {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    color: var(--accent-gold);
+    line-height: 1.1;
+  }
+  .kpi-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 3rem;
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 0.25rem;
+  }
+  .section h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  /* Before/After comparison */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 700px) {
+    .comparison { grid-template-columns: 1fr; }
+  }
+  .comparison-panel {
+    background: var(--bg-elevated);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .comparison-panel.before .panel-header {
+    background: var(--accent-rose-light);
+    border-bottom: 2px solid var(--accent-rose);
+    color: var(--accent-rose);
+  }
+  .comparison-panel.after .panel-header {
+    background: var(--accent-sage-light);
+    border-bottom: 2px solid var(--accent-sage);
+    color: var(--accent-sage);
+  }
+  .panel-header {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+  }
+  .panel-body {
+    padding: 1rem;
+  }
+  .panel-body .step {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    align-items: flex-start;
+  }
+  .step-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: var(--bg-recessed);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-muted);
+  }
+  .step-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .step-text code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    background: var(--bg-recessed);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+  .step-text .time {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--accent-rose);
+  }
+  .step-text .time.good {
+    color: var(--accent-sage);
+  }
+
+  /* Mermaid */
+  .mermaid-wrap {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+  }
+  .mermaid-wrap .mermaid {
+    display: flex;
+    justify-content: center;
+  }
+  .mermaid-caption {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 0.75rem;
+    font-style: italic;
+  }
+
+  /* Phase cards */
+  .phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .phase-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+  .phase-card.p1::before { background: var(--accent-sage); }
+  .phase-card.p2::before { background: var(--accent-gold); }
+  .phase-card.p3::before { background: var(--accent-amber); }
+  .phase-card.p4::before { background: var(--accent-rose); }
+  .phase-card .phase-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.25rem;
+  }
+  .phase-card h3 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .phase-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .phase-card li {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 0.2rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .phase-card li::before {
+    content: '\2022';
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+  }
+
+  /* Changes table */
+  .changes-table-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg-recessed);
+    position: sticky;
+    top: 0;
+  }
+  tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) {
+    background: var(--bg-recessed);
+  }
+  td code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    background: var(--bg-recessed);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .savings {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--accent-sage);
+    white-space: nowrap;
+  }
+  .risk-low { color: var(--accent-sage); }
+  .risk-med { color: var(--accent-amber); }
+  .risk-high { color: var(--accent-rose); }
+
+  /* Code blocks */
+  .code-block {
+    background: var(--bg-recessed);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    margin: 0.75rem 0;
+    overflow: hidden;
+  }
+  .code-block .file-path {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    padding: 0.4rem 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    background: var(--bg-elevated);
+  }
+  .code-block pre {
+    padding: 0.75rem;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .line-add { color: var(--accent-sage); }
+  .line-del { color: var(--accent-rose); text-decoration: line-through; opacity: 0.7; }
+
+  /* Callout boxes */
+  .callout {
+    border-left: 4px solid;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: var(--bg-elevated);
+  }
+  .callout.gold { border-color: var(--accent-gold); background: var(--accent-gold-light); }
+  .callout.rose { border-color: var(--accent-rose); background: var(--accent-rose-light); }
+  .callout.amber { border-color: var(--accent-amber); background: var(--accent-amber-light); }
+  .callout strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .callout p { font-size: 0.9rem; color: var(--text-muted); }
+
+  /* Waterfall chart */
+  .waterfall {
+    margin: 1rem 0;
+  }
+  .waterfall-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    min-width: 0;
+  }
+  .waterfall-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    width: 160px;
+    flex-shrink: 0;
+    text-align: right;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .waterfall-track {
+    flex: 1;
+    height: 22px;
+    background: var(--bg-recessed);
+    border-radius: 3px;
+    position: relative;
+    min-width: 0;
+  }
+  .waterfall-bar {
+    position: absolute;
+    height: 100%;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #fff;
+    min-width: 28px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+  .waterfall-bar.eager { background: var(--accent-rose); }
+  .waterfall-bar.lazy { background: var(--accent-sage); }
+  .waterfall-bar.deferred { background: var(--accent-amber); }
+  .waterfall-time {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    width: 45px;
+    flex-shrink: 0;
+  }
+
+  /* Test table */
+  .test-group-header td {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    background: var(--accent-gold-light) !important;
+    padding-top: 0.75rem;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0.75rem 0;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-label">Implementation Plan</div>
+  <h1>Minimize Neovim Startup Time</h1>
+  <p class="subtitle">Reduce startup from ~184ms to ~80-100ms by lazy-loading plugins, fixing require chains, and trimming catppuccin integrations.</p>
+  <div class="kpi-row">
+    <div class="kpi">
+      <span class="kpi-value">184ms</span>
+      <span class="kpi-label">Current Startup</span>
+    </div>
+    <div class="kpi">
+      <span class="kpi-value">~85ms</span>
+      <span class="kpi-label">Target Startup</span>
+    </div>
+    <div class="kpi">
+      <span class="kpi-value">12</span>
+      <span class="kpi-label">File Changes</span>
+    </div>
+    <div class="kpi">
+      <span class="kpi-value">4</span>
+      <span class="kpi-label">Phases</span>
+    </div>
+  </div>
+</header>
+
+<!-- THE PROBLEM -->
+<section class="section">
+  <div class="section-label">Section 1</div>
+  <h2>The Problem</h2>
+  <div class="comparison">
+    <div class="comparison-panel before">
+      <div class="panel-header">Before &mdash; Current State</div>
+      <div class="panel-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><code>init.lua</code> loads <code>options.lua</code> &rarr; triggers <code>vim.lsp</code> chain (<span class="time">5.2ms</span>)</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">lazy.nvim loads <strong>62ms</strong> of eager plugins synchronously</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">3 AI assistants all start servers at boot (<span class="time">17ms</span>)</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">catppuccin loads <strong>30+</strong> unused integrations (<span class="time">~20ms</span>)</span></div>
+        <div class="step"><span class="step-num">5</span><span class="step-text">mason, blink.cmp, fidget, oil, hover load before needed</span></div>
+        <div class="step"><span class="step-num">6</span><span class="step-text">Total: <span class="time">~184ms</span></span></div>
+      </div>
+    </div>
+    <div class="comparison-panel after">
+      <div class="panel-header">After &mdash; Optimized</div>
+      <div class="panel-body">
+        <div class="step"><span class="step-num">1</span><span class="step-text"><code>vim.lsp.set_log_level</code> moved to LSP config &mdash; no early require chain</span></div>
+        <div class="step"><span class="step-num">2</span><span class="step-text">lazy.nvim loads only essential plugins (treesitter, snacks, catppuccin)</span></div>
+        <div class="step"><span class="step-num">3</span><span class="step-text">AI plugins deferred to <code>VeryLazy</code> (after UI render)</span></div>
+        <div class="step"><span class="step-num">4</span><span class="step-text">catppuccin uses <code>default_integrations = false</code>, only 11 active</span></div>
+        <div class="step"><span class="step-num">5</span><span class="step-text">mason on <code>cmd</code>, fidget on <code>LspAttach</code>, others on <code>keys</code>/<code>ft</code></span></div>
+        <div class="step"><span class="step-num">6</span><span class="step-text">Target: <span class="time good">~80-100ms</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLUGIN LOAD WATERFALL -->
+<section class="section">
+  <div class="section-label">Section 2</div>
+  <h2>Plugin Load Savings</h2>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--accent-rose)"></div> Eager (before)</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--accent-sage)"></div> Lazy-loaded (after)</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--accent-amber)"></div> Deferred (VeryLazy)</div>
+  </div>
+  <div class="waterfall">
+    <div class="waterfall-row">
+      <span class="waterfall-label">blink.cmp</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar eager" style="left:0;width:32%">16ms</div>
+      </div>
+      <span class="waterfall-time savings">-16ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">mason.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar eager" style="left:0;width:22%">11ms</div>
+      </div>
+      <span class="waterfall-time savings">-11ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">catppuccin</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar eager" style="left:0;width:30%">~15ms</div>
+      </div>
+      <span class="waterfall-time savings">-15ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">claudecode.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar deferred" style="left:65%;width:17%">8.6ms</div>
+      </div>
+      <span class="waterfall-time savings">-8.6ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">amp.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar deferred" style="left:65%;width:15%">7.4ms</div>
+      </div>
+      <span class="waterfall-time savings">-7.4ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">vim.lsp chain</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar eager" style="left:0;width:10%">5ms</div>
+      </div>
+      <span class="waterfall-time savings">-5ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">fidget.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar lazy" style="left:45%;width:6%">3ms</div>
+      </div>
+      <span class="waterfall-time savings">-3ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">oil.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar lazy" style="left:80%;width:3.2%">1.6ms</div>
+      </div>
+      <span class="waterfall-time savings">-1.6ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">opencode.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar deferred" style="left:65%;width:2.2%">1.1ms</div>
+      </div>
+      <span class="waterfall-time savings">-1.1ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">hover.nvim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar lazy" style="left:90%;width:1.8%">0.9ms</div>
+      </div>
+      <span class="waterfall-time savings">-0.9ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">direnv.vim</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar deferred" style="left:65%;width:1.4%">0.7ms</div>
+      </div>
+      <span class="waterfall-time savings">-0.7ms</span>
+    </div>
+    <div class="waterfall-row">
+      <span class="waterfall-label">nvim-bqf</span>
+      <div class="waterfall-track">
+        <div class="waterfall-bar lazy" style="left:95%;width:0.8%">0.4ms</div>
+      </div>
+      <span class="waterfall-time savings">-0.4ms</span>
+    </div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section class="section">
+  <div class="section-label">Section 3</div>
+  <h2>Implementation Phases</h2>
+  <div class="phases">
+    <div class="phase-card p1">
+      <div class="phase-num">Phase 1</div>
+      <h3>Zero-Risk Quick Wins</h3>
+      <ul>
+        <li>Move <code>vim.lsp.set_log_level</code></li>
+        <li>Lazy-load fidget on LspAttach</li>
+        <li>Lazy-load hover on keys</li>
+        <li>Lazy-load oil on keys/cmd</li>
+        <li>Lazy-load bqf on ft=qf</li>
+        <li>Defer direnv.vim</li>
+      </ul>
+    </div>
+    <div class="phase-card p2">
+      <div class="phase-num">Phase 2</div>
+      <h3>Plugin Lazy Loading</h3>
+      <ul>
+        <li>Mason on cmd triggers</li>
+        <li>ClaudeCode on VeryLazy</li>
+        <li>Amp on VeryLazy</li>
+        <li>OpenCode on VeryLazy</li>
+        <li>blink.cmp on InsertEnter</li>
+      </ul>
+    </div>
+    <div class="phase-card p3">
+      <div class="phase-num">Phase 3</div>
+      <h3>Catppuccin Optimization</h3>
+      <ul>
+        <li>Set default_integrations = false</li>
+        <li>Whitelist 11 used integrations</li>
+        <li>Add priority = 1000</li>
+        <li>Clear compile cache</li>
+      </ul>
+    </div>
+    <div class="phase-card p4">
+      <div class="phase-num">Phase 4</div>
+      <h3>Verification</h3>
+      <ul>
+        <li>Measure with --startuptime</li>
+        <li>Check :Lazy profile</li>
+        <li>Smoke test all plugins</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- STATE MACHINE -->
+<section class="section">
+  <div class="section-label">Section 4</div>
+  <h2>Plugin Load State Machine</h2>
+  <div class="mermaid-wrap">
+    <div class="mermaid">
+flowchart TD
+    BOOT["init.lua boot"] --> OPT["options.lua<br/><i>no vim.lsp chain</i>"]
+    BOOT --> LAZY["lazy.nvim setup"]
+    LAZY --> CAT["catppuccin<br/><b>priority=1000</b><br/>11 integrations"]
+    LAZY --> SNACKS["snacks.nvim<br/><b>priority=1000</b>"]
+    LAZY --> TS["treesitter<br/><b>lazy=false</b>"]
+    LAZY --> VL["VeryLazy event<br/><i>after UI render</i>"]
+    VL --> CLAUDE["claudecode.nvim"]
+    VL --> AMP["amp.nvim"]
+    VL --> OPENCODE["opencode.nvim"]
+    VL --> DIRENV["direnv.vim"]
+    LAZY --> BRP["BufReadPre event"]
+    BRP --> LSP["nvim-lspconfig"]
+    LSP --> BLINK["blink.cmp<br/><i>via dependency</i>"]
+    LAZY --> IE["InsertEnter /<br/>CmdlineEnter"]
+    IE --> BLINK2["blink.cmp<br/><i>direct trigger</i>"]
+    LAZY --> LA["LspAttach event"]
+    LA --> FIDGET["fidget.nvim"]
+    LAZY --> CMD["User commands"]
+    CMD --> MASON[":Mason* &rarr; mason.nvim"]
+    CMD --> OIL2[":Oil &rarr; oil.nvim"]
+    LAZY --> KEYS["Keypress triggers"]
+    KEYS --> HOVER["K &rarr; hover.nvim"]
+    KEYS --> OIL["- &rarr; oil.nvim"]
+    LAZY --> FT["Filetype triggers"]
+    FT --> BQF["ft=qf &rarr; nvim-bqf"]
+
+    style CAT fill:#daa520,color:#1a1816,stroke:#b8860b
+    style SNACKS fill:#daa520,color:#1a1816,stroke:#b8860b
+    style TS fill:#daa520,color:#1a1816,stroke:#b8860b
+    style CLAUDE fill:#c77d2e,color:#fff,stroke:#a06020
+    style AMP fill:#c77d2e,color:#fff,stroke:#a06020
+    style OPENCODE fill:#c77d2e,color:#fff,stroke:#a06020
+    style DIRENV fill:#c77d2e,color:#fff,stroke:#a06020
+    style FIDGET fill:#4a7c59,color:#fff,stroke:#3a6040
+    style MASON fill:#4a7c59,color:#fff,stroke:#3a6040
+    style HOVER fill:#4a7c59,color:#fff,stroke:#3a6040
+    style OIL fill:#4a7c59,color:#fff,stroke:#3a6040
+    style OIL2 fill:#4a7c59,color:#fff,stroke:#3a6040
+    style BQF fill:#4a7c59,color:#fff,stroke:#3a6040
+    style BLINK fill:#4a7c59,color:#fff,stroke:#3a6040
+    style BLINK2 fill:#4a7c59,color:#fff,stroke:#3a6040
+    style LSP fill:#4a7c59,color:#fff,stroke:#3a6040
+    </div>
+    <p class="mermaid-caption">Gold = loads at startup. Amber = deferred to VeryLazy (after UI). Green = lazy-loaded on demand.</p>
+  </div>
+</section>
+
+<!-- FILE CHANGES -->
+<section class="section">
+  <div class="section-label">Section 5</div>
+  <h2>All 12 File Changes</h2>
+  <div class="changes-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>File</th>
+          <th>Change</th>
+          <th>Trigger</th>
+          <th>Savings</th>
+          <th>Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><code>lua/options.lua</code></td>
+          <td>Delete <code>vim.lsp.set_log_level</code> line</td>
+          <td>&mdash;</td>
+          <td class="savings">~5ms</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>1b</td>
+          <td><code>lua/plugins/lsp.lua</code></td>
+          <td>Add <code>vim.lsp.set_log_level("error")</code> to config</td>
+          <td>BufReadPre</td>
+          <td class="savings">(same)</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><code>lua/plugins/fidget.lua</code></td>
+          <td>Add <code>event = "LspAttach"</code></td>
+          <td>LspAttach</td>
+          <td class="savings">~3ms</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><code>lua/plugins/hover.lua</code></td>
+          <td>Add <code>keys</code> table, remove keymap from config</td>
+          <td>K / C-p / C-n</td>
+          <td class="savings">~0.9ms</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><code>lua/plugins/oil.lua</code></td>
+          <td>Add <code>keys</code> + <code>cmd</code>, remove keymap from config</td>
+          <td>- / :Oil</td>
+          <td class="savings">~1.6ms</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><code>lua/plugins/bqf.lua</code></td>
+          <td>Add <code>ft = "qf"</code></td>
+          <td>ft=qf</td>
+          <td class="savings">~0.4ms</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><code>lua/plugins/init.lua</code></td>
+          <td>Add <code>event = "VeryLazy"</code> to direnv</td>
+          <td>VeryLazy</td>
+          <td class="savings">~0.7ms</td>
+          <td class="risk-low">Zero</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><code>lua/plugins/mason.lua</code></td>
+          <td>Add <code>cmd</code> triggers</td>
+          <td>:Mason*</td>
+          <td class="savings">~11ms</td>
+          <td class="risk-med">Medium</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><code>lua/plugins/claudecode.lua</code></td>
+          <td>Add <code>event = "VeryLazy"</code></td>
+          <td>VeryLazy</td>
+          <td class="savings">~8.6ms</td>
+          <td class="risk-med">Medium</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><code>lua/plugins/amp.lua</code></td>
+          <td>Replace <code>lazy=false</code> with <code>event="VeryLazy"</code></td>
+          <td>VeryLazy</td>
+          <td class="savings">~7.4ms</td>
+          <td class="risk-med">Medium</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><code>lua/plugins/opencode.lua</code></td>
+          <td>Add <code>event = "VeryLazy"</code></td>
+          <td>VeryLazy</td>
+          <td class="savings">~1.1ms</td>
+          <td class="risk-med">Medium</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><code>lua/plugins/cmp.lua</code></td>
+          <td>Add <code>event = {"InsertEnter","CmdlineEnter"}</code></td>
+          <td>InsertEnter</td>
+          <td class="savings">~16ms</td>
+          <td class="risk-med">Medium</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><code>lua/plugins/catppuccin.lua</code></td>
+          <td><code>default_integrations=false</code>, whitelist 11</td>
+          <td>startup</td>
+          <td class="savings">~15ms</td>
+          <td class="risk-med">Medium</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- KEY CODE CHANGES -->
+<section class="section">
+  <div class="section-label">Section 6</div>
+  <h2>Key Code Snippets</h2>
+
+  <div class="code-block">
+    <div class="file-path">lua/options.lua &mdash; line 100</div>
+    <pre><span class="line-del">vim.lsp.set_log_level("error")  -- DELETE: triggers 5.2ms require chain</span></pre>
+  </div>
+
+  <div class="code-block">
+    <div class="file-path">lua/plugins/lsp.lua &mdash; top of config function</div>
+    <pre><span class="line-add">vim.lsp.set_log_level("error")  -- ADD: deferred to BufReadPre</span></pre>
+  </div>
+
+  <div class="code-block">
+    <div class="file-path">lua/plugins/catppuccin.lua &mdash; key changes</div>
+    <pre>return {
+  "catppuccin/nvim",
+  name = "catppuccin",
+<span class="line-add">  lazy = false,</span>
+<span class="line-add">  priority = 1000,</span>
+  config = function()
+    catppuccin.setup({
+<span class="line-add">      default_integrations = false,</span>
+<span class="line-add">      integrations = {</span>
+<span class="line-add">        blink_cmp = true, dap = { enabled = true, enable_ui = true },</span>
+<span class="line-add">        fidget = true, gitsigns = true,</span>
+<span class="line-add">        indent_blankline = { enabled = true },</span>
+<span class="line-add">        mason = true, neotest = true,</span>
+<span class="line-add">        native_lsp = { enabled = true, ... },</span>
+<span class="line-add">        notify = true, octo = true,</span>
+<span class="line-add">        snacks = true, treesitter = true,</span>
+<span class="line-add">        treesitter_context = true,</span>
+<span class="line-add">      },</span>
+    })
+  end,
+}</pre>
+  </div>
+
+  <div class="code-block">
+    <div class="file-path">lua/plugins/oil.lua &mdash; lazy.nvim spec changes</div>
+    <pre>return {
+  "stevearc/oil.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+<span class="line-add">  keys = {</span>
+<span class="line-add">    { "-", "&lt;cmd&gt;Oil&lt;CR&gt;", desc = "Open parent directory" },</span>
+<span class="line-add">  },</span>
+<span class="line-add">  cmd = "Oil",</span>
+  config = function()
+    require("oil").setup({ ... })
+<span class="line-del">    vim.keymap.set(...)  -- removed, handled by keys table</span>
+  end,
+}</pre>
+  </div>
+</section>
+
+<!-- EDGE CASES -->
+<section class="section">
+  <div class="section-label">Section 7</div>
+  <h2>Edge Cases &amp; Considerations</h2>
+  <div class="changes-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Scenario</th><th>Expected Behavior</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Missing tool after mason lazy-load</td><td>LSP fails to start silently; user runs <code>:Mason</code> to install</td></tr>
+        <tr><td>blink.cmp loads before InsertEnter via lsp.lua dependency</td><td>Expected &mdash; still prevents synchronous startup loading</td></tr>
+        <tr><td><code>&lt;leader&gt;at</code> AI toggle before VeryLazy fires</td><td>Unlikely &mdash; VeryLazy fires ~50ms after startup, before user can type</td></tr>
+        <tr><td>amp CLI connects before VeryLazy loads amp.nvim</td><td>amp CLI retries connection; VeryLazy fires within ~100ms</td></tr>
+        <tr><td>catppuccin missing integration highlights</td><td>If a new plugin is added, must add to integrations list manually</td></tr>
+        <tr><td>Old catppuccin cache after config change</td><td>Must run <code>rm -rf ~/.cache/nvim/catppuccin/</code></td></tr>
+        <tr><td>Pressing K before hover.nvim loads</td><td>lazy.nvim intercepts the keypress and loads hover first</td></tr>
+        <tr><td>Opening nvim with <code>nvim .</code> (Oil as file manager)</td><td>Oil won't hijack netrw on startup; use <code>-</code> key instead</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TESTING -->
+<section class="section">
+  <div class="section-label">Section 8</div>
+  <h2>Verification Checklist</h2>
+  <div class="changes-table-wrap">
+    <table>
+      <thead>
+        <tr><th>Test</th><th>Method</th><th>Expected Result</th></tr>
+      </thead>
+      <tbody>
+        <tr class="test-group-header"><td colspan="3">Startup Measurement</td></tr>
+        <tr><td>Startup time</td><td><code>nvim --headless --startuptime</code></td><td>NVIM STARTED line shows ~80-100ms</td></tr>
+        <tr><td>Lazy profile</td><td><code>:Lazy profile</code></td><td>Plugins show correct triggers &amp; timing</td></tr>
+        <tr class="test-group-header"><td colspan="3">Functional Smoke Tests</td></tr>
+        <tr><td>LSP + completion</td><td>Open a Python file</td><td>LSP starts, completion works, diagnostics appear</td></tr>
+        <tr><td>LSP (Ruby)</td><td>Open a Ruby file</td><td>LSP starts, completion works</td></tr>
+        <tr><td>Hover</td><td>Press <code>K</code></td><td>hover.nvim loads, shows hover info</td></tr>
+        <tr><td>Oil</td><td>Press <code>-</code></td><td>oil.nvim opens file browser</td></tr>
+        <tr><td>Mason</td><td>Run <code>:Mason</code></td><td>Mason loads and opens UI</td></tr>
+        <tr><td>AI toggle</td><td>Press <code>&lt;leader&gt;at</code></td><td>Keymaps switch between Claude/OpenCode</td></tr>
+        <tr><td>Claude terminal</td><td>Press <code>&lt;C-,&gt;</code></td><td>Claude Code terminal opens</td></tr>
+        <tr><td>Gitsigns</td><td>Open file with git changes</td><td>Signs show in statuscolumn</td></tr>
+        <tr><td>Health check</td><td>Run <code>:checkhealth</code></td><td>No errors from modified plugins</td></tr>
+        <tr><td>Colorscheme</td><td>Visual inspection</td><td>No missing highlights, correct catppuccin theme</td></tr>
+        <tr><td>Quickfix</td><td>Open a quickfix list</td><td>bqf enhances it properly</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CALLOUTS -->
+<section class="section">
+  <div class="section-label">Section 9</div>
+  <h2>Implementation Notes</h2>
+
+  <div class="callout gold">
+    <strong>Backward Compatibility</strong>
+    <p>catppuccin <code>default_integrations = false</code> means any future plugin additions must be manually added to the integrations list. This is a maintenance trade-off for ~15ms startup savings.</p>
+  </div>
+
+  <div class="callout rose">
+    <strong>Critical Warning</strong>
+    <p>After changing catppuccin integrations, you <strong>must</strong> clear the compile cache: <code>rm -rf ~/.cache/nvim/catppuccin/</code>. Stale cache will show wrong highlights.</p>
+  </div>
+
+  <div class="callout amber">
+    <strong>Performance Note</strong>
+    <p>VeryLazy plugins (claudecode, amp, opencode, direnv) still contribute to total load time but fire <em>after</em> the <code>--- NVIM STARTED ---</code> measurement point, improving perceived startup.</p>
+  </div>
+</section>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+    securityLevel: 'loose',
+  });
+</script>
+</body>
+</html>

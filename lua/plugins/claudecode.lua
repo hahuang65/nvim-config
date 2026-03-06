@@ -2,6 +2,7 @@
 
 return {
   "coder/claudecode.nvim",
+  event = "VeryLazy",
   dependencies = { "folke/snacks.nvim" },
   config = function()
     require("claudecode").setup({
