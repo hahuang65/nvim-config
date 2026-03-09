@@ -36,7 +36,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.env.PATH = vim.fn.expand(require("common").shims_dir) .. ":" .. vim.env.PATH
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.fn.expand(require("common").shims_dir) .. ":" .. vim.env.PATH
 
 -- This will load plugins specified in lua/plugins/init.lua
 -- as well as merge in any other lua/plugins/*.lua files
