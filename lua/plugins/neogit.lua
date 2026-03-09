@@ -4,8 +4,18 @@ return {
   "NeogitOrg/neogit",
   dependencies = {
     "nvim-lua/plenary.nvim", -- required
-    "sindrets/diffview.nvim", -- optional - Diff integration
     "folke/snacks.nvim", -- optional
+    {
+      "sindrets/diffview.nvim",
+      opts = {
+        view = {
+          merge_tool = {
+            layout = "diff3_mixed",
+            disable_diagnostics = true,
+          },
+        },
+      },
+    },
   },
   keys = {
     { "<C-M-g>", require("git").toggle_neogit, desc = "Toggle Neogit" },
@@ -22,6 +32,8 @@ return {
     { "<leader>gW", ":Git wip<CR>", desc = "[G]it WIP" },
     { "x[", ":diffget //2 | :diffupdate<CR>", desc = "Conflict Select (Left)" },
     { "x]", ":diffget //3 | :diffupdate<CR>", desc = "Conflict Select (Right)" },
+    { "<leader>gc", ":DiffviewOpen<CR>", desc = "[G]it [C]onflict Resolution" },
+    { "<leader>gq", ":DiffviewClose<CR>", desc = "[G]it - [Q]uit Diffview" },
   },
   config = function()
     require("neogit").setup({
