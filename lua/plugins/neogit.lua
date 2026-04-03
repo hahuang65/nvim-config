@@ -5,16 +5,34 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim", -- required
     "folke/snacks.nvim", -- optional
+    -- Conflict resolution workflow:
+      --   1. <leader>gc  — open Diffview
+      --   2. xh/xl/xb/xa — choose ours/theirs/base/all
+      --   3. :w           — save resolved file
+      --   4. S            — in file panel, stage all resolved files
+      --   5. <leader>gq  — close Diffview
+      --   6. In Neogit, r then r to continue rebase
     {
       "sindrets/diffview.nvim",
-      opts = {
-        view = {
-          merge_tool = {
-            layout = "diff3_mixed",
-            disable_diagnostics = true,
+      opts = function()
+        local actions = require("diffview.actions")
+        return {
+          view = {
+            merge_tool = {
+              layout = "diff3_mixed",
+              disable_diagnostics = true,
+            },
           },
-        },
-      },
+          keymaps = {
+            view = {
+              { "n", "xh", actions.conflict_choose("ours"), { desc = "Conflict Choose Ours (Left)" } },
+              { "n", "xl", actions.conflict_choose("theirs"), { desc = "Conflict Choose Theirs (Right)" } },
+              { "n", "xb", actions.conflict_choose("base"), { desc = "Conflict Choose Base" } },
+              { "n", "xa", actions.conflict_choose("all"), { desc = "Conflict Choose All" } },
+            },
+          },
+        }
+      end,
     },
   },
   keys = {
@@ -30,8 +48,6 @@ return {
     { "<leader>gS", ":Git shove<CR>", desc = "[G]it Shove" },
     { "<leader>gU", ":Git unwip<CR>", desc = "[G]it un-WIP" },
     { "<leader>gW", ":Git wip<CR>", desc = "[G]it WIP" },
-    { "x[", ":diffget //2 | :diffupdate<CR>", desc = "Conflict Select (Left)" },
-    { "x]", ":diffget //3 | :diffupdate<CR>", desc = "Conflict Select (Right)" },
     { "<leader>gc", ":DiffviewOpen<CR>", desc = "[G]it [C]onflict Resolution" },
     { "<leader>gq", ":DiffviewClose<CR>", desc = "[G]it - [Q]uit Diffview" },
   },
