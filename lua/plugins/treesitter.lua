@@ -16,67 +16,74 @@ local function register(ensure_installed)
 end
 
 --- Install and start parsers for nvim-treesitter.
-local function install_and_start()
+local function install_and_start(ensure_installed)
+  local util = require("util")
+
+  local ensure_installed_set = {}
+  for _, lang in ipairs(ensure_installed) do
+    ensure_installed_set[lang] = true
+  end
+
+  -- Resolve the absolute path of this file lazily (on first notification)
+  -- so nudges can point the user at the real location even when Neovim
+  -- loaded it via a symlink.
+  local config_path
+  local function get_config_path()
+    config_path = config_path or vim.fn.resolve(debug.getinfo(1, "S").source:sub(2))
+    return config_path
+  end
+
   -- Auto-install and start treesitter parser for any buffer with a registered filetype
   vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
     callback = function(event)
       local bufnr = event.buf
       local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
 
-      -- Skip if no filetype
       if filetype == "" then
         return
       end
 
-      -- Get parser name based on filetype
-      local parser_name = vim.treesitter.language.get_lang(filetype) -- WARNING: might return filetype (not helpful)
+      local parser_name = vim.treesitter.language.get_lang(filetype)
       if not parser_name then
-        -- vim.notify(
-        --   "Filetype " .. vim.inspect(filetype) .. " has no parser registered",
-        --   vim.log.levels.WARN,
-        --   { title = "core/treesitter" }
-        -- )
         return
       end
 
-      -- vim.notify(
-      --   vim.inspect("Successfully got parser " .. parser_name .. " for filetype " .. filetype),
-      --   vim.log.levels.DEBUG,
-      --   { title = "core/treesitter" }
-      -- )
-
-      -- Check if parser_name is available in parser configs
       local parser_configs = require("nvim-treesitter.parsers")
       if not parser_configs[parser_name] then
-        -- vim.notify(
-        --   "Parser config does not have parser " .. vim.inspect(parser_name) .. ", skipping",
-        --   vim.log.levels.WARN,
-        --   { title = "core/treesitter" }
-        -- )
-        return -- Parser not ailable, skip silently
-      end
-
-      local parser_installed = pcall(vim.treesitter.get_parser, bufnr, parser_name)
-
-      -- If not installed, install parser synchronously
-      if not parser_installed then
-        require("nvim-treesitter").install({ parser_name }):wait(30000)
-        -- vim.notify("Installed parser: " .. parser_name, vim.log.levels.INFO, { title = "core/treesitter" })
-      end
-
-      -- Check so tree-sitter can see the newly installed parser
-      parser_installed = pcall(vim.treesitter.get_parser, bufnr, parser_name)
-      if not parser_installed then
-        vim.notify(
-          "Failed to get parser for " .. parser_name .. " after installation",
-          vim.log.levels.WARN,
-          { title = "core/treesitter" }
-        )
         return
       end
 
-      -- Start treesitter for this buffer
-      vim.treesitter.start(bufnr, parser_name)
+      local installed = require("nvim-treesitter.config").get_installed()
+      local was_installed = vim.list_contains(installed, parser_name)
+
+      if not was_installed then
+        -- Nudge the user to add this to ensure_installed if they hit it
+        -- often enough that the on-demand install is worth avoiding.
+        if not ensure_installed_set[parser_name] then
+          util.notify_blocking(
+            string.format(
+              "Installing treesitter parser %q on demand. "
+                .. "If you use %s regularly, consider adding %q to `ensure_installed` in %s.",
+              parser_name,
+              filetype,
+              parser_name,
+              get_config_path()
+            ),
+            vim.log.levels.INFO,
+            { title = "core/treesitter" }
+          )
+        end
+
+        require("nvim-treesitter").install({ parser_name }):wait(30000)
+      end
+
+      -- Catch any start-up error so it doesn't halt subsequent
+      -- BufWinEnter callbacks. With the install path above, failure here
+      -- should be rare.
+      local ok, err = pcall(vim.treesitter.start, bufnr, parser_name)
+      if not ok then
+        vim.notify(err, vim.log.levels.WARN, { title = "core/treesitter" })
+      end
     end,
   })
 end
@@ -244,7 +251,7 @@ return {
       })
       register_keymaps()
 
-      register({
+      local ensure_installed = {
         "bash",
         "cooklang",
         "css",
@@ -282,9 +289,12 @@ return {
         "vue",
         "xml",
         "yaml",
-      })
+        "zig",
+      }
 
-      install_and_start()
+      register(ensure_installed)
+      require("nvim-treesitter").install(ensure_installed)
+      install_and_start(ensure_installed)
     end,
   },
   {

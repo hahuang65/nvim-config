@@ -108,6 +108,20 @@ local function cwd_has_file(file)
   return dir_has_file(vim.uv.cwd(), file)
 end
 
+--- Emit a notification and block until the user presses Enter to acknowledge.
+--- Useful when the notification carries an action the user must see even when
+--- a notification plugin would otherwise auto-dismiss it.
+---@param msg string
+---@param level integer one of vim.log.levels
+---@param opts? table forwarded to vim.notify
+local function notify_blocking(msg, level, opts)
+  vim.notify(msg, level, opts)
+  local prompt_type = level == vim.log.levels.ERROR and "Error"
+    or level == vim.log.levels.WARN and "Warning"
+    or "Info"
+  vim.fn.confirm(msg, "&OK", 1, prompt_type)
+end
+
 local function find_project_root(root_files)
   -- Automatically add .git to root_files if it's not already there
   if not has_value(root_files, ".git") then
@@ -132,4 +146,5 @@ return {
   dir_has_file = dir_has_file,
   cwd_has_file = cwd_has_file,
   find_project_root = find_project_root,
+  notify_blocking = notify_blocking,
 }
