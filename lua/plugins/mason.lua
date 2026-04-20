@@ -16,7 +16,7 @@ return {
       },
     })
 
-    local language_servers = vim.tbl_flatten(vim.tbl_values(require("tools").language_servers))
+    local language_servers = vim.iter(vim.tbl_values(require("tools").language_servers)):flatten():totable()
     for i, ls in ipairs(language_servers) do
       for k, v in pairs(require("tools").renames) do
         if ls == k then
@@ -35,8 +35,8 @@ return {
     })
 
     local tools = {}
-    local formatters = vim.tbl_flatten(vim.tbl_values(require("tools").formatters))
-    local linters = vim.tbl_flatten(vim.tbl_values(require("tools").linters))
+    local formatters = vim.iter(vim.tbl_values(require("tools").formatters)):flatten():totable()
+    local linters = vim.iter(vim.tbl_values(require("tools").linters)):flatten():totable()
     local debuggers = require("tools").debuggers
     vim.list_extend(tools, formatters)
     vim.list_extend(tools, linters)
