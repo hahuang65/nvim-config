@@ -57,6 +57,7 @@ keymap("n", "<M-'>", "<C-w>-", { desc = "Resize window up" })
 
 -- Terminal
 keymap("t", "<Esc>", "<C-\\><C-n>", { desc = "Go to normal mode" })
+keymap("t", "<C-[>", "<C-\\><C-n>", { desc = "Go to normal mode" })
 keymap("t", "<C-M-h>", "<C-\\><C-n><C-w>h", { desc = "Switch to window left" })
 keymap("t", "<C-M-j>", "<C-\\><C-n><C-w>j", { desc = "Switch to window below" })
 keymap("t", "<C-M-k>", "<C-\\><C-n><C-w>k", { desc = "Switch to window above" })
