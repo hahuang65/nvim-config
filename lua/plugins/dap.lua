@@ -144,18 +144,18 @@ return {
           elements = {
             "scopes",
             "breakpoints",
-            "stacks",
             "watches",
+            "stacks",
           },
-          size = 60,
+          size = 0.25,
           position = "left",
         },
         {
           elements = {
-            "repl",
-            "console",
+            { id = "repl", size = 0.75 },
+            { id = "console", size = 0.25 },
           },
-          size = 20,
+          size = 0.5,
           position = "bottom",
         },
       },
@@ -181,12 +181,12 @@ return {
     dap.listeners.before.launch.dapui_config = function()
       dapui.open()
     end
-    dap.listeners.before.event_terminated.dapui_config = function()
-      dapui.close()
-    end
-    dap.listeners.before.event_exited.dapui_config = function()
-      dapui.close()
-    end
+    -- dap.listeners.before.event_terminated.dapui_config = function()
+    --   dapui.close()
+    -- end
+    -- dap.listeners.before.event_exited.dapui_config = function()
+    --   dapui.close()
+    -- end
 
     local shims_dir = require("common").shims_dir
 
