@@ -69,6 +69,13 @@ return {
       desc = "Find Config File",
     },
     {
+      "<leader>sn",
+      function()
+        Snacks.picker.notifications()
+      end,
+      desc = "Find notification messages",
+    },
+    {
       "<leader>sf",
       function()
         Snacks.picker.files()
