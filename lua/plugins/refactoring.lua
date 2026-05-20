@@ -2,11 +2,10 @@
 
 return {
   "ThePrimeagen/refactoring.nvim",
-  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-treesitter/nvim-treesitter",
+    "lewis6991/async.nvim",
   },
+  lazy = false,
   config = function()
     require("refactoring").setup({
       -- prompt for return type
@@ -24,5 +23,11 @@ return {
         java = true,
       },
     })
+    local keymap = vim.keymap
+
+    keymap.set({ "n", "x" }, "<leader>rf", function()
+      -- this keymap doesn't select any textobject by default, so you may need to provide one each time you use it.
+      require("refactoring").select_refactor()
+    end, { desc = "Select refactor" })
   end,
 }

@@ -92,19 +92,6 @@ keymap("n", "[e", function()
   vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end, { desc = "Jump to the previous diagnostic error in the current buffer" })
 
--- Refactoring
-keymap("x", "<leader>xf", ":Refactor extract ")
-keymap("x", "<leader>xF", ":Refactor extract_to_file ")
-
-keymap("x", "<leader>xv", ":Refactor extract_var ")
-
-keymap({ "n", "x" }, "<leader>iv", ":Refactor inline_var")
-
-keymap("n", "<leader>if", ":Refactor inline_func")
-
-keymap("n", "<leader>xb", ":Refactor extract_block")
-keymap("n", "<leader>xB", ":Refactor extract_block_to_file")
-
 -- Folding
 keymap("n", "<TAB>", "za", { desc = "Toggle fold under cursor" })
 
