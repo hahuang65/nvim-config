@@ -62,13 +62,15 @@ return {
         -- map("n","<C-k>", vim.lsp.buf.signature_help, { desc = "Signature Documentation" })
 
         -- CodeLens
-        if client:supports_method("textDocument/codeLens", bufnr) then
-          vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-            buffer = bufnr,
-            callback = vim.lsp.codelens.refresh,
-          })
-        end
+        vim.api.nvim_create_autocmd("LspAttach", {
+          callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            -- Only enable for servers that support CodeLens
+            if client and client:supports_method("textDocument/codeLens") then
+              vim.lsp.codelens.enable(true)
+            end
+          end,
+        })
 
         -- Workspace diagnostics
         -- Note: vim.lsp.buf.workspace_diagnostics() was added in Neovim after v0.11.5
@@ -171,11 +173,8 @@ return {
 
           if name == "ty" then
             settings.ty = settings.ty or {}
-            settings.ty.configuration = vim.tbl_deep_extend(
-              "force",
-              settings.ty.configuration or {},
-              { environment = { python = python } }
-            )
+            settings.ty.configuration =
+              vim.tbl_deep_extend("force", settings.ty.configuration or {}, { environment = { python = python } })
           else
             settings.python = vim.tbl_deep_extend("force", settings.python or {}, { pythonPath = python })
           end
